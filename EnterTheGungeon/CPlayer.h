@@ -1,0 +1,49 @@
+#pragma once
+#include "CObject.h"
+
+class CPlayerStateMachine;
+class CState;
+class CStats;
+
+class CPlayer : public CObject
+{
+public :
+	enum PlayerState { PS_IDLE, PS_WALK, PS_ATTACK, PS_HIT, PS_DODGE, PS_FALL, PS_DEAD, PS_END};
+public:
+	CPlayer();
+	virtual ~CPlayer();
+
+public:
+	void Initialize() override;
+	int Update() override;
+	void Late_Update() override;
+	void Render(HDC _hDC) override;
+	void Release() override;
+
+public: // Components
+	void Update_Transform() override;
+	void Update_Renderer() override;
+
+public :
+	void Handle_Input();
+
+public :
+	void Set_CurrentState(PlayerState eState, CState* pState) { eCurrentState = eState; pCurrentState = pState; }
+
+public:
+	Vector2 vInputDir;
+	POINT pInputCursor;
+	DWORD dwLastFireTime;
+	float fSpeed;
+	bool bDodgePlaying;
+	Direction eDir;
+
+private :
+	CStats* pHP;
+
+private :
+	CPlayerStateMachine* pStateMachine;
+	CState* pCurrentState;
+	PlayerState eCurrentState;
+};
+

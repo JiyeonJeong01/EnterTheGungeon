@@ -13,6 +13,93 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="00. MainGame">
+      <UniqueIdentifier>{64c9af91-db02-4f0f-94ea-829ec5a9845a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object">
+      <UniqueIdentifier>{7ea83717-0f83-4962-9359-5b983ec65225}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\00. Object">
+      <UniqueIdentifier>{b84d2486-f509-4e1b-8bd2-05793e03817b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Component">
+      <UniqueIdentifier>{8ab1d719-9862-4d9c-9139-f0f3fdb9ff6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Component\00. Core">
+      <UniqueIdentifier>{60527944-57a2-4f7d-90bd-d218a156db9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10. Utils">
+      <UniqueIdentifier>{95b14b29-ae3c-422f-ab98-ed8fda310753}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10. Utils\00. Vector">
+      <UniqueIdentifier>{6743e135-85d4-42ff-bb06-694b302ba7ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Component\01. State">
+      <UniqueIdentifier>{62f6835c-5805-47be-b9e6-7906be52ba37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Component\02. Animation">
+      <UniqueIdentifier>{20108caa-f335-49ff-8677-b39fda173198}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="20. Player">
+      <UniqueIdentifier>{d1f44b87-effc-45e0-a2d0-95292cdae49f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="20. Player\00. Player">
+      <UniqueIdentifier>{f2cfe3ae-f458-4abd-9563-00f936168a15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="20. Player\01. StateMachine">
+      <UniqueIdentifier>{232fe9bd-f399-452c-9367-eda5f1d843fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="20. Player\02. State">
+      <UniqueIdentifier>{ccdc8780-0b9a-4d8d-b3bd-fad1e262b5c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10. Utils\01. Object">
+      <UniqueIdentifier>{3f89eef7-27ea-472c-861e-00a9e723841e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10. Utils\02. STL">
+      <UniqueIdentifier>{88a3fb32-c817-4132-810f-4e1f458bef83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager">
+      <UniqueIdentifier>{facabf70-431a-4574-bfec-48a38baeeeb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. Manager">
+      <UniqueIdentifier>{7e52c709-2f01-4c49-ba85-543a09981dba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\01. InputManager">
+      <UniqueIdentifier>{d56d1f83-28c8-4eba-8253-7a68c2997a78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\02. SceneManager">
+      <UniqueIdentifier>{9aa28148-da91-4de0-ad2f-a03a401309ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\03. BmpManager">
+      <UniqueIdentifier>{1c5b6d98-25ab-478a-a532-c4b8c037004e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\04. ObjectManager">
+      <UniqueIdentifier>{45171b12-5cf2-4f62-821a-01f1518dc74b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\03. BmpManager\00. Bmp">
+      <UniqueIdentifier>{2d018acc-0471-49a2-805f-06ed21acd4f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Scene">
+      <UniqueIdentifier>{b875c32e-d503-4d97-ae17-38ad395ae415}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\01. InputManager\KeyInfo">
+      <UniqueIdentifier>{039563a5-4b12-4431-bb14-11dad5e3a548}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10. Utils\01. Object\ObjectFactory">
+      <UniqueIdentifier>{59b744d3-8129-41de-bef8-c19894a65a53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10. Utils\01. Object\Release">
+      <UniqueIdentifier>{b6877edf-e03e-4003-945b-2e82759181f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Component\03. Stat">
+      <UniqueIdentifier>{0081f80d-f5eb-4cbd-ad64-31af28023043}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="20. Player\02. State\00. PlayerState">
+      <UniqueIdentifier>{0a1e727d-181f-4cce-842d-d80d84642932}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\05. CameraManager">
+      <UniqueIdentifier>{829e0a7f-f10d-4fb9-849b-1800f3bdbb48}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -30,6 +117,105 @@
     <ClInclude Include="pch.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="CMainGame.h">
+      <Filter>00. MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Define.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CObject.h">
+      <Filter>01. Object\00. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollider.h">
+      <Filter>02. Component\00. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="CRenderer.h">
+      <Filter>02. Component\00. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>10. Utils\00. Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="CTransform.h">
+      <Filter>02. Component\00. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="CStateMachine.h">
+      <Filter>02. Component\01. State</Filter>
+    </ClInclude>
+    <ClInclude Include="CState.h">
+      <Filter>02. Component\01. State</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimation.h">
+      <Filter>02. Component\02. Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayer.h">
+      <Filter>20. Player\00. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerStateMachine.h">
+      <Filter>20. Player\01. StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerIdleState.h">
+      <Filter>20. Player\02. State</Filter>
+    </ClInclude>
+    <ClInclude Include="CSTLHelper.h">
+      <Filter>10. Utils\02. STL</Filter>
+    </ClInclude>
+    <ClInclude Include="CBmp.h">
+      <Filter>03. Manager\03. BmpManager\00. Bmp</Filter>
+    </ClInclude>
+    <ClInclude Include="CBmpManager.h">
+      <Filter>03. Manager\03. BmpManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CSceneManager.h">
+      <Filter>03. Manager\02. SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CScene.h">
+      <Filter>04. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="CMainScene.h">
+      <Filter>04. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="CIntroScene.h">
+      <Filter>04. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="CInputManager.h">
+      <Filter>03. Manager\01. InputManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CInputKeyInfo.h">
+      <Filter>03. Manager\01. InputManager\KeyInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="CObjectManager.h">
+      <Filter>03. Manager\04. ObjectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CManager.h">
+      <Filter>03. Manager\00. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CObjectFactory.h">
+      <Filter>10. Utils\01. Object\ObjectFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="CRelease.h">
+      <Filter>10. Utils\01. Object\Release</Filter>
+    </ClInclude>
+    <ClInclude Include="CComponent.h">
+      <Filter>02. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CTestSCene.h">
+      <Filter>04. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="CStat.h">
+      <Filter>02. Component\03. Stat</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerState.h">
+      <Filter>20. Player\02. State\00. PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerWalkState.h">
+      <Filter>20. Player\02. State</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerDodgeState.h">
+      <Filter>20. Player\02. State</Filter>
+    </ClInclude>
+    <ClInclude Include="CCameraManager.h">
+      <Filter>03. Manager\05. CameraManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EnterTheGungeon.cpp">
@@ -37,6 +223,102 @@
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CMainGame.cpp">
+      <Filter>00. MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="CObject.cpp">
+      <Filter>01. Object\00. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollider.cpp">
+      <Filter>02. Component\00. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderer.cpp">
+      <Filter>02. Component\00. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>10. Utils\00. Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="CTransform.cpp">
+      <Filter>02. Component\00. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="CStateMachine.cpp">
+      <Filter>02. Component\01. State</Filter>
+    </ClCompile>
+    <ClCompile Include="CState.cpp">
+      <Filter>02. Component\01. State</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimation.cpp">
+      <Filter>02. Component\02. Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayer.cpp">
+      <Filter>20. Player\00. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerStateMachine.cpp">
+      <Filter>20. Player\01. StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerIdleState.cpp">
+      <Filter>20. Player\02. State</Filter>
+    </ClCompile>
+    <ClCompile Include="CSTLHelper.cpp">
+      <Filter>10. Utils\02. STL</Filter>
+    </ClCompile>
+    <ClCompile Include="CBmp.cpp">
+      <Filter>03. Manager\03. BmpManager\00. Bmp</Filter>
+    </ClCompile>
+    <ClCompile Include="CBmpManager.cpp">
+      <Filter>03. Manager\03. BmpManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CSceneManager.cpp">
+      <Filter>03. Manager\02. SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CMainScene.cpp">
+      <Filter>04. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CIntroScene.cpp">
+      <Filter>04. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CScene.cpp">
+      <Filter>04. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CInputManager.cpp">
+      <Filter>03. Manager\01. InputManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CInputKeyInfo.cpp">
+      <Filter>03. Manager\01. InputManager\KeyInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="CObjectManager.cpp">
+      <Filter>03. Manager\04. ObjectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CManager.cpp">
+      <Filter>03. Manager\00. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CObjectFactory.cpp">
+      <Filter>10. Utils\01. Object\ObjectFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="CRelease.cpp">
+      <Filter>10. Utils\01. Object\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="CComponent.cpp">
+      <Filter>02. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CTestSCene.cpp">
+      <Filter>04. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CStat.cpp">
+      <Filter>02. Component\03. Stat</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerState.cpp">
+      <Filter>20. Player\02. State\00. PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerWalkState.cpp">
+      <Filter>20. Player\02. State</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerDodgeState.cpp">
+      <Filter>20. Player\02. State</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraManager.cpp">
+      <Filter>03. Manager\05. CameraManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
