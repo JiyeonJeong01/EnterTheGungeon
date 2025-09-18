@@ -6,6 +6,7 @@
 #include "CInputManager.h"
 #include "CObjectManager.h"
 #include "CSceneManager.h"
+#include "CBmpManager.h"
 #include "CObjectFactory.h"
 #include "CRelease.h"
 
@@ -34,6 +35,9 @@ void CMainGame::Initialize()
 	MANAGER(CInputManager*, M_INPUT)->Initialize();
 	MANAGER(CObjectManager*, M_OBJECT)->Initialize();
 	MANAGER(CSceneManager*, M_SCENE)->Initialize();
+
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Back/Back.bmp", L"Back");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Back/Tutorial.bmp", L"Tutorial");
 }
 
 void CMainGame::Update()
@@ -49,9 +53,15 @@ void CMainGame::Late_Update()
 
 void CMainGame::Render()
 {
-	// HDC hBackDC = 
-	Rectangle(hDC, 0, 0, WINCX, WINCY);
-	MANAGER(CSceneManager*, M_SCENE)->Render(hDC);
+	HDC hBackDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Back");
+	HDC hBackground = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Tutorial");
+
+	BitBlt(hBackDC, 0, 0, WINCX, WINCY, hBackground, 0, 0, SRCCOPY);
+
+	MANAGER(CSceneManager*, M_SCENE)->Render(hBackDC);
+
+	BitBlt(hDC, 0, 0, WINCX, WINCY, hBackDC, 0, 0, SRCCOPY);
+
 }
 
 void CMainGame::Release()

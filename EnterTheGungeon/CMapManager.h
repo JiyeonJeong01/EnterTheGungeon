@@ -1,11 +1,19 @@
 #pragma once
 #include "CManager.h"
-class CMap;
+
+class CMapCollider;
+class CMapObjCollider;
 class CButton;
+
 class CEnvironmentManager : public CManager
 {
 public :
 	enum EditMode { Ground, Object, None };
+
+public :
+	CEnvironmentManager() {};
+	~CEnvironmentManager() override;
+
 public :
 	void Initialize() override;
 	void Update() override;
@@ -13,19 +21,18 @@ public :
 	void Release() override;
 
 public :
-	void Draw_Line();
 	void Save_Data();
 	void Load_Data();
 
 public :
-	void Transit_EditMode();
 	void OnClickStartButton();
 	void OnClickSaveButton();
 	void OnClickClearButton();
 	void OnClickTransModeButton();
 
 public :
-	list<CMap*>* Get_MapList() { return &pCurCollider; }
+	list<CMapCollider*>* Get_MapList() { return &pCurMapCollider; }
+	list<CMapObjCollider*>* Get_ObjList() { return &pCurObjCollider; }
 
 public :
 	CButton* pStartEditButton;
@@ -33,10 +40,9 @@ public :
 	CButton* pClearButton;
 	CButton* pTransEditButton;
 
-	list<RECT> curGroundRectList;
-	list<RECT> curObjectRectList;
 	list<RECT> tempRectList;
-	list<CMap*> pCurCollider;
+	list<CMapCollider*> pCurMapCollider;
+	list<CMapObjCollider*> pCurObjCollider;
 
 private :
 	bool bEdit;

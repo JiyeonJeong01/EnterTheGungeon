@@ -1,10 +1,10 @@
 #pragma once
-class CMap
+class CMapCollider
 {
 public:
-	CMap();
-	CMap(const RECT& rect);
-	~CMap();
+	CMapCollider() {}
+	CMapCollider(const RECT& rect);
+	virtual ~CMapCollider();
 
 public :
 	void Initialize();

@@ -144,7 +144,8 @@
     <ClInclude Include="CIntroScene.h" />
     <ClInclude Include="CMainGame.h" />
     <ClInclude Include="CMainScene.h" />
-    <ClInclude Include="CMap.h" />
+    <ClInclude Include="CMapObjCollider.h" />
+    <ClInclude Include="CMapCollider.h" />
     <ClInclude Include="CMapManager.h" />
     <ClInclude Include="CObject.h" />
     <ClInclude Include="CObjectFactory.h" />
@@ -190,7 +191,8 @@
     <ClCompile Include="CIntroScene.cpp" />
     <ClCompile Include="CMainGame.cpp" />
     <ClCompile Include="CMainScene.cpp" />
-    <ClCompile Include="CMap.cpp" />
+    <ClCompile Include="CMapObjCollider.cpp" />
+    <ClCompile Include="CMapCollider.cpp" />
     <ClCompile Include="CMapManager.cpp" />
     <ClCompile Include="CObject.cpp" />
     <ClCompile Include="CObjectFactory.cpp" />

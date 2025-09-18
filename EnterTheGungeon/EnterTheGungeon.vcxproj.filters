@@ -249,7 +249,7 @@
     <ClInclude Include="CCollisionManager.h">
       <Filter>03. Manager\06. CollisionManager</Filter>
     </ClInclude>
-    <ClInclude Include="CMap.h">
+    <ClInclude Include="CMapCollider.h">
       <Filter>25. Map</Filter>
     </ClInclude>
     <ClInclude Include="CUIComponent.h">
@@ -263,6 +263,9 @@
     </ClInclude>
     <ClInclude Include="CMapManager.h">
       <Filter>03. Manager\07. CMapManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CMapObjCollider.h">
+      <Filter>25. Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -371,7 +374,7 @@
     <ClCompile Include="CCollisionManager.cpp">
       <Filter>03. Manager\06. CollisionManager</Filter>
     </ClCompile>
-    <ClCompile Include="CMap.cpp">
+    <ClCompile Include="CMapCollider.cpp">
       <Filter>25. Map</Filter>
     </ClCompile>
     <ClCompile Include="CUIComponent.cpp">
@@ -385,6 +388,9 @@
     </ClCompile>
     <ClCompile Include="CMapManager.cpp">
       <Filter>03. Manager\07. CMapManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CMapObjCollider.cpp">
+      <Filter>25. Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

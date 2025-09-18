@@ -5,7 +5,7 @@
 #include "CObjectFactory.h"
 #include "CPlayer.h"
 #include "CCameraManager.h"
-#include "CMap.h"
+#include "CMapCollider.h"
 #include "CCollisionManager.h"
 #include "CTransform.h"
 #include "CRenderer.h"
@@ -50,7 +50,7 @@ void CTestSCene::Late_Update()
 void CTestSCene::Render(HDC _hDC)
 {
 	MANAGER(CObjectManager*, M_OBJECT)->Render(_hDC);
-	for_each(mapList.begin(), mapList.end(), [&](CMap* map)->void {map->Render(_hDC); });
+	for_each(mapList.begin(), mapList.end(), [&](CMapCollider* map)->void {map->Render(_hDC); });
 	MANAGER(CEnvironmentManager*, M_MAP)->Render(_hDC);
 }
 

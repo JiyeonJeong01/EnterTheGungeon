@@ -1,7 +1,7 @@
 #pragma region INCLUDE
 #include "pch.h"
 #include "CMapManager.h"
-#include "CMap.h"
+#include "CMapCollider.h"
 #include "CButton.h"
 #include "CInputManager.h"
 #include "CCollisionManager.h"
@@ -11,40 +11,57 @@
 #include "CCollider.h"
 #include "CRenderer.h"
 #include "CRelease.h"
+
+#include <fstream>
+#include <sstream>
 #pragma endregion
+
+ CEnvironmentManager::~CEnvironmentManager()
+{
+	Release();
+}
 
 void CEnvironmentManager::Initialize()
 {
 	bEdit = false;
 	Load_Data();
-
+#pragma region Debugging
 	pStartEditButton = dynamic_cast<CButton*>(CObjectFactory<CButton>::Create(O_UI, WINCX - 50, 11));
 	pStartEditButton->Get_Transform()->Size({ 30.f, 20.f });
 	pStartEditButton->Get_Collider()->Size({ 30.f, 20.f });
 	pStartEditButton->Get_Renderer()->Size({ 30.f, 20.f });
+	pStartEditButton->Get_Renderer()->rType = RND__UI;
 
 	pSaveButton = dynamic_cast<CButton*>(CObjectFactory<CButton>::Create(O_UI, WINCX - 50, 31));
 	pSaveButton->Get_Transform()->Size({ 30.f, 20.f });
 	pSaveButton->Get_Collider()->Size({ 30.f, 20.f });
 	pSaveButton->Get_Renderer()->Size({ 30.f, 20.f });
 	pSaveButton->bActive = false;
+	pSaveButton->Get_Renderer()->rType = RND__UI;
+
 
 	pClearButton = dynamic_cast<CButton*>(CObjectFactory<CButton>::Create(O_UI, WINCX - 50, 51));
 	pClearButton->Get_Transform()->Size({ 30.f, 20.f });
 	pClearButton->Get_Collider()->Size({ 30.f, 20.f });
 	pClearButton->Get_Renderer()->Size({ 30.f, 20.f });
 	pClearButton->bActive = false;
+	pClearButton->Get_Renderer()->rType = RND__UI;
+
 
 	pTransEditButton = dynamic_cast<CButton*>(CObjectFactory<CButton>::Create(O_UI, WINCX - 50, 71));
 	pTransEditButton->Get_Transform()->Size({ 30.f, 20.f });
 	pTransEditButton->Get_Collider()->Size({ 30.f, 20.f });
 	pTransEditButton->Get_Renderer()->Size({ 30.f, 20.f });
 	pTransEditButton->bActive = false;
+	pTransEditButton->Get_Renderer()->rType = RND__UI;
+
 
 	pStartEditButton->Add_OnBeginClick([&] {this->OnClickStartButton(); });
 	pClearButton->Add_OnBeginClick([&] {this->OnClickClearButton(); });
 	pSaveButton->Add_OnBeginClick([&] {this->OnClickSaveButton(); });
 	pTransEditButton->Add_OnBeginClick([&] {this->OnClickTransModeButton(); });
+
+#pragma endregion
 }
 
 void CEnvironmentManager::Update()
@@ -59,13 +76,23 @@ void CEnvironmentManager::Update()
 void CEnvironmentManager::Render(HDC _hDC)
 {
 	m_hDC = _hDC;
-
-	for (auto& rect : curGroundRectList)
-		Rectangle(_hDC, rect.left, rect.top, rect.right, rect.bottom);
-	for (auto& rect : curObjectRectList)
-		Rectangle(_hDC, rect.left, rect.top, rect.right, rect.bottom);
+	for (auto& pMap : pCurMapCollider)
+	{
+		RECT rect = pMap->Get_Collider();
+		pMap->Render(_hDC);
+	}
 	for (auto& rect : tempRectList)
+	{
+		HPEN hPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 255));
+		HBRUSH hOldBrush = (HBRUSH)SelectObject(_hDC, GetStockObject(HOLLOW_BRUSH));
+		HPEN hOldPen = (HPEN)SelectObject(_hDC, hPen);
+
 		Rectangle(_hDC, rect.left, rect.top, rect.right, rect.bottom);
+
+		SelectObject(_hDC, hOldBrush);
+		SelectObject(_hDC, hOldPen);
+		DeleteObject(hPen);
+	}
 
 	if (!bEdit) return;
 
@@ -84,83 +111,74 @@ void CEnvironmentManager::Render(HDC _hDC)
 
 void CEnvironmentManager::Release()
 {
-	CRelease<CButton*>::Release(pStartEditButton);
-	CRelease<CButton*>::Release(pSaveButton);
-	CRelease<CButton*>::Release(pClearButton);
-	CRelease<CButton*>::Release(pTransEditButton);
-	for_each(pCurCollider.begin(), pCurCollider.end(), [&](CMap* pMap) -> void
+	for_each(pCurMapCollider.begin(), pCurMapCollider.end(), [&](CMapCollider* pMap) -> void
 	{
-		CRelease<CMap*>::Release(pMap);
+		CRelease<CMapCollider*>::Release(pMap);
 	});
-}
-
-void CEnvironmentManager::Draw_Line()
-{
 }
 
 void CEnvironmentManager::Save_Data()
 {
-	HANDLE hFile = CreateFile(L"../Data/Ground.dat",
-		GENERIC_WRITE,
-		NULL,
-		NULL,
-		CREATE_ALWAYS,
-		FILE_ATTRIBUTE_NORMAL,
-		NULL);
+	CObject* pPlayer = MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER)->front();
 
-	if (hFile == INVALID_HANDLE_VALUE)
+	_tprintf(_T("befor 2\t:\t:%f, %f\n"), pPlayer->Get_Transform()->Position().X(), pPlayer->Get_Transform()->Position().Y());
+
+	std::wofstream ofs(L"../Data/Ground.json");
+	if (!ofs.is_open())
 	{
 		_tprintf(_T("Save Failed\n"));
 		return;
 	}
 
-	DWORD dwByte(0);
-
-	for (auto& ground : curGroundRectList)
+	ofs << L"[\n";
+	for (auto iter = pCurMapCollider.begin(); iter != pCurMapCollider.end();)
 	{
-		WriteFile(hFile, &(ground), sizeof(RECT), &dwByte, nullptr);
-	}
+		RECT r = (*iter)->Get_Collider();
 
-	CloseHandle(hFile);
+		ofs << L"  { "
+			<< L"\"left\": " << r.left << L", "
+			<< L"\"top\": " << r.top << L", "
+			<< L"\"right\": " << r.right << L", "
+			<< L"\"bottom\": " << r.bottom
+			<< L" }";
+
+		iter++;
+
+		if (iter != pCurMapCollider.end())
+			ofs << L",";
+
+		ofs << L"\n";
+	}
+	ofs << L"]\n";
+
+	ofs.close();
+	_tprintf(_T("after 2\t:\t:%f, %f\n"), pPlayer->Get_Transform()->Position().X(), pPlayer->Get_Transform()->Position().Y());
+
 }
 
 void CEnvironmentManager::Load_Data()
 {
-	HANDLE hFile = CreateFile(L"../Data/Ground.dat",
-		GENERIC_READ,
-		NULL,
-		NULL,
-		OPEN_EXISTING,
-		FILE_ATTRIBUTE_NORMAL,
-		NULL);
-
-	if (hFile == INVALID_HANDLE_VALUE)
+	std::wifstream ifs(L"../Data/Ground.json");
+	if (!ifs.is_open())
 	{
 		_tprintf(_T("Load Failed\n"));
 		return;
 	}
 
-	DWORD dwByte(0);
-
-	RECT r{};
-
-	while (true)
+	std::wstring line;
+	while (std::getline(ifs, line))
 	{
-		ReadFile(hFile, &r, sizeof(RECT), &dwByte, nullptr);
-
-		if (dwByte == 0)
-			break;
-
-		CMap* pMap = new CMap;
-		pMap->Set_Collider(r);
-		pCurCollider.push_back(pMap);
-		curGroundRectList.push_back(r);
+		int left, top, right, bottom;
+		if (swscanf_s(line.c_str(),
+			L" { \"left\": %d , \"top\": %d , \"right\": %d , \"bottom\": %d }",
+			&left, &top, &right, &bottom) == 4)
+		{
+			RECT r{ left, top, right, bottom };
+			CMapCollider* pMap = new CMapCollider;
+			pMap->Set_Collider(r);
+			pCurMapCollider.push_back(pMap);
+		}
 	}
-}
-
-void CEnvironmentManager::Transit_EditMode()
-{
-
 }
 
 void CEnvironmentManager::OnClickStartButton()
@@ -169,18 +187,32 @@ void CEnvironmentManager::OnClickStartButton()
 	pSaveButton->bActive = bEdit;
 	pClearButton->bActive = bEdit;
 	pTransEditButton->bActive = bEdit;
+
+	if (!bEdit)
+		curMode = None;
+	else
+		curMode = Ground;
 }
 
 void CEnvironmentManager::OnClickSaveButton()
 {
+	CObject* pPlayer = MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER)->front();
+	_tprintf(_T("befor\t:\t:%f, %f\n"), pPlayer->Get_Transform()->Position().X(), pPlayer->Get_Transform()->Position().Y());
 	if (curMode == Ground)
+	{
 		for (auto& r : tempRectList)
 		{
-			curGroundRectList.push_back(r);
-			pCurCollider.push_back(new CMap(r));
+			CMapCollider* pMap = new CMapCollider;
+			pMap->Set_Collider(r);
+			pCurMapCollider.push_back(pMap);
+			pCurMapCollider.push_back(new CMapCollider(r));
+			_tprintf(_T("excuted\t:\t:%f, %f\n"), pPlayer->Get_Transform()->Position().X(), pPlayer->Get_Transform()->Position().Y());
 		}
-	else if (curMode == Object)
-		for (auto& r : tempRectList) curObjectRectList.push_back(r);
+		tempRectList.clear();
+	}
+	//else if (curMode == Object)
+		//for (auto& r : tempRectList) curObjectRectList.push_back(r);
+	_tprintf(_T("after\t:\t:%f, %f\n"), pPlayer->Get_Transform()->Position().X(), pPlayer->Get_Transform()->Position().Y());
 
 	Save_Data();
 }
@@ -192,5 +224,5 @@ void CEnvironmentManager::OnClickClearButton()
 
 void CEnvironmentManager::OnClickTransModeButton()
 {
-	curMode = (EditMode)((curMode + 1) % 3);
+	curMode = (EditMode)((curMode + 1) % 2);
 }

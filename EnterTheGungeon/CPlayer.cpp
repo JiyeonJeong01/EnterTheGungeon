@@ -36,11 +36,11 @@ void CPlayer::Initialize()
     pStateMachine = new CPlayerStateMachine(this);
     pStateMachine->Initialize();
 
-    fSpeed = 10.f;
+    fSpeed = 6.f;
 
-    pTransform->Size({ 100.f, 100.f });
-    pCollider->Size({ 60.f, 90.f });
-    pRenderer->Size({ 100.f, 100.f });
+    pTransform->Size({ 60.f, 60.f });
+    pCollider->Size({ 40.f, 60.f });
+    pRenderer->Size({ 60.f, 60.f });
 
     pTransform->Position({WINCX >> 1, WINCY >> 1});
 
@@ -65,6 +65,10 @@ void CPlayer::Late_Update()
 void CPlayer::Render(HDC _hDC)
 {
 #pragma region Debug
+    HPEN hPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
+    HBRUSH hOldBrush = (HBRUSH)SelectObject(_hDC, GetStockObject(HOLLOW_BRUSH));
+    HPEN hOldPen = (HPEN)SelectObject(_hDC, hPen);
+
     Rectangle(_hDC, pTransform->Position().X() - pTransform->Size().X(),
         pTransform->Position().Y() - pTransform->Size().Y(),
         pTransform->Position().X() + pTransform->Size().X(),
@@ -72,6 +76,9 @@ void CPlayer::Render(HDC _hDC)
     Rectangle(_hDC, pRenderer->Left(), pRenderer->Top(), pRenderer->Right(), pRenderer->Bottom());
     Rectangle(_hDC, pCollider->Left(), pCollider->Top(), pCollider->Right(), pCollider->Bottom());
 
+    SelectObject(_hDC, hOldBrush);
+    SelectObject(_hDC, hOldPen);
+    DeleteObject(hPen);
 #pragma endregion
 
 

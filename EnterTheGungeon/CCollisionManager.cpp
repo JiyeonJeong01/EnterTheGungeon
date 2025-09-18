@@ -3,7 +3,7 @@
 #include "CObject.h"
 #include "CCollider.h"
 #include "CTransform.h"
-#include "CMap.h"
+#include "CMapCollider.h"
 
 void CCollisionManager::Detect_RectCollision(list<CObject*> dstList, list<CObject*> srcList)
 {
@@ -55,7 +55,7 @@ Vector2 CCollisionManager::Get_OverlapCircle(CObject* dst, CObject* src)
     return Vector2{ 0.f, 0.f };
 }
 
-void CCollisionManager::Detect_MapCollision(list<CMap*> groundList, list<CObject*> objList)
+void CCollisionManager::Detect_MapCollision(list<CMapCollider*> groundList, list<CObject*> objList)
 {
     // 일단 RECT끼리 판단
     for (auto& obj : objList)
