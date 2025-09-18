@@ -130,6 +130,18 @@
     <Filter Include="05.UI\01. Button">
       <UniqueIdentifier>{c3132bfd-2d27-45f2-ac5e-21e2a3705bb2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="24. Bullet">
+      <UniqueIdentifier>{19f581f4-85cb-42d2-8bb3-236150315d30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="24. Bullet\00. Bullet">
+      <UniqueIdentifier>{530cd5c5-f13c-4651-8883-cf8580716439}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="24. Bullet\01. PlayerBullet">
+      <UniqueIdentifier>{f5475e2b-9e1e-4f46-ac2f-126c063705be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.UI\02. Mouse">
+      <UniqueIdentifier>{140840f8-acd2-4e1c-8c6d-8b1bddff45dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -267,11 +279,17 @@
     <ClInclude Include="CMapObjCollider.h">
       <Filter>25. Map</Filter>
     </ClInclude>
+    <ClInclude Include="CBullet.h">
+      <Filter>24. Bullet\00. Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerBullet.h">
+      <Filter>24. Bullet\01. PlayerBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="CMouse.h">
+      <Filter>05.UI\02. Mouse</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EnterTheGungeon.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -391,6 +409,18 @@
     </ClCompile>
     <ClCompile Include="CMapObjCollider.cpp">
       <Filter>25. Map</Filter>
+    </ClCompile>
+    <ClCompile Include="EnterTheGungeon.cpp">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CBullet.cpp">
+      <Filter>24. Bullet\00. Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerBullet.cpp">
+      <Filter>24. Bullet\01. PlayerBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="CMouse.cpp">
+      <Filter>05.UI\02. Mouse</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

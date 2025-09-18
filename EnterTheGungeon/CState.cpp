@@ -34,7 +34,7 @@ void CState::Exit()
 	bExited = true;
 }
 
-void CState::Move_AnimFrame()
+void CState::Update_AnimFrame()
 {
 	if (animation.dwLastPlayTime + animation.vTransitTime[animation.iCurrIndex] < GetTickCount())
 	{

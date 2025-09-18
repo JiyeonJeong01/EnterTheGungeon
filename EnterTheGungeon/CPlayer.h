@@ -34,6 +34,7 @@ public:
 	Vector2 vInputDir;
 	POINT pInputCursor;
 	DWORD dwLastFireTime;
+	float fLimitFireTime;
 	float fSpeed;
 	bool bDodgePlaying;
 	Direction eDir;

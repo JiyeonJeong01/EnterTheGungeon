@@ -19,14 +19,14 @@ void CPlayerWalkState::Initialize()
 void CPlayerWalkState::Update()
 {
 	CPlayerState::Update();
-	Move_AnimFrame();
+	Update_AnimFrame();
 
 	if (vInputDir.X() == 0.f && vInputDir.Y() == 0.f)
 	{
 		pStateMachine->Change_State((CPlayer::PS_IDLE));
 		return;
 	}
-	if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown(VK_LBUTTON))
+	if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown(VK_RBUTTON))
 	{
 		pStateMachine->Change_State((CPlayer::PS_DODGE));
 		return;
@@ -78,9 +78,9 @@ void CPlayerWalkState::Enter()
 {
 }
 
-void CPlayerWalkState::Move_AnimFrame()
+void CPlayerWalkState::Update_AnimFrame()
 {
-	CState::Move_AnimFrame();
+	CState::Update_AnimFrame();
 }
 
 void CPlayerWalkState::Stop_Animation()

@@ -21,7 +21,7 @@ public:
 	virtual void Exit();
 	virtual void Enter();
 
-	virtual void Move_AnimFrame();
+	virtual void Update_AnimFrame();
 	virtual void Stop_Animation();
 	virtual void On_End_Animation();
 

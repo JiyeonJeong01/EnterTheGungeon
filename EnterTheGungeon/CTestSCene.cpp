@@ -40,6 +40,9 @@ void CTestSCene::Update()
 	CCollisionManager::Detect_MapCollision(
 		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapList(), 
 		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER));
+	CCollisionManager::Detect_MapCollision(
+		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapList(),
+		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLBULLET));
 }
 
 void CTestSCene::Late_Update()

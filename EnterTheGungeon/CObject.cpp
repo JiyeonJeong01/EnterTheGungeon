@@ -40,7 +40,7 @@ void CObject::Late_Update()
 void CObject::Update_Renderer()
 {
 	Vector2 vPosition = pTransform->Position();
-	Vector2 vSize = pTransform->Size();
+	Vector2 vSize = pRenderer->Size();
 
 	pRenderer->Left(vPosition.X() - vSize.X() / 2.f);
 	pRenderer->Right(vPosition.X() + vSize.X() / 2.f);

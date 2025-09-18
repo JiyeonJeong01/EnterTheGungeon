@@ -18,7 +18,7 @@ public:
 	void Exit() override;
 	void Enter() override;
 
-	void Move_AnimFrame() override;
+	void Update_AnimFrame() override;
 	void Stop_Animation() override;
 	void On_End_Animation() override;
 

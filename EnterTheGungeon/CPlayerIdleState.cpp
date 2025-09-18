@@ -25,7 +25,7 @@ void CPlayerIdleState::Update()
 
 
 
-	Move_AnimFrame();
+	Update_AnimFrame();
 }
 
 void CPlayerIdleState::Late_Update()
@@ -69,9 +69,9 @@ void CPlayerIdleState::Enter()
 	vInputDir = { 0.f, 0.f };
 }
 
-void CPlayerIdleState::Move_AnimFrame()
+void CPlayerIdleState::Update_AnimFrame()
 {
-	CState::Move_AnimFrame();
+	CState::Update_AnimFrame();
 }
 
 void CPlayerIdleState::Stop_Animation()

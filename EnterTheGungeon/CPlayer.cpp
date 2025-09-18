@@ -37,6 +37,7 @@ void CPlayer::Initialize()
     pStateMachine->Initialize();
 
     fSpeed = 6.f;
+    fLimitFireTime = 0.5f; // TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!! must load gun's info
 
     pTransform->Size({ 60.f, 60.f });
     pCollider->Size({ 40.f, 60.f });

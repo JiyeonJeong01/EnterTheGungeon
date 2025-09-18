@@ -27,6 +27,8 @@ public:
 	CCollider* Get_Collider() { return pCollider; }
 	CRenderer* Get_Renderer() { return pRenderer; }
 
+	ObjectType Get_ObjType() { return eType; }
+
 protected:
 	CTransform* pTransform;
 	CCollider* pCollider;
@@ -34,5 +36,6 @@ protected:
 
 protected:
 	bool bAlive;
+	ObjectType eType;
 };
 

@@ -12,12 +12,16 @@ public:
 	void Render();
 	void Release();
 
+public :
+	void Compute_FPS();
+
 public:
-	int iFPS = 60;
+	int iFPS;
 
 private:
 	HDC hDC;
 
 private:
 	LONGLONG llElapsedTime;
+	TCHAR		szFPS[16];
 };

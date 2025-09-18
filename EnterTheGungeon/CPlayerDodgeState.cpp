@@ -24,7 +24,7 @@ void CPlayerDodgeState::Update()
 {
 	CPlayerState::Update();
 
-	Move_AnimFrame();
+	Update_AnimFrame();
 	if (!bDodgePlaying)
 	{
 		bDodgePlaying = true;
@@ -33,7 +33,7 @@ void CPlayerDodgeState::Update()
 		pObj->Get_Transform()->Position().Y() + vDodgeDir.Y() * fSpeed * 1.5f,
 		};
 		pObj->Get_Transform()->Position(move(vNewPos));
-		Move_AnimFrame();
+		Update_AnimFrame();
 	}
 
 }
@@ -76,9 +76,9 @@ void CPlayerDodgeState::Enter()
 	vDodgeDir = static_cast<CPlayer*>(pObj)->vInputDir;
 }
 
-void CPlayerDodgeState::Move_AnimFrame()
+void CPlayerDodgeState::Update_AnimFrame()
 {
-	CState::Move_AnimFrame();
+	CState::Update_AnimFrame();
 }
 
 void CPlayerDodgeState::Stop_Animation()

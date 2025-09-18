@@ -20,16 +20,19 @@ public:
 	CPlayer::PlayerState Get_State() { return eState; }
 	void Render_Player(HDC hDC);
 	virtual int Dir_AnimRow(Direction eDir) { return 0;  }
+	void Shot_Bullet();
 
 protected:
 	CPlayer::PlayerState eState;
 
 protected :
 	Vector2 vInputDir;
+	Direction eDir;
 	POINT pInputCursor;
 	DWORD dwLastFireTime;
+	float fLimitFireTime;
 
 	float fSpeed;
 	bool bDodgePlaying;
-	Direction eDir;
+	bool bCanShot;
 };

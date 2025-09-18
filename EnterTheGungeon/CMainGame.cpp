@@ -13,12 +13,16 @@
 #include "CObject.h"
 #include "CPlayer.h"
 #include "CState.h"
+
+#include "CBullet.h"
+#include "CMouse.h"
 #pragma endregion
 
 
 CMainGame::CMainGame()
 {
 	llElapsedTime = 0;
+	iFPS = 0;
 	hDC = NULL;
 }
 
@@ -38,10 +42,14 @@ void CMainGame::Initialize()
 
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Back/Back.bmp", L"Back");
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Back/Tutorial.bmp", L"Tutorial");
+	
+	CObjectFactory<CMouse>::Create(O_UI);
+	CBullet::Load_Resource();
 }
 
 void CMainGame::Update()
 {
+	Compute_FPS();
 	MANAGER(CInputManager*, M_INPUT)->Update();
 	MANAGER(CSceneManager*, M_SCENE)->Update();
 }
@@ -72,4 +80,18 @@ void CMainGame::Release()
 	}
 
 	ReleaseDC(g_hWnd, hDC);
+}
+
+void CMainGame::Compute_FPS()
+{
+	++iFPS;
+
+	if (llElapsedTime + 1000 < GetTickCount64())
+	{
+		swprintf_s(szFPS, L"FPS : %d", iFPS);
+		iFPS = 0;
+
+		SetWindowText(g_hWnd, szFPS);
+		llElapsedTime = GetTickCount64();
+	}
 }

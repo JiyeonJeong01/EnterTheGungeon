@@ -134,6 +134,7 @@
     <ClInclude Include="CAnimation.h" />
     <ClInclude Include="CBmp.h" />
     <ClInclude Include="CBmpManager.h" />
+    <ClInclude Include="CBullet.h" />
     <ClInclude Include="CButton.h" />
     <ClInclude Include="CCameraManager.h" />
     <ClInclude Include="CCollider.h" />
@@ -147,10 +148,12 @@
     <ClInclude Include="CMapObjCollider.h" />
     <ClInclude Include="CMapCollider.h" />
     <ClInclude Include="CMapManager.h" />
+    <ClInclude Include="CMouse.h" />
     <ClInclude Include="CObject.h" />
     <ClInclude Include="CObjectFactory.h" />
     <ClInclude Include="CObjectManager.h" />
     <ClInclude Include="CPlayer.h" />
+    <ClInclude Include="CPlayerBullet.h" />
     <ClInclude Include="CPlayerDodgeState.h" />
     <ClInclude Include="CPlayerIdleState.h" />
     <ClInclude Include="CPlayerState.h" />
@@ -181,6 +184,7 @@
     <ClCompile Include="CAnimation.cpp" />
     <ClCompile Include="CBmp.cpp" />
     <ClCompile Include="CBmpManager.cpp" />
+    <ClCompile Include="CBullet.cpp" />
     <ClCompile Include="CButton.cpp" />
     <ClCompile Include="CCameraManager.cpp" />
     <ClCompile Include="CCollider.cpp" />
@@ -194,10 +198,12 @@
     <ClCompile Include="CMapObjCollider.cpp" />
     <ClCompile Include="CMapCollider.cpp" />
     <ClCompile Include="CMapManager.cpp" />
+    <ClCompile Include="CMouse.cpp" />
     <ClCompile Include="CObject.cpp" />
     <ClCompile Include="CObjectFactory.cpp" />
     <ClCompile Include="CObjectManager.cpp" />
     <ClCompile Include="CPlayer.cpp" />
+    <ClCompile Include="CPlayerBullet.cpp" />
     <ClCompile Include="CPlayerDodgeState.cpp" />
     <ClCompile Include="CPlayerIdleState.cpp" />
     <ClCompile Include="CPlayerState.cpp" />
