@@ -19,8 +19,12 @@ public:
 	void Right(int _value) { rRenderer.right = _value; }
 	void Bottom(int _value) { rRenderer.bottom = _value; }
 
+	Vector2 Size() const { return vSize; }
+	void Size(Vector2&& _vSize) { vSize.X(_vSize.X()); vSize.Y(_vSize.Y()); }
+
 public :
 	RenderType rType;
+	Vector2 vSize;
 
 private:
 	RECT rRenderer;

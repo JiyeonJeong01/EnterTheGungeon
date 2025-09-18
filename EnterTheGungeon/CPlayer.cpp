@@ -8,7 +8,7 @@
 #include "CStat.h"
 #include "CTransform.h"
 #include "CRenderer.h"
-#include "CRelease.h"
+#include "CCollider.h"
 #pragma endregion
 
 
@@ -39,6 +39,9 @@ void CPlayer::Initialize()
     fSpeed = 10.f;
 
     pTransform->Size({ 100.f, 100.f });
+    pCollider->Size({ 60.f, 90.f });
+    pRenderer->Size({ 100.f, 100.f });
+
     pTransform->Position({WINCX >> 1, WINCY >> 1});
 
     pRenderer->rType = RND__GAMEBOJECT;
@@ -50,6 +53,7 @@ int CPlayer::Update()
     Update_Renderer();
 
     pCurrentState->Update();
+    CObject::Update_Collider();
     return 0;
 }
 
@@ -60,6 +64,17 @@ void CPlayer::Late_Update()
 
 void CPlayer::Render(HDC _hDC)
 {
+#pragma region Debug
+    Rectangle(_hDC, pTransform->Position().X() - pTransform->Size().X(),
+        pTransform->Position().Y() - pTransform->Size().Y(),
+        pTransform->Position().X() + pTransform->Size().X(),
+        pTransform->Position().Y() - pTransform->Size().Y());
+    Rectangle(_hDC, pRenderer->Left(), pRenderer->Top(), pRenderer->Right(), pRenderer->Bottom());
+    Rectangle(_hDC, pCollider->Left(), pCollider->Top(), pCollider->Right(), pCollider->Bottom());
+
+#pragma endregion
+
+
     pCurrentState->Render(_hDC);
 }
 
@@ -72,6 +87,8 @@ void CPlayer::Update_Transform()
 {
     pTransform->Position().X(pTransform->Position().X() * pTransform->Direction().X() * fSpeed);
     pTransform->Position().Y(pTransform->Position().Y() * pTransform->Direction().Y() * fSpeed);
+
+
 }
 
 void CPlayer::Update_Renderer()

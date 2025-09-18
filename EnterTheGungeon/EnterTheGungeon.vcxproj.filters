@@ -100,6 +100,36 @@
     <Filter Include="03. Manager\05. CameraManager">
       <UniqueIdentifier>{829e0a7f-f10d-4fb9-849b-1800f3bdbb48}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Manager\06. CollisionManager">
+      <UniqueIdentifier>{7d24687c-b77c-428a-847d-eaedff3611db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="25. Map">
+      <UniqueIdentifier>{a52ab8ca-262b-4a5a-81a6-b7de72e775a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\07. CMapManager">
+      <UniqueIdentifier>{379f9cef-1ab0-47d7-8a98-22d5f0846feb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="21. Enemy">
+      <UniqueIdentifier>{4b31282b-537a-4852-8661-bacae5490ef9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="22. Weapon">
+      <UniqueIdentifier>{d5c31d59-ba33-4a96-9b9a-abe2d2748ae1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="23. Item">
+      <UniqueIdentifier>{04325899-d7fd-48fd-90d7-d241368abdfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.UI">
+      <UniqueIdentifier>{f3fa8a8c-b511-4250-9c6f-38224bf3e399}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.UI\00. UIComponent">
+      <UniqueIdentifier>{1d8c43a2-c447-4ac5-a907-0aee37afcdc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.UI\00. UIComponent\01. Pointer">
+      <UniqueIdentifier>{b6ade24d-ec90-477e-91de-4119a76af836}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.UI\01. Button">
+      <UniqueIdentifier>{c3132bfd-2d27-45f2-ac5e-21e2a3705bb2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -216,6 +246,24 @@
     <ClInclude Include="CCameraManager.h">
       <Filter>03. Manager\05. CameraManager</Filter>
     </ClInclude>
+    <ClInclude Include="CCollisionManager.h">
+      <Filter>03. Manager\06. CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CMap.h">
+      <Filter>25. Map</Filter>
+    </ClInclude>
+    <ClInclude Include="CUIComponent.h">
+      <Filter>05.UI\00. UIComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="CPointerHandler.h">
+      <Filter>05.UI\00. UIComponent\01. Pointer</Filter>
+    </ClInclude>
+    <ClInclude Include="CButton.h">
+      <Filter>05.UI\01. Button</Filter>
+    </ClInclude>
+    <ClInclude Include="CMapManager.h">
+      <Filter>03. Manager\07. CMapManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EnterTheGungeon.cpp">
@@ -319,6 +367,24 @@
     </ClCompile>
     <ClCompile Include="CCameraManager.cpp">
       <Filter>03. Manager\05. CameraManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollisionManager.cpp">
+      <Filter>03. Manager\06. CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CMap.cpp">
+      <Filter>25. Map</Filter>
+    </ClCompile>
+    <ClCompile Include="CUIComponent.cpp">
+      <Filter>05.UI\00. UIComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="CPointerHandler.cpp">
+      <Filter>05.UI\00. UIComponent\01. Pointer</Filter>
+    </ClCompile>
+    <ClCompile Include="CButton.cpp">
+      <Filter>05.UI\01. Button</Filter>
+    </ClCompile>
+    <ClCompile Include="CMapManager.cpp">
+      <Filter>03. Manager\07. CMapManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

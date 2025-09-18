@@ -47,3 +47,14 @@ void CObject::Update_Renderer()
 	pRenderer->Top(vPosition.Y() - vSize.Y() / 2.f);
 	pRenderer->Bottom(vPosition.Y() + vSize.Y() / 2.f);
 }
+
+void CObject::Update_Collider()
+{
+	Vector2 vPosition = pTransform->Position();
+	Vector2 vSize = pCollider->Size();
+
+	pCollider->Left(vPosition.X() - vSize.X() / 2.f);
+	pCollider->Right(vPosition.X() + vSize.X() / 2.f);
+	pCollider->Top(vPosition.Y() - vSize.Y() / 2.f);
+	pCollider->Bottom(vPosition.Y() + vSize.Y() / 2.f);
+}

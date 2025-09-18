@@ -20,6 +20,7 @@ public:
 public: // Components
 	virtual void Update_Transform() = 0;
 	virtual void Update_Renderer();
+	virtual void Update_Collider();
 
 public:
 	CTransform* Get_Transform() { return pTransform; }

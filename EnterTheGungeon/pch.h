@@ -4,7 +4,8 @@
 #include "framework.h"
 
 #include "Define.h"
-
+#include <algorithm>
+#include <functional>
 #pragma region Container
 #include <vector>
 #include <list>
@@ -13,8 +14,7 @@
 
 
 
-#include <algorithm>
-#include <functional>
+
 
 #pragma region WindowsAPI
 #include <Windows.h>
@@ -34,6 +34,7 @@
 
 #pragma region USERDEFINE
 #include "Vector2.h"
+
 #pragma endregion
 
 

@@ -21,10 +21,5 @@ public :
 private :
 	Vector2 vLookAtPos;
 	CObject* pTarget;
-
-
-
-
-
 };
 

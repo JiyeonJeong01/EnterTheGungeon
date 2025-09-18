@@ -22,8 +22,7 @@ public :
 	{
 		CObject* pObj = new T;
 		pObj->Initialize();
-		pObj->Get_Transform()->Position().X(fX);
-		pObj->Get_Transform()->Position().Y(fY);
+		pObj->Get_Transform()->Position({ fX, fY });
 
 		MANAGER(CObjectManager*, M_OBJECT)->Add_Object(eObject, pObj);
 

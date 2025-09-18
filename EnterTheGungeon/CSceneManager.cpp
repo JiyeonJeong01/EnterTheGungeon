@@ -34,22 +34,22 @@ void CSceneManager::Initialize()
 
 void CSceneManager::Update()
 {
-	MANAGER(CObjectManager*, M_OBJECT)->Update();
+	pCurrentScene->Update();
 }
 
 void CSceneManager::Late_Update()
 {
-	MANAGER(CObjectManager*, M_OBJECT)->Late_Update();
+	pCurrentScene->Late_Update();
 }
 
 void CSceneManager::Render(HDC hDC)
 {
-	MANAGER(CObjectManager*, M_OBJECT)->Render(hDC);
+	pCurrentScene->Render(hDC);
 }
 
 void CSceneManager::Release()
 {
-	// MANAGER(CObjectManager*, M_OBJECT)->Release();
+	pCurrentScene->Release();
 	CRelease<CScene*>::Release(pCurrentScene);
 }
 
