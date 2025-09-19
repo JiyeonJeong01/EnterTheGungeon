@@ -9,6 +9,7 @@
 #include "CTransform.h"
 #include "CRenderer.h"
 #include "CCollider.h"
+#include "CCameraManager.h"
 #pragma endregion
 
 
@@ -61,27 +62,13 @@ int CPlayer::Update()
 void CPlayer::Late_Update()
 {
     pCurrentState->Late_Update();
+    Vector2 vRenderPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RenderPos(pTransform->Position());
 }
 
 void CPlayer::Render(HDC _hDC)
 {
-#pragma region Debug
-    HPEN hPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
-    HBRUSH hOldBrush = (HBRUSH)SelectObject(_hDC, GetStockObject(HOLLOW_BRUSH));
-    HPEN hOldPen = (HPEN)SelectObject(_hDC, hPen);
-
-    Rectangle(_hDC, pTransform->Position().X() - pTransform->Size().X(),
-        pTransform->Position().Y() - pTransform->Size().Y(),
-        pTransform->Position().X() + pTransform->Size().X(),
-        pTransform->Position().Y() - pTransform->Size().Y());
-    Rectangle(_hDC, pRenderer->Left(), pRenderer->Top(), pRenderer->Right(), pRenderer->Bottom());
-    Rectangle(_hDC, pCollider->Left(), pCollider->Top(), pCollider->Right(), pCollider->Bottom());
-
-    SelectObject(_hDC, hOldBrush);
-    SelectObject(_hDC, hOldPen);
-    DeleteObject(hPen);
-#pragma endregion
-
+    // Render for debug
+    CObject::Render(_hDC);
 
     pCurrentState->Render(_hDC);
 }
@@ -95,8 +82,6 @@ void CPlayer::Update_Transform()
 {
     pTransform->Position().X(pTransform->Position().X() * pTransform->Direction().X() * fSpeed);
     pTransform->Position().Y(pTransform->Position().Y() * pTransform->Direction().Y() * fSpeed);
-
-
 }
 
 void CPlayer::Update_Renderer()

@@ -41,18 +41,17 @@ void CPlayerIdleState::Render(HDC hDC)
 	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Player_IDLE");
 
 	CRenderer renderer = *(pObj->Get_Renderer());
-	CTransform transform = *(pObj->Get_Transform());
 
 	GdiTransparentBlt(hDC,
 		renderer.Left(),
 		renderer.Top(),
-		(int)transform.Size().X(),
-		(int)transform.Size().Y(),
+		(int)renderer.Size().X(),
+		(int)renderer.Size().Y(),
 		hMemDC,
-		animation.iCurrIndex * (int)transform.Size().X(),
-		Dir_AnimRow(eDir) * (int)transform.Size().Y(),
-		(int)transform.Size().X(),
-		(int)transform.Size().Y(),
+		animation.iCurrIndex * (int)renderer.Size().X(),
+		Dir_AnimRow(eDir) * (int)renderer.Size().Y(),
+		(int)renderer.Size().X(),
+		(int)renderer.Size().Y(),
 		RGB(255, 0, 255));
 }
 

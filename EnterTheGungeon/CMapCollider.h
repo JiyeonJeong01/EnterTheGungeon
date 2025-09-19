@@ -1,4 +1,7 @@
 #pragma once
+
+class CObject;
+
 class CMapCollider
 {
 public:
@@ -22,10 +25,16 @@ public :
 		vPosition = { (rBound.right - rBound.left) * 0.5f + rBound.left, (rBound.bottom - rBound.top) * 0.5f + rBound.top };
 	}
 
-	Vector2 Get_Position() { return vPosition;  }
-
 private :
 	RECT rBound;
 	Vector2 vPosition;
+
+public :
+	Vector2 Get_Position() { return vPosition; }
+	void Add_OnCollision(function<void(CObject*, Vector2)> listener) { onCollision = listener; }
+	function<void(CObject*, Vector2)>* Get_OnCollision() { return &onCollision; }
+
+private :
+	function<void(CObject*, Vector2)> onCollision;
 };
 

@@ -57,8 +57,10 @@ void CBullet::Late_Update()
 
 void CBullet::Render(HDC _hDC)
 {
+
+    CObject::Render(_hDC);
+
     HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(spriteKey);
-    //_tprintf(_T("%d, %d, %d, %d\n"), pRenderer->Left(), pRenderer->Top(), pRenderer->Right(), pRenderer->Bottom());
 
     GdiTransparentBlt(_hDC,
         pRenderer->Left(),
@@ -70,24 +72,6 @@ void CBullet::Render(HDC _hDC)
         (int)pRenderer->Size().X(),
         (int)pRenderer->Size().Y(),
         RGB(255, 0, 255));
-
-#pragma region debugging
-    HPEN hPen = CreatePen(PS_SOLID, 1, RGB(100, 100, 0));
-    HBRUSH hOldBrush = (HBRUSH)SelectObject(_hDC, GetStockObject(HOLLOW_BRUSH));
-    HPEN hOldPen = (HPEN)SelectObject(_hDC, hPen);
-
-    Rectangle(_hDC, pTransform->Position().X() - pTransform->Size().X(),
-        pTransform->Position().Y() - pTransform->Size().Y(),
-        pTransform->Position().X() + pTransform->Size().X(),
-        pTransform->Position().Y() - pTransform->Size().Y());
-    Rectangle(_hDC, pRenderer->Left(), pRenderer->Top(), pRenderer->Right(), pRenderer->Bottom());
-    Rectangle(_hDC, pCollider->Left(), pCollider->Top(), pCollider->Right(), pCollider->Bottom());
-
-    SelectObject(_hDC, hOldBrush);
-    SelectObject(_hDC, hOldPen);
-    DeleteObject(hPen);
-#pragma endregion
-
 }
 
 void CBullet::Release()

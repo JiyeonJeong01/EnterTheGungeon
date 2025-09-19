@@ -51,7 +51,6 @@ void CCollisionManager::Detect_CircleCollision(list<CObject*> dstList, list<CObj
 
 Vector2 CCollisionManager::Get_OverlapCircle(CObject* dst, CObject* src)
 {
-
     return Vector2{ 0.f, 0.f };
 }
 
@@ -73,29 +72,42 @@ void CCollisionManager::Detect_MapCollision(list<CMapCollider*> groundList, list
 
             if ((fRadX >= fDistX) && (fRadY >= fDistY))
             {
-                Vector2 vDiff = { fRadX - fDistX, fRadY - fDistY };
-                if (vDiff.X() > vDiff.Y())
-                {
-                    if (objPos.Y() < ground->Get_Position().Y()) // obj is above
-                    {
-                        obj->Get_Transform()->Position({ objPos.X(), objPos.Y() - vDiff.Y() });
-                    }
-                    else
-                    {
-                        obj->Get_Transform()->Position({ objPos.X(), objPos.Y() + vDiff.Y() });
-                    }
-                }
-                else
-                {
-                    if (objPos.X() < ground->Get_Position().X()) // obj is left side
-                    {
-                        obj->Get_Transform()->Position({ objPos.X() - vDiff.X(), objPos.Y() });
-                    }
-                    else
-                    {
-                        obj->Get_Transform()->Position({ objPos.X() + vDiff.X(), objPos.Y() });
-                    }
-                }
+               // √Êµπ »Æ¡§
+               Vector2 vDiff = { fRadX - fDistX, fRadY - fDistY };
+               if (vDiff.X() > vDiff.Y())
+               {
+                   if (objPos.Y() < ground->Get_Position().Y()) // obj is above
+                   {
+                       obj->Get_Transform()->Position({ objPos.X(), objPos.Y() - vDiff.Y() });
+                   }
+                   else
+                   {
+                       obj->Get_Transform()->Position({ objPos.X(), objPos.Y() + vDiff.Y() });
+                   }
+               }
+               else
+               {
+                   if (objPos.X() < ground->Get_Position().X()) // obj is left side
+                   {
+                       obj->Get_Transform()->Position({ objPos.X() - vDiff.X(), objPos.Y() });
+                   }
+                   else
+                   {
+                       obj->Get_Transform()->Position({ objPos.X() + vDiff.X(), objPos.Y() });
+                   }
+               }
+
+               // 
+                auto& onCollisionListeners = *(obj->Get_Collider()->Get_OnCollision());
+                for_each(onCollisionListeners.begin(), onCollisionListeners.begin(), [&](function<void(CObject*, Vector2)> listener) -> void {
+                    listener(obj, vDiff);
+                    });
+                
+                // =========================================================
+                // ================== ø©±‚º≠ ∏ÿ√„ ==========================
+                // =========================================================
+
+               // auto onCollision = *()
             }
         }
     }

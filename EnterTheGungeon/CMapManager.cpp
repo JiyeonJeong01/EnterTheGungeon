@@ -121,8 +121,6 @@ void CEnvironmentManager::Save_Data()
 {
 	CObject* pPlayer = MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER)->front();
 
-	_tprintf(_T("befor 2\t:\t:%f, %f\n"), pPlayer->Get_Transform()->Position().X(), pPlayer->Get_Transform()->Position().Y());
-
 	std::wofstream ofs(L"../Data/Ground.json");
 	if (!ofs.is_open())
 	{
@@ -152,7 +150,6 @@ void CEnvironmentManager::Save_Data()
 	ofs << L"]\n";
 
 	ofs.close();
-	_tprintf(_T("after 2\t:\t:%f, %f\n"), pPlayer->Get_Transform()->Position().X(), pPlayer->Get_Transform()->Position().Y());
 
 }
 
@@ -197,7 +194,6 @@ void CEnvironmentManager::OnClickStartButton()
 void CEnvironmentManager::OnClickSaveButton()
 {
 	CObject* pPlayer = MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER)->front();
-	_tprintf(_T("befor\t:\t:%f, %f\n"), pPlayer->Get_Transform()->Position().X(), pPlayer->Get_Transform()->Position().Y());
 	if (curMode == Ground)
 	{
 		for (auto& r : tempRectList)
@@ -206,13 +202,12 @@ void CEnvironmentManager::OnClickSaveButton()
 			pMap->Set_Collider(r);
 			pCurMapCollider.push_back(pMap);
 			pCurMapCollider.push_back(new CMapCollider(r));
-			_tprintf(_T("excuted\t:\t:%f, %f\n"), pPlayer->Get_Transform()->Position().X(), pPlayer->Get_Transform()->Position().Y());
+			// _tprintf(_T("excuted\t:\t:%f, %f\n"), pPlayer->Get_Transform()->Position().X(), pPlayer->Get_Transform()->Position().Y());
 		}
 		tempRectList.clear();
 	}
 	//else if (curMode == Object)
 		//for (auto& r : tempRectList) curObjectRectList.push_back(r);
-	_tprintf(_T("after\t:\t:%f, %f\n"), pPlayer->Get_Transform()->Position().X(), pPlayer->Get_Transform()->Position().Y());
 
 	Save_Data();
 }

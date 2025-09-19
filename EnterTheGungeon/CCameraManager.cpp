@@ -2,9 +2,27 @@
 #include "CCameraManager.h"
 #include "CObject.h"
 #include "CTransform.h"
+#include "CInputManager.h"
 
 CCameraManager::CCameraManager()
 {
+	vLookAt = {};
+	vPrevLookAt = {};
+	vCursorPos = {};
+	pTarget = nullptr;
+
+	eMode = Chase_Player;
+
+	iShake = 3;
+	iCurShake = 0;
+
+	fTransitTime = 2.f;
+	fDelayTime = 2.f;
+	vNewTargetPos = {};
+	fMoveDist = 0.f;
+	vTransitDir = {};
+	bTransit = false;
+	bDelay = false;
 }
 
 CCameraManager::~CCameraManager()
@@ -15,10 +33,130 @@ void CCameraManager::Update()
 {
 	if (pTarget)
 	{
-		vLookAtPos = pTarget->Get_Transform()->Position();
+		POINT pScreenCursor = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
+
+		Vector2 vTargetPos = pTarget->Get_Transform()->Position();
+		Vector2 vCursorPos = { pScreenCursor.x + vDiff.X(),  pScreenCursor.y + vDiff.Y() };
+
+		vLookAt= vTargetPos - (vTargetPos - vCursorPos) * 0.2f;
 	}
+
+	if (eMode == CameraMode::Chase_Player)
+	{
+		vCurLookAt = vLookAt;
+	}
+	else if (eMode == CameraMode::Shake)
+	{
+		Shake_Camera();
+	}
+	else if (eMode == CameraMode::Transit_NewTarget)
+	{
+		Transit_Target();
+	}
+
+	Calculate_Diff();
 }
 
 void CCameraManager::Calculate_Diff()
 {
+	Vector2 vCenter{ WINCX >> 1, WINCY >> 1 };
+
+	vDiff = vCurLookAt - vCenter;
+}
+
+void CCameraManager::Set_CamerMode(CameraMode eMode, CObject* pNewTarget)
+{
+	this->eMode = eMode;
+
+	switch (eMode)
+	{
+	case CCameraManager::Chase_Player:
+	{
+	}
+	break;
+	case CCameraManager::Transit_NewTarget:
+	{
+		vNewTargetPos = pNewTarget->Get_Transform()->Position();
+		vTransitDir = (vNewTargetPos - vCurLookAt);
+		float fTotalDist = vTransitDir.Get_Magnitude();
+		vTransitDir.Normalize();
+		fMoveDist = (fTotalDist / fTransitTime) * 0.015;
+		dwTransitElaspedTime = GetTickCount();
+		bTransit = false;
+		bDelay = false;
+		bBack = false;
+	}
+	break;
+	case CCameraManager::Shake:
+	{
+		iCurShake = 0;
+	}
+	break;
+	}
+}
+
+
+void CCameraManager::Transit_Target()
+{
+	DWORD d = GetTickCount();
+	if (!bTransit && dwTransitElaspedTime + fTransitTime * 1000 > GetTickCount())
+	{
+		vCurLookAt += vTransitDir * fMoveDist;
+		printf("%f, %f\n", vCurLookAt.X(), vCurLookAt.Y());
+
+		return;
+	}
+	else if (!bDelay)
+	{
+		dwTransitElaspedTime = GetTickCount();
+		bTransit = true;
+		bDelay = true;
+	}
+
+	if (dwTransitElaspedTime + fDelayTime * 1000 > GetTickCount() && !bBack)
+	{
+		vCurLookAt = vNewTargetPos;
+		return;
+	}
+	else if (!bBack)
+	{
+		bBack = true;
+		dwTransitElaspedTime = GetTickCount();
+	}
+
+	if (bBack)
+	{
+		if (dwTransitElaspedTime + fTransitTime * 1000 > GetTickCount())
+		{
+			vCurLookAt -= vTransitDir * fMoveDist;
+		}
+		else
+		{
+			eMode = Chase_Player;
+		}
+	}
+}
+
+void CCameraManager::Shake_Camera()
+{
+	if (iCurShake == 0)
+	{
+		vCurLookAt = { vLookAt.X() - 7.f, vLookAt.Y() + 7.f };
+		iCurShake++;
+	}
+	else if (iCurShake == 1)
+	{
+		vCurLookAt = { vLookAt.X() + 7.f, vLookAt.Y() - 7.f };
+		iCurShake++;
+	}
+	else if (iCurShake == 2)
+	{
+		vCurLookAt = { vLookAt.X() - 3.f, vLookAt.Y() + 3.f };
+		iCurShake++;
+	}
+	else if (iCurShake == iShake)
+	{
+		eMode = Chase_Player;
+		iCurShake = 0;
+	}
 }

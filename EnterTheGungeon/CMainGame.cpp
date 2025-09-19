@@ -8,6 +8,7 @@
 #include "CSceneManager.h"
 #include "CBmpManager.h"
 #include "CObjectFactory.h"
+#include "CCameraManager.h"
 #include "CRelease.h"
 
 #include "CObject.h"
@@ -64,12 +65,13 @@ void CMainGame::Render()
 	HDC hBackDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Back");
 	HDC hBackground = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Tutorial");
 
-	BitBlt(hBackDC, 0, 0, WINCX, WINCY, hBackground, 0, 0, SRCCOPY);
+	Vector2 vRenderPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RenderPos({ 0.f, 0.f });
+
+	BitBlt(hBackDC, 0, 0, WINCX, WINCY, hBackground, -vRenderPos.X(), -vRenderPos.Y(), SRCCOPY);
 
 	MANAGER(CSceneManager*, M_SCENE)->Render(hBackDC);
 
 	BitBlt(hDC, 0, 0, WINCX, WINCY, hBackDC, 0, 0, SRCCOPY);
-
 }
 
 void CMainGame::Release()

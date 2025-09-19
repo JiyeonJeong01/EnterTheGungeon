@@ -31,7 +31,6 @@ void CMouse::Initialize()
 
 int CMouse::Update()
 {
-
 	return 0;
 }
 
@@ -46,8 +45,8 @@ void CMouse::Render(HDC _hDC)
 	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Cursor");
 
 	GdiTransparentBlt(_hDC,
-		pRenderer->Left(),
-		pRenderer->Top(),
+		pTransform->Position().X() - (int)pRenderer->Size().X() * 0.5f,
+		pTransform->Position().Y() - (int)pRenderer->Size().Y() * 0.5f,
 		(int)pRenderer->Size().X(),
 		(int)pRenderer->Size().Y(),
 		hMemDC,
@@ -55,7 +54,6 @@ void CMouse::Render(HDC _hDC)
 		(int)pRenderer->Size().X(),
 		(int)pRenderer->Size().Y(),
 		RGB(255, 0, 255));
-
 }
 
 void CMouse::Update_Transform()

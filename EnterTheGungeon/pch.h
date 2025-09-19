@@ -12,12 +12,9 @@
 #include <map>
 #pragma endregion
 
-
-
-
-
 #pragma region WindowsAPI
 #include <Windows.h>
+#include <wingdi.h>
 #pragma endregion
 
 #pragma region Debug

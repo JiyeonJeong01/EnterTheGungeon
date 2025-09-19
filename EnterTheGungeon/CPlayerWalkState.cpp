@@ -6,7 +6,7 @@
 #include "CInputManager.h"
 #include "CRenderer.h"
 #include "CStateMachine.h"
-#include "CTransform.h"
+#include "CCameraManager.h"
 
 void CPlayerWalkState::Initialize()
 {
@@ -37,9 +37,6 @@ void CPlayerWalkState::Update()
 		pObj->Get_Transform()->Position().Y() + vInputDir.Y() * fSpeed,
 	};
 	pObj->Get_Transform()->Position(move(vNewPos));
-
-
-
 }
 
 void CPlayerWalkState::Late_Update()
@@ -51,18 +48,17 @@ void CPlayerWalkState::Render(HDC hDC)
 	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Player_WALK");
 
 	CRenderer renderer = *(pObj->Get_Renderer());
-	CTransform transform = *(pObj->Get_Transform());
 
 	GdiTransparentBlt(hDC,
 		renderer.Left(),
 		renderer.Top(),
-		(int)transform.Size().X(),
-		(int)transform.Size().Y(),
+		(int)renderer.Size().X(),
+		(int)renderer.Size().Y(),
 		hMemDC,
-		animation.iCurrIndex * (int)transform.Size().X(),
-		Dir_AnimRow(eDir) * (int)transform.Size().Y(),
-		(int)transform.Size().X(),
-		(int)transform.Size().Y(),
+		animation.iCurrIndex * (int)renderer.Size().X(),
+		Dir_AnimRow(eDir) * (int)renderer.Size().Y(),
+		(int)renderer.Size().X(),
+		(int)renderer.Size().Y(),
 		RGB(255, 0, 255));
 }
 

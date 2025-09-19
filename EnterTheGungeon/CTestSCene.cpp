@@ -12,6 +12,7 @@
 #include "CCollider.h"
 #include "CButton.h"
 #include "CMapManager.h"
+#include "CCameraManager.h"
 
 CTestSCene::CTestSCene()
 {
@@ -27,8 +28,9 @@ void CTestSCene::Initialize()
 {
 	eScene = SC_TEST;
 	pPlayer = dynamic_cast<CPlayer*>(CObjectFactory<CPlayer>::Create(O_PLAYER, WINCX >> 1, WINCY >> 1));
-	MANAGER(CCameraManager*, M_CAMERA)->Set_LookAt({ WINCX >> 1, WINCY >> 1 });
 	MANAGER(CEnvironmentManager*, M_MAP)->Initialize();
+	MANAGER(CCameraManager*, M_CAMERA)->Set_LookAt({ WINCX >> 1, WINCY >> 1 });
+	MANAGER(CCameraManager*, M_CAMERA)->Set_Target(pPlayer);
 }
 
 void CTestSCene::Update()
@@ -43,6 +45,7 @@ void CTestSCene::Update()
 	CCollisionManager::Detect_MapCollision(
 		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapList(),
 		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLBULLET));
+	MANAGER(CCameraManager*, M_CAMERA)->Update();
 }
 
 void CTestSCene::Late_Update()

@@ -1,5 +1,4 @@
 #pragma once
-
 class CTransform;
 class CCollider;
 class CRenderer;
@@ -14,7 +13,7 @@ public:
 	virtual void Initialize();
 	virtual int Update() = 0;
 	virtual void Late_Update();
-	virtual void Render(HDC _hDC) = 0;
+	virtual void Render(HDC _hDC);
 	virtual void Release() = 0;
 
 public: // Components
