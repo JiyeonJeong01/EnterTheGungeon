@@ -18,6 +18,10 @@ public: // Core
 
 public :
 	void Change_Scene(SceneType sType);
+	void Change_SceneEffect();
+
+public :
+	SceneType Get_CurrentScene() { return eCurrentScene; }
 
 private :
 	CScene* pCurrentScene;

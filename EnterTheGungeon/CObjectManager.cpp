@@ -4,6 +4,7 @@
 #include "CRelease.h"
 #include "CTransform.h"
 #include "CRenderer.h"
+#include "CUIManager.h"
 
 CObjectManager::CObjectManager()
 {

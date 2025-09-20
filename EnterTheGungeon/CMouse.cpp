@@ -5,6 +5,7 @@
 #include "CCollider.h"
 #include "CBmpManager.h"
 #include "CInputManager.h"
+#include "CCameraManager.h"
 CMouse::CMouse()
 {
 }
@@ -31,6 +32,7 @@ void CMouse::Initialize()
 
 int CMouse::Update()
 {
+
 	return 0;
 }
 

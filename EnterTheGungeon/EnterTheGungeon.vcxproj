@@ -169,6 +169,7 @@
     <ClInclude Include="CStateMachine.h" />
     <ClInclude Include="CTestSCene.h" />
     <ClInclude Include="CTransform.h" />
+    <ClInclude Include="CUIManager.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="EnterTheGungeon.h" />
     <ClInclude Include="framework.h" />
@@ -179,6 +180,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="CUIComponent.h" />
     <ClInclude Include="Vector2.h" />
+    <ClInclude Include="Vignette.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAnimation.cpp" />
@@ -219,6 +221,7 @@
     <ClCompile Include="CStateMachine.cpp" />
     <ClCompile Include="CTestSCene.cpp" />
     <ClCompile Include="CTransform.cpp" />
+    <ClCompile Include="CUIManager.cpp" />
     <ClCompile Include="EnterTheGungeon.cpp" />
     <ClCompile Include="CManager.cpp" />
     <ClCompile Include="pch.cpp">
@@ -230,6 +233,7 @@
     <ClCompile Include="CSTLHelper.cpp" />
     <ClCompile Include="CUIComponent.cpp" />
     <ClCompile Include="Vector2.cpp" />
+    <ClCompile Include="Vignette.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EnterTheGungeon.rc" />

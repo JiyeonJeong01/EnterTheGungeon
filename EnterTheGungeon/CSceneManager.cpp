@@ -57,10 +57,12 @@ void CSceneManager::Change_Scene(SceneType sType)
 {
 	if (eCurrentScene == sType) return;
 
+	delete pCurrentScene;
+
 	switch (sType)
 	{
 	case SC_INTRO : 
-		//pCurrentScene = new CIntroScene;
+		pCurrentScene = new CIntroScene;
 		break;
 	case SC_MAIN :
 		//pCurrentScene = new CMainScene;
@@ -70,4 +72,11 @@ void CSceneManager::Change_Scene(SceneType sType)
 		break;
 	}
 	pCurrentScene->Initialize();
+	eCurrentScene = sType;
+}
+
+void CSceneManager::Change_SceneEffect()
+{
+
+
 }

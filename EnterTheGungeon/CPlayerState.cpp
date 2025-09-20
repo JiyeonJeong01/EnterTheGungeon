@@ -63,6 +63,8 @@ void CPlayerState::Shot_Bullet()
 	pBullet->Apply_BulletSprite();
 	pBullet->Apply_EffectAnim();
 
+	MANAGER(CCameraManager*, M_CAMERA)->Set_CamerMode(CCameraManager::Shake);
+
 	// for test sibar
 	POINT curPos = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
 	Vector2 curRealPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RealPos({(float)curPos.x, (float)curPos.y });

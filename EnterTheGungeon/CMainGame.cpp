@@ -17,6 +17,8 @@
 
 #include "CBullet.h"
 #include "CMouse.h"
+
+#include "Vignette.h"
 #pragma endregion
 
 
@@ -46,6 +48,9 @@ void CMainGame::Initialize()
 	
 	CObjectFactory<CMouse>::Create(O_UI);
 	CBullet::Load_Resource();
+
+	//pVignette = new Vignette;
+	//pVignette->Initialize();
 }
 
 void CMainGame::Update()
@@ -53,23 +58,25 @@ void CMainGame::Update()
 	Compute_FPS();
 	MANAGER(CInputManager*, M_INPUT)->Update();
 	MANAGER(CSceneManager*, M_SCENE)->Update();
+	MANAGER(CUIManager*, M_UI)->Update();
 }
 
 void CMainGame::Late_Update()
 {
 	MANAGER(CSceneManager*, M_SCENE)->Late_Update();
+	MANAGER(CUIManager*, M_UI)->Late_Update();
 }
 
 void CMainGame::Render()
 {
+	if (MANAGER(CSceneManager*, M_SCENE)->Get_CurrentScene() == SC_INTRO)
+		return;
+
 	HDC hBackDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Back");
-	HDC hBackground = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Tutorial");
-
-	Vector2 vRenderPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RenderPos({ 0.f, 0.f });
-
-	BitBlt(hBackDC, 0, 0, WINCX, WINCY, hBackground, -vRenderPos.X(), -vRenderPos.Y(), SRCCOPY);
-
 	MANAGER(CSceneManager*, M_SCENE)->Render(hBackDC);
+	MANAGER(CUIManager*, M_UI)->Render(hBackDC);
+
+	//pVignette->Render(hBackDC);
 
 	BitBlt(hDC, 0, 0, WINCX, WINCY, hBackDC, 0, 0, SRCCOPY);
 }
@@ -80,7 +87,7 @@ void CMainGame::Release()
 	{
 		CManager::Destroy_Manager((ManagerType)i);
 	}
-
+	// pVignette->Release();
 	ReleaseDC(g_hWnd, hDC);
 }
 

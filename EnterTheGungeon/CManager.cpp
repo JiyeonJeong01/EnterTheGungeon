@@ -6,6 +6,7 @@
 #include "CBmpManager.h"
 #include "CCameraManager.h"
 #include "CMapManager.h"
+#include "CUIManager.h"
 
 CManager* CManager::g_pManagers[MGREND] = { nullptr, };
 
@@ -32,6 +33,9 @@ CManager* CManager::Get_Manager(ManagerType eManager)
 			break;
 		case ManagerType::M_MAP:
 			g_pManagers[eManager] = new CEnvironmentManager();
+			break;
+		case ManagerType::M_UI:
+			g_pManagers[eManager] = new CUIManager();
 			break;
 		}
 	}

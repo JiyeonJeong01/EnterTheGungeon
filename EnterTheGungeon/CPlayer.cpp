@@ -47,6 +47,7 @@ void CPlayer::Initialize()
     pTransform->Position({WINCX >> 1, WINCY >> 1});
 
     pRenderer->rType = RND__GAMEBOJECT;
+    eType = O_PLAYER;
 }
 
 int CPlayer::Update()

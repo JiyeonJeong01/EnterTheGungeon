@@ -12,7 +12,7 @@
 #include "CCollider.h"
 #include "CButton.h"
 #include "CMapManager.h"
-#include "CCameraManager.h"
+#include "CBmpManager.h"
 
 CTestSCene::CTestSCene()
 {
@@ -55,6 +55,10 @@ void CTestSCene::Late_Update()
 
 void CTestSCene::Render(HDC _hDC)
 {
+	Vector2 vRenderPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RenderPos({0.f, 0.f});
+	HDC hBackground = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Tutorial");
+	BitBlt(_hDC, 0, 0, WINCX, WINCY, hBackground, -vRenderPos.X(), -vRenderPos.Y(), SRCCOPY);
+
 	MANAGER(CObjectManager*, M_OBJECT)->Render(_hDC);
 	for_each(mapList.begin(), mapList.end(), [&](CMapCollider* map)->void {map->Render(_hDC); });
 	MANAGER(CEnvironmentManager*, M_MAP)->Render(_hDC);

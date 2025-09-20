@@ -14,8 +14,18 @@
 
 #pragma region WindowsAPI
 #include <Windows.h>
-#include <wingdi.h>
+#include <objidl.h>
+#include <gdiplus.h>
+#pragma comment(lib, "gdiplus.lib")
+#pragma comment(lib, "msimg32.lib")
+#ifdef Image
+#undef Image
+#endif
 #pragma endregion
+
+#include <Vfw.h>
+#pragma comment(lib, "vfw32.lib")
+
 
 #pragma region Debug
 #ifdef _DEBUG

@@ -6,6 +6,7 @@
 #include "CInputManager.h"
 #include "CCollisionManager.h"
 #include "CObjectFactory.h"
+#include "CCameraManager.h"
 
 #include "CTransform.h"
 #include "CCollider.h"
@@ -68,6 +69,10 @@ void CEnvironmentManager::Update()
 {
 	if (bEdit && bDragging && MANAGER(CInputManager*, M_INPUT)->Get_KeyUp(VK_RBUTTON))
 	{
+		POINT p = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
+		printf("mouse screen : %d, %d\n", p.x, p.y);
+		Vector2 realPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RealPos({ (float)p.x, (float)p.y });
+		printf("mouse real pos : %d. %d\n", (int)realPos.X(), (int)realPos.Y());
 		bDragging = false;
 		tempRectList.push_back({ pStart.x, pStart.y, pCurrent.x, pCurrent.y });
 	}
@@ -78,7 +83,6 @@ void CEnvironmentManager::Render(HDC _hDC)
 	m_hDC = _hDC;
 	for (auto& pMap : pCurMapCollider)
 	{
-		RECT rect = pMap->Get_Collider();
 		pMap->Render(_hDC);
 	}
 	for (auto& rect : tempRectList)
@@ -98,6 +102,10 @@ void CEnvironmentManager::Render(HDC _hDC)
 
 	if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown(VK_RBUTTON))
 	{
+		POINT p = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
+		printf("mouse screen : %d, %d\n", p.x, p.y);
+		Vector2 realPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RealPos({ (float)p.x, (float)p.y });
+		printf("mouse real pos : %d. %d\n", (int)realPos.X(), (int)realPos.Y());
 		pStart = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
 	}
 
@@ -131,13 +139,15 @@ void CEnvironmentManager::Save_Data()
 	ofs << L"[\n";
 	for (auto iter = pCurMapCollider.begin(); iter != pCurMapCollider.end();)
 	{
-		RECT r = (*iter)->Get_Collider();
+		CCollider c = *(*iter)->Get_Collider();
 
 		ofs << L"  { "
-			<< L"\"left\": " << r.left << L", "
-			<< L"\"top\": " << r.top << L", "
-			<< L"\"right\": " << r.right << L", "
-			<< L"\"bottom\": " << r.bottom
+			<< L"\"position X\": " << (int)(*iter)->Get_Transform()->Position().X() << L", "
+			<< L"\"position Y\": " << (int)(*iter)->Get_Transform()->Position().Y() << L", "
+			<< L"\"left\": " << c.Left() << L", "
+			<< L"\"top\": " << c.Top() << L", "
+			<< L"\"right\": " << c.Right() << L", "
+			<< L"\"bottom\": " << c.Bottom()
 			<< L" }";
 
 		iter++;
@@ -165,14 +175,23 @@ void CEnvironmentManager::Load_Data()
 	std::wstring line;
 	while (std::getline(ifs, line))
 	{
-		int left, top, right, bottom;
+		int posX, posY, left, top, right, bottom;
 		if (swscanf_s(line.c_str(),
-			L" { \"left\": %d , \"top\": %d , \"right\": %d , \"bottom\": %d }",
-			&left, &top, &right, &bottom) == 4)
+			L" { \"position X\": %d, \"position Y\": %d, \"left\": %d , \"top\": %d , \"right\": %d , \"bottom\": %d }",
+			&posX, &posY, &left, &top, &right, &bottom) == 6)
 		{
 			RECT r{ left, top, right, bottom };
 			CMapCollider* pMap = new CMapCollider;
-			pMap->Set_Collider(r);
+			pMap->Initialize();
+
+			pMap->Get_Transform()->Position({ (float)posX, (float)posY });
+
+			pMap->Get_Collider()->Left(left);
+			pMap->Get_Collider()->Top(top);
+			pMap->Get_Collider()->Right(right);
+			pMap->Get_Collider()->Bottom(bottom);
+			pMap->Get_Collider()->Size({ (float)(right - left), (float)(bottom - top) });
+
 			pCurMapCollider.push_back(pMap);
 		}
 	}
@@ -186,9 +205,15 @@ void CEnvironmentManager::OnClickStartButton()
 	pTransEditButton->bActive = bEdit;
 
 	if (!bEdit)
+	{
 		curMode = None;
+		MANAGER(CCameraManager*, M_CAMERA)->Set_CamerMode(CCameraManager::Chase_Player);
+	}
 	else
+	{
 		curMode = Ground;
+		MANAGER(CCameraManager*, M_CAMERA)->Set_CamerMode(CCameraManager::Edit);
+	}
 }
 
 void CEnvironmentManager::OnClickSaveButton()
@@ -199,9 +224,22 @@ void CEnvironmentManager::OnClickSaveButton()
 		for (auto& r : tempRectList)
 		{
 			CMapCollider* pMap = new CMapCollider;
-			pMap->Set_Collider(r);
+			pMap->Initialize();
+
+			Vector2 realPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RealPos({ r.left + (r.right - r.left) * 0.5f, r.top + (r.bottom - r.top) *    0.5f });
+			Vector2 colSize = { (float)(r.right - r.left), (float)(r.bottom - r.top) };
+
+			pMap->Get_Transform()->Position(move(realPos));
+
+			pMap->Get_Collider()->Left(realPos.X() - colSize.X() * 0.5f);
+			pMap->Get_Collider()->Top(realPos.Y() - colSize.Y() * 0.5f);
+			pMap->Get_Collider()->Right(realPos.X() + colSize.X() * 0.5f);
+			pMap->Get_Collider()->Bottom(realPos.Y() + colSize.Y() * 0.5f);
+
+			pMap->Get_Renderer()->Size({ (float)(r.right - r.left), (float)(r.bottom - r.top) });
+			//static_cast<CObject*>(pMap)->Update_Renderer();
+
 			pCurMapCollider.push_back(pMap);
-			pCurMapCollider.push_back(new CMapCollider(r));
 			// _tprintf(_T("excuted\t:\t:%f, %f\n"), pPlayer->Get_Transform()->Position().X(), pPlayer->Get_Transform()->Position().Y());
 		}
 		tempRectList.clear();

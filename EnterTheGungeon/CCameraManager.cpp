@@ -53,7 +53,10 @@ void CCameraManager::Update()
 	{
 		Transit_Target();
 	}
-
+	else if (eMode == CameraMode::Edit)
+	{
+		Edit_Collider();
+	}
 	Calculate_Diff();
 }
 
@@ -92,9 +95,12 @@ void CCameraManager::Set_CamerMode(CameraMode eMode, CObject* pNewTarget)
 		iCurShake = 0;
 	}
 	break;
+	case CCameraManager::Edit:
+	{
+		editPosition = vCurLookAt;
+	}
 	}
 }
-
 
 void CCameraManager::Transit_Target()
 {
@@ -102,8 +108,6 @@ void CCameraManager::Transit_Target()
 	if (!bTransit && dwTransitElaspedTime + fTransitTime * 1000 > GetTickCount())
 	{
 		vCurLookAt += vTransitDir * fMoveDist;
-		printf("%f, %f\n", vCurLookAt.X(), vCurLookAt.Y());
-
 		return;
 	}
 	else if (!bDelay)
@@ -159,4 +163,9 @@ void CCameraManager::Shake_Camera()
 		eMode = Chase_Player;
 		iCurShake = 0;
 	}
+}
+
+void CCameraManager::Edit_Collider()
+{
+	vCurLookAt =  editPosition;
 }

@@ -1,4 +1,7 @@
 #pragma once
+
+class Vignette;
+
 class CMainGame
 {
 public:
@@ -20,7 +23,7 @@ public:
 
 private:
 	HDC hDC;
-
+	Vignette* pVignette;
 private:
 	LONGLONG llElapsedTime;
 	TCHAR		szFPS[16];

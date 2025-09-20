@@ -17,7 +17,7 @@ public:
 	virtual void Release() = 0;
 
 public: // Components
-	virtual void Update_Transform() = 0;
+	virtual void Update_Transform();
 	virtual void Update_Renderer();
 	virtual void Update_Collider();
 

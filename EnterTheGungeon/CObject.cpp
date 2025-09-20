@@ -61,6 +61,11 @@ void CObject::Render(HDC _hDC)
 #pragma endregion
 }
 
+void CObject::Update_Transform()
+{
+
+}
+
 void CObject::Update_Renderer()
 {
 	Vector2 vPosition = pTransform->Position();

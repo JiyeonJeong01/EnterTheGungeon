@@ -15,6 +15,7 @@ public:
 	void Release() override;
 
 	void Update_Transform() override {};
+	void Update_Renderer() override;
 
 public:
 	void Add_OnBeginClick(function<void()> event) { onBeginClick.push_back(event); }

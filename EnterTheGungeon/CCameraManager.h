@@ -6,7 +6,7 @@ class CObject;
 class CCameraManager :  public CManager
 {
 public :
-	enum CameraMode { Chase_Player, Transit_NewTarget, Shake };
+	enum CameraMode { Chase_Player, Transit_NewTarget, Shake, Edit };
 public:
 	CCameraManager();
 	~CCameraManager(); 
@@ -19,6 +19,7 @@ public :
 	void Set_CamerMode(CameraMode eMode, CObject* pNewTarget = nullptr);
 	void Transit_Target();
 	void Shake_Camera();
+	void Edit_Collider();
 
 public :
 	void Set_LookAt(Vector2 vLook) { vLookAt = vLook;  }
@@ -53,6 +54,7 @@ private :
 
 	int iShake;
 	int iCurShake;
+
 	float fTransitTime;
 	float fDelayTime;
 	Vector2 vNewTargetPos;
@@ -62,5 +64,7 @@ private :
 	bool bTransit;
 	bool bDelay;
 	bool bBack;
+
+	Vector2 editPosition;
 };
 

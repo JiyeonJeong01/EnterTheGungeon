@@ -142,6 +142,12 @@
     <Filter Include="05.UI\02. Mouse">
       <UniqueIdentifier>{140840f8-acd2-4e1c-8c6d-8b1bddff45dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="10. Utils\03. Shader">
+      <UniqueIdentifier>{d37573eb-3aca-42a7-a3fd-4d87d134202d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\08. UIManager">
+      <UniqueIdentifier>{b4a7f82f-f45c-4522-bc01-060395185809}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -288,6 +294,12 @@
     <ClInclude Include="CMouse.h">
       <Filter>05.UI\02. Mouse</Filter>
     </ClInclude>
+    <ClInclude Include="Vignette.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CUIManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -421,6 +433,12 @@
     </ClCompile>
     <ClCompile Include="CMouse.cpp">
       <Filter>05.UI\02. Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="Vignette.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CUIManager.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

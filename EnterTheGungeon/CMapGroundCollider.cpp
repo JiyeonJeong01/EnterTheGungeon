@@ -1,42 +1,37 @@
 #include "pch.h"
-#include "CMapCollider.h"
+#include "CMapGroundCollider.h"
 #include "CRelease.h"
 #include "CTransform.h"
 #include "CCollider.h"
 
-CMapCollider::CMapCollider()
+
+CMapGroundCollider::CMapGroundCollider()
 {
 }
 
-CMapCollider::~CMapCollider()
+CMapGroundCollider::~CMapGroundCollider()
 {
-	Release();
+    Release();
 }
 
-void CMapCollider::Initialize()
+void CMapGroundCollider::Initialize()
 {
-	CObject::Initialize();
-
+    CMapCollider::Initialize();
 }
 
-int CMapCollider::Update()
+int CMapGroundCollider::Update()
 {
-	// CObject::Update_Collider();
-
-	return 0;
+    return 0;
 }
 
-void CMapCollider::Render(HDC hDC)
+void CMapGroundCollider::Render(HDC hDC)
 {
-	CObject::Update_Renderer();
-	CObject::Render(hDC);
+    CMapCollider::Render(hDC);
 }
 
-void CMapCollider::Release()
+void CMapGroundCollider::Release()
 {
-
 }
-
 void CMapCollider::OnCollision(CObject* pObj)
 {
     if (pObj->Get_ObjType() == O_PLAYER)
@@ -45,7 +40,7 @@ void CMapCollider::OnCollision(CObject* pObj)
     }
 }
 
-void CMapCollider::OnCollision_Entity(CObject * pObj)
+void CMapCollider::OnCollision_Entity(CObject* pObj)
 {
     Vector2 objPos = pObj->Get_Transform()->Position();
     Vector2 objSize = pObj->Get_Collider()->Size();
