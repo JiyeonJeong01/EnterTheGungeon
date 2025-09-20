@@ -22,6 +22,8 @@ public:
 	Vector2 Size() const { return vSize; }
 	void Size(Vector2&& _vSize) { vSize.X(_vSize.X()); vSize.Y(_vSize.Y()); }
 
+	const RECT& Get_Rect() { return rRenderer; }
+
 public :
 	RenderType rType;
 	Vector2 vSize;

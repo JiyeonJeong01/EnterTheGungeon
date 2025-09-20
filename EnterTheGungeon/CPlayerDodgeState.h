@@ -1,5 +1,6 @@
 #pragma once
 #include "CPlayerState.h"
+class CAnimation;
 class CPlayerDodgeState :  public CPlayerState
 {
 public:
@@ -26,4 +27,8 @@ public:
 
 public :
 	Vector2 vDodgeDir;
+
+	CAnimation effectAnim;
+	bool bEffectPlay;
+	POINT dodgeEffectPos;
 };

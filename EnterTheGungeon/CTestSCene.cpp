@@ -36,14 +36,16 @@ void CTestSCene::Initialize()
 void CTestSCene::Update()
 {
 	MANAGER(CObjectManager*, M_OBJECT)->Update();
-
-	CCollisionManager::Detect_MapCollision(mapList, *MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER));
 	MANAGER(CEnvironmentManager*, M_MAP)->Update();
+
+	// Map ground <-> Player
 	CCollisionManager::Detect_MapCollision(
-		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapList(), 
+		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(), 
 		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER));
+
+	// Map ground <-> Player Bullet
 	CCollisionManager::Detect_MapCollision(
-		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapList(),
+		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
 		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLBULLET));
 	MANAGER(CCameraManager*, M_CAMERA)->Update();
 }

@@ -36,7 +36,7 @@ public :
 public :
 	bool Check_InBound();
 	void OnCollision(CObject* pObj);
-	void OnCollision_Map();
+	void OnCollision_MapGround();
 
 private :
 	float fSpeed;

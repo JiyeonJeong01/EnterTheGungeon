@@ -46,8 +46,22 @@ void CPlayerWalkState::Late_Update()
 void CPlayerWalkState::Render(HDC hDC)
 {
 	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Player_WALK");
+	HDC hWeaponDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Player_Weapon01");
 
 	CRenderer renderer = *(pObj->Get_Renderer());
+
+	int iGunLeftPos = (iWeaponRowIndex == 0) ? 30 : -40;
+
+	GdiTransparentBlt(hDC,
+		renderer.Left() + iGunLeftPos,
+		renderer.Top() + Get_WeaponPos(),
+		(int)73,
+		(int)90,
+		hWeaponDC,
+		iWeaponColIndex * 73, iWeaponRowIndex * 90,
+		(int)73,
+		(int)90,
+		RGB(30, 30, 30));
 
 	GdiTransparentBlt(hDC,
 		renderer.Left(),
@@ -97,6 +111,18 @@ int CPlayerWalkState::Dir_AnimRow(Direction eDir)
 	case D_DOWN: return 3;
 	case D_LEFT: case D_DL: return 4;
 	case D_RIGHT: case D_DR: return 5;
+	}
+	return 0;
+}
+
+int CPlayerWalkState::Get_WeaponPos()
+{
+	switch (animation.iCurrIndex)
+	{
+	case 0: case 3: case 5:
+		return 0;
+	case 1: case 2: case 4:
+		return 5;
 	}
 	return 0;
 }

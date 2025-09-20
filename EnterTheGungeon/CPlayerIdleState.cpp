@@ -15,6 +15,7 @@ void CPlayerIdleState::Initialize()
 {
 	eState = CPlayer::PS_IDLE;
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Player/Player_IDLE.bmp", L"Player_IDLE");
+
 	animation.Initialize(0, 3, (int)D_DOWN);
 	fill(animation.vTransitTime.begin(), animation.vTransitTime.end(), 150);
 }
@@ -22,8 +23,6 @@ void CPlayerIdleState::Initialize()
 void CPlayerIdleState::Update()
 {
 	CPlayerState::Update();
-
-
 
 	Update_AnimFrame();
 }
@@ -39,8 +38,22 @@ void CPlayerIdleState::Late_Update()
 void CPlayerIdleState::Render(HDC hDC)
 {
 	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Player_IDLE");
+	HDC hWeaponDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Player_Weapon01");
 
 	CRenderer renderer = *(pObj->Get_Renderer());
+
+	int iGunLeftPos = (iWeaponRowIndex == 0) ? 30 : -40;
+
+	GdiTransparentBlt(hDC,
+		renderer.Left() + iGunLeftPos,
+		renderer.Top() + Get_WeaponPos(),
+		(int)73,
+		(int)90,
+		hWeaponDC,
+		iWeaponColIndex * 73, iWeaponRowIndex * 90,
+		(int)73,
+		(int)90,
+		RGB(30, 30, 30));
 
 	GdiTransparentBlt(hDC,
 		renderer.Left(),
@@ -92,5 +105,24 @@ int CPlayerIdleState::Dir_AnimRow(Direction eDir)
 	case D_LEFT: case D_DL: return 4;
 	case D_RIGHT: case D_DR: return 5;
 	}
+	return 0;
+}
+
+int CPlayerIdleState::Get_WeaponPos()
+{
+	switch (animation.iCurrIndex)
+	{
+	case 0: case 3:
+		return 0;
+	case 1: case 2:
+		return 5;
+	}
+	return 0;
+}
+
+int CPlayerIdleState::Get_WeaponDir()
+{
+
+
 	return 0;
 }

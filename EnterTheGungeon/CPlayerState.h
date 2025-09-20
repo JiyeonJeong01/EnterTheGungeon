@@ -19,8 +19,12 @@ public :
 public:
 	CPlayer::PlayerState Get_State() { return eState; }
 	void Render_Player(HDC hDC);
-	virtual int Dir_AnimRow(Direction eDir) { return 0;  }
+	void Dir_ByCursor();
+	virtual int Dir_AnimRow(Direction eDir) { return 0;  };
 	void Shot_Bullet();
+
+public :
+	void Get_WeaponDir();
 
 protected:
 	CPlayer::PlayerState eState;
@@ -35,4 +39,8 @@ protected :
 	float fSpeed;
 	bool bDodgePlaying;
 	bool bCanShot;
+	bool bReloading = false;
+
+	int iWeaponColIndex;
+	int iWeaponRowIndex;
 };

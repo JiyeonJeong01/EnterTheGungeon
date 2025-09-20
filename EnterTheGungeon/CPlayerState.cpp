@@ -7,11 +7,13 @@
 #include "CPlayerBullet.h"
 #include "CInputManager.h"
 #include "CCameraManager.h"
+#include "CPlayerWeapon.h"
 #pragma endregion
 
 
 void CPlayerState::Update()
 {
+	Get_WeaponDir();
 	// load player's info
 	vInputDir = static_cast<CPlayer*>(pObj)->vInputDir;
 	pInputCursor = static_cast<CPlayer*>(pObj)->pInputCursor;
@@ -19,7 +21,9 @@ void CPlayerState::Update()
 	fLimitFireTime = static_cast<CPlayer*>(pObj)->fLimitFireTime;
 	fSpeed = static_cast<CPlayer*>(pObj)->fSpeed;
 	bDodgePlaying = static_cast<CPlayer*>(pObj)->bDodgePlaying;
-	eDir = static_cast<CPlayer*>(pObj)->eDir;
+	bReloading = static_cast<CPlayer*>(pObj)->bReloading;
+	
+	Dir_ByCursor();
 
 	if (dwLastFireTime + fLimitFireTime * 1000 < GetTickCount())
 		bCanShot = true;
@@ -32,44 +36,120 @@ void CPlayerState::Update()
 
 void CPlayerState::Render_Player(HDC hDC)
 {
-	CRenderer renderer = *(pObj->Get_Renderer());
-	CTransform transform = *(pObj->Get_Transform());
 
-	GdiTransparentBlt(hDC,
-		renderer.Left(),
-		renderer.Top(),
-		(int)transform.Size().X(),
-		(int)transform.Size().Y(),
-		hDC,
-		animation.iCurrIndex * (int)transform.Size().X(),
-		animation.iDirRow * (int)transform.Size().Y(),
-		(int)transform.Size().X(),
-		(int)transform.Size().Y(),
-		RGB(255, 0, 255));
+}
 
+void CPlayerState::Get_WeaponDir()
+{
+	POINT pCursor = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
+	Vector2 vCursorPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RealPos({ (float)pCursor.x, (float)pCursor.y });
+	Vector2 vPlayerPos = pObj->Get_Transform()->Position();
+
+	Vector2 vDiff = vCursorPos - vPlayerPos;
+	float fDist = sqrtf(vDiff.X() * vDiff.X() + vDiff.Y() * vDiff.Y());
+	float theta = acosf(vDiff.X() / fDist);
+	float degree = theta * (180.0f / 3.14159265f);
+
+	iWeaponRowIndex = (vDiff.X() > 0) ? 0 : 1;
+
+	if (vDiff.Y() < 0) // 위쪽
+	{
+		if ((degree >= 0.f && degree <= 15.f) || (degree >= 165.f && degree <= 180.f))
+			iWeaponColIndex = 5;
+		else if ((degree > 15.f && degree <= 30.f) || (degree >= 150.f && degree < 165.f))
+			iWeaponColIndex = 4;
+		else if ((degree > 30.f && degree <= 45.f) || (degree >= 135.f && degree < 150.f))
+			iWeaponColIndex = 3;
+		else if ((degree > 45.f && degree <= 60.f) || (degree >= 120.f && degree < 135.f))
+			iWeaponColIndex = 2;
+		else if ((degree > 60.f && degree <= 75.f) || (degree >= 105.f && degree < 120.f))
+			iWeaponColIndex = 1;
+		else // (75~90) or (90~105)
+			iWeaponColIndex = 0;
+	}
+	else // 아래쪽
+	{
+		if ((degree >= 0.f && degree <= 15.f) || (degree >= 165.f && degree <= 180.f))
+			iWeaponColIndex = 5;
+		else if ((degree > 15.f && degree <= 30.f) || (degree >= 150.f && degree < 165.f))
+			iWeaponColIndex = 6;
+		else if ((degree > 30.f && degree <= 45.f) || (degree >= 135.f && degree < 150.f))
+			iWeaponColIndex = 7;
+		else if ((degree > 45.f && degree <= 60.f) || (degree >= 120.f && degree < 135.f))
+			iWeaponColIndex = 8;
+		else if ((degree > 60.f && degree <= 75.f) || (degree >= 105.f && degree < 120.f))
+			iWeaponColIndex = 9;
+		else // (75~90) or (90~105)
+			iWeaponColIndex = 9;
+	}
+}
+
+void CPlayerState::Dir_ByCursor()
+{
+	POINT pCursor = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
+	Vector2 vCursorPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RealPos({ (float)pCursor.x, (float)pCursor.y });
+	Vector2 vPlayerPos = pObj->Get_Transform()->Position();
+
+	Vector2 vDiff = vCursorPos - vPlayerPos;
+
+	float fAlpha = 150.f;
+	if (vDiff.X() > 0) // 커서가 플레이어의 오른쪽
+	{
+		if (vDiff.Y() < 0)
+		{
+			if (vDiff.X() < fAlpha)
+			{
+				eDir = D_UP;
+			}
+			else
+			{
+				eDir = D_UR;
+			}
+		}
+		else
+		{
+			if (vDiff.X() < fAlpha)
+			{
+				eDir = D_DOWN;
+			}
+			else
+			{
+				eDir = D_DR;
+			}
+		}
+	}
+	else 
+	{
+		if (vDiff.Y() < 0)
+		{
+			if (vDiff.X() > -fAlpha)
+			{
+				eDir = D_UP;
+			}
+			else
+			{
+				eDir = D_UL;
+			}
+		}
+		else
+		{
+			if (vDiff.X() > -fAlpha)
+			{
+				eDir = D_DOWN;
+			}
+			else
+			{
+				eDir = D_DL;
+			}
+		}
+	}
 
 }
 
 void CPlayerState::Shot_Bullet()
 {
-	if (!bCanShot && bDodgePlaying)
+	if (!bCanShot || bDodgePlaying || bReloading)
 		return;
 
-	CPlayerBullet* pBullet = dynamic_cast<CPlayerBullet*>(CObjectFactory<CPlayerBullet>::Create(
-		O_PLBULLET, pObj->Get_Transform()->Position().X(), pObj->Get_Transform()->Position().Y()));
-
-	pBullet->Set_BulletType(CBullet::B01);
-	pBullet->Set_EffectType(CBullet::E01);
-	pBullet->Apply_BulletSprite();
-	pBullet->Apply_EffectAnim();
-
-	MANAGER(CCameraManager*, M_CAMERA)->Set_CamerMode(CCameraManager::Shake);
-
-	// for test sibar
-	POINT curPos = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
-	Vector2 curRealPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RealPos({(float)curPos.x, (float)curPos.y });
-	Vector2 dir = {pObj->Get_Transform()->Position().X() - (float)curRealPos.X(),  pObj->Get_Transform()->Position().Y() - (float)curRealPos.Y()};
-	dir.Normalize();
-	pBullet->Set_Direction(dir * -1.f);
-	pBullet->Set_Speed(10.f);
+	static_cast<CPlayer*>(pObj)->pWeapon->Attack();
 }

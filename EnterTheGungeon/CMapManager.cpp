@@ -2,16 +2,18 @@
 #include "pch.h"
 #include "CMapManager.h"
 #include "CMapCollider.h"
-#include "CButton.h"
+#include "CMapGroundCollider.h"
+
 #include "CInputManager.h"
 #include "CCollisionManager.h"
 #include "CObjectFactory.h"
 #include "CCameraManager.h"
+#include "CRelease.h"
 
+#include "CButton.h"
 #include "CTransform.h"
 #include "CCollider.h"
 #include "CRenderer.h"
-#include "CRelease.h"
 
 #include <fstream>
 #include <sstream>
@@ -70,9 +72,7 @@ void CEnvironmentManager::Update()
 	if (bEdit && bDragging && MANAGER(CInputManager*, M_INPUT)->Get_KeyUp(VK_RBUTTON))
 	{
 		POINT p = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
-		printf("mouse screen : %d, %d\n", p.x, p.y);
 		Vector2 realPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RealPos({ (float)p.x, (float)p.y });
-		printf("mouse real pos : %d. %d\n", (int)realPos.X(), (int)realPos.Y());
 		bDragging = false;
 		tempRectList.push_back({ pStart.x, pStart.y, pCurrent.x, pCurrent.y });
 	}
@@ -81,7 +81,7 @@ void CEnvironmentManager::Update()
 void CEnvironmentManager::Render(HDC _hDC)
 {
 	m_hDC = _hDC;
-	for (auto& pMap : pCurMapCollider)
+	for (auto& pMap : pCurGroundCollider)
 	{
 		pMap->Render(_hDC);
 	}
@@ -103,9 +103,7 @@ void CEnvironmentManager::Render(HDC _hDC)
 	if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown(VK_RBUTTON))
 	{
 		POINT p = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
-		printf("mouse screen : %d, %d\n", p.x, p.y);
 		Vector2 realPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RealPos({ (float)p.x, (float)p.y });
-		printf("mouse real pos : %d. %d\n", (int)realPos.X(), (int)realPos.Y());
 		pStart = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
 	}
 
@@ -119,9 +117,9 @@ void CEnvironmentManager::Render(HDC _hDC)
 
 void CEnvironmentManager::Release()
 {
-	for_each(pCurMapCollider.begin(), pCurMapCollider.end(), [&](CMapCollider* pMap) -> void
+	for_each(pCurGroundCollider.begin(), pCurGroundCollider.end(), [&](CMapGroundCollider* pMap) -> void
 	{
-		CRelease<CMapCollider*>::Release(pMap);
+		CRelease<CMapGroundCollider*>::Release(pMap);
 	});
 }
 
@@ -137,7 +135,7 @@ void CEnvironmentManager::Save_Data()
 	}
 
 	ofs << L"[\n";
-	for (auto iter = pCurMapCollider.begin(); iter != pCurMapCollider.end();)
+	for (auto iter = pCurGroundCollider.begin(); iter != pCurGroundCollider.end();)
 	{
 		CCollider c = *(*iter)->Get_Collider();
 
@@ -152,7 +150,7 @@ void CEnvironmentManager::Save_Data()
 
 		iter++;
 
-		if (iter != pCurMapCollider.end())
+		if (iter != pCurGroundCollider.end())
 			ofs << L",";
 
 		ofs << L"\n";
@@ -181,7 +179,7 @@ void CEnvironmentManager::Load_Data()
 			&posX, &posY, &left, &top, &right, &bottom) == 6)
 		{
 			RECT r{ left, top, right, bottom };
-			CMapCollider* pMap = new CMapCollider;
+			CMapGroundCollider* pMap = new CMapGroundCollider;
 			pMap->Initialize();
 
 			pMap->Get_Transform()->Position({ (float)posX, (float)posY });
@@ -192,7 +190,7 @@ void CEnvironmentManager::Load_Data()
 			pMap->Get_Collider()->Bottom(bottom);
 			pMap->Get_Collider()->Size({ (float)(right - left), (float)(bottom - top) });
 
-			pCurMapCollider.push_back(pMap);
+			pCurGroundCollider.push_back(pMap);
 		}
 	}
 }
@@ -223,7 +221,7 @@ void CEnvironmentManager::OnClickSaveButton()
 	{
 		for (auto& r : tempRectList)
 		{
-			CMapCollider* pMap = new CMapCollider;
+			CMapGroundCollider* pMap = new CMapGroundCollider;
 			pMap->Initialize();
 
 			Vector2 realPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RealPos({ r.left + (r.right - r.left) * 0.5f, r.top + (r.bottom - r.top) *    0.5f });
@@ -239,7 +237,7 @@ void CEnvironmentManager::OnClickSaveButton()
 			pMap->Get_Renderer()->Size({ (float)(r.right - r.left), (float)(r.bottom - r.top) });
 			//static_cast<CObject*>(pMap)->Update_Renderer();
 
-			pCurMapCollider.push_back(pMap);
+			pCurGroundCollider.push_back(pMap);
 			// _tprintf(_T("excuted\t:\t:%f, %f\n"), pPlayer->Get_Transform()->Position().X(), pPlayer->Get_Transform()->Position().Y());
 		}
 		tempRectList.clear();

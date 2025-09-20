@@ -1,5 +1,7 @@
 [
-  { "position X": 714, "position Y": 122, "left": 198, "top": -3, "right": 1230, "bottom": 249 },
-  { "position X": 1040, "position Y": 297, "left": 1017, "top": 145, "right": 1064, "bottom": 450 },
-  { "position X": 323, "position Y": 296, "left": 291, "top": 133, "right": 356, "bottom": 459 }
+  { "position X": 884, "position Y": 85, "left": 486, "top": 26, "right": 1282, "bottom": 143 },
+  { "position X": 787, "position Y": 142, "left": 301, "top": 69, "right": 1272, "bottom": 216 },
+  { "position X": 1046, "position Y": 290, "left": 1033, "top": 146, "right": 1058, "bottom": 434 },
+  { "position X": 326, "position Y": 275, "left": 315, "top": 106, "right": 337, "bottom": 444 },
+  { "position X": 1348, "position Y": 319, "left": 1254, "top": 115, "right": 1441, "bottom": 524 }
 ]

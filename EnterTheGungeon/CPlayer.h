@@ -4,6 +4,9 @@
 class CPlayerStateMachine;
 class CState;
 class CStats;
+class CPlayerWeapon;
+class CReloadBar;
+class CPlayerInfo;
 
 class CPlayer : public CObject
 {
@@ -26,6 +29,7 @@ public: // Components
 
 public :
 	void Handle_Input();
+	void Finist_Reloading();
 
 public :
 	void Set_CurrentState(PlayerState eState, CState* pState) { eCurrentState = eState; pCurrentState = pState; }
@@ -38,6 +42,7 @@ public:
 	float fSpeed;
 	bool bDodgePlaying;
 	Direction eDir;
+	bool bReloading;
 
 private :
 	CStats* pHP;
@@ -46,5 +51,11 @@ private :
 	CPlayerStateMachine* pStateMachine;
 	CState* pCurrentState;
 	PlayerState eCurrentState;
+
+public :
+	CPlayerWeapon* pWeapon;
+	CReloadBar* pReloadBar;
+	CPlayerInfo* pPlayerInfo;
+
 };
 

@@ -10,6 +10,7 @@
 #include "CObjectFactory.h"
 #include "CCameraManager.h"
 #include "CRelease.h"
+#include "CWeapon.h"
 
 #include "CObject.h"
 #include "CPlayer.h"
@@ -48,6 +49,7 @@ void CMainGame::Initialize()
 	
 	CObjectFactory<CMouse>::Create(O_UI);
 	CBullet::Load_Resource();
+	CWeapon::Load_Resource();
 
 	//pVignette = new Vignette;
 	//pVignette->Initialize();

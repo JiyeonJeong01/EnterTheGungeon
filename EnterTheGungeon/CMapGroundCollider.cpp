@@ -3,6 +3,7 @@
 #include "CRelease.h"
 #include "CTransform.h"
 #include "CCollider.h"
+#include "CBullet.h"
 
 
 CMapGroundCollider::CMapGroundCollider()
@@ -32,15 +33,20 @@ void CMapGroundCollider::Render(HDC hDC)
 void CMapGroundCollider::Release()
 {
 }
-void CMapCollider::OnCollision(CObject* pObj)
+void CMapGroundCollider::OnCollision(CObject* pObj)
 {
-    if (pObj->Get_ObjType() == O_PLAYER)
+    ObjectType pType = pObj->Get_ObjType();
+    if (pType == O_PLAYER)
     {
         OnCollision_Entity(pObj);
     }
+    else if (pType == O_PLBULLET)
+    {
+        static_cast<CBullet*>(pObj)->OnCollision_MapGround();
+    }
 }
 
-void CMapCollider::OnCollision_Entity(CObject* pObj)
+void CMapGroundCollider::OnCollision_Entity(CObject* pObj)
 {
     Vector2 objPos = pObj->Get_Transform()->Position();
     Vector2 objSize = pObj->Get_Collider()->Size();

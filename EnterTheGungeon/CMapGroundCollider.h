@@ -14,6 +14,6 @@ public:
 
 public:
 	void OnCollision(CObject* pObj);
-	
+	void OnCollision_Entity(CObject* pObj);
 };
 

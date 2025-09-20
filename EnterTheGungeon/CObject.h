@@ -27,6 +27,7 @@ public:
 	CRenderer* Get_Renderer() { return pRenderer; }
 
 	ObjectType Get_ObjType() { return eType; }
+	void Set_ObjType(ObjectType eType) { this->eType = eType; }
 
 protected:
 	CTransform* pTransform;

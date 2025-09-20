@@ -5,6 +5,7 @@
 #include "CRenderer.h"
 #include "CCollider.h"
 #include "CMapCollider.h"
+#include "CWeapon.h"
 
 CBullet::CBullet()
 {
@@ -44,6 +45,7 @@ void CBullet::Initialize()
 // 쌤 코드의 애니메이션 키 받아오는 부분 그대로 구현 시발!
 int CBullet::Update()
 {
+    if (!bAlive) return S_DEAD;
     CObject::Update_Collider();
     Update_Transform();
     Update_AnimFrame();
@@ -58,7 +60,6 @@ void CBullet::Late_Update()
 
 void CBullet::Render(HDC _hDC)
 {
-
     CObject::Render(_hDC);
 
     HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(spriteKey);
@@ -69,7 +70,7 @@ void CBullet::Render(HDC _hDC)
         (int)pRenderer->Size().X(),
         (int)pRenderer->Size().Y(),
         hMemDC,
-        0, 0, 
+        effectAnim.iCurrIndex * pRenderer->Size().X(), 0,
         (int)pRenderer->Size().X(),
         (int)pRenderer->Size().Y(),
         RGB(255, 0, 255));
@@ -90,8 +91,8 @@ void CBullet::Update_AnimFrame()
 {
     if (spriteKey != effetAnimKey)
         return;
-
-    if (effectAnim.dwLastPlayTime + effectAnim.vTransitTime[effectAnim.iCurrIndex] < GetTickCount())
+    
+    if (effectAnim.dwLastPlayTime + effectAnim.vTransitTime[effectAnim.iCurrIndex]   < GetTickCount())
     {
         effectAnim.iCurrIndex++;
         effectAnim.dwLastPlayTime = GetTickCount();
@@ -99,6 +100,7 @@ void CBullet::Update_AnimFrame()
         if (effectAnim.iCurrIndex >= effectAnim.iEndIndex)
         {
             effectAnim.iCurrIndex = 0;
+            bAlive = false;
         }
     }
 }
@@ -135,6 +137,10 @@ void CBullet::Apply_BulletSprite()
     spriteKey = bulletSpriteKey;
 }
 
+void CWeapon::Apply_WeaponSprite()
+{
+}
+
 void CBullet::Apply_EffectAnim()
 {
     switch (eEffectType)
@@ -144,22 +150,23 @@ void CBullet::Apply_EffectAnim()
         effectAnim.Initialize(0, 5, 0);
         break;
     case CBullet::E02:
-        effetAnimKey = L"BulletEffect01";
+        effetAnimKey = L"BulletEffect02";
         effectAnim.Initialize(0, 5, 0);
         break;
     case CBullet::E03:
-        effetAnimKey = L"BulletEffect01";
+        effetAnimKey = L"BulletEffect03";
         effectAnim.Initialize(0, 6, 0);
         break;
     case CBullet::E04:
-        effetAnimKey = L"BulletEffect01";
+        effetAnimKey = L"BulletEffect04";
         effectAnim.Initialize(0, 3, 0);
         break;
     case CBullet::E05:
-        effetAnimKey = L"BulletEffect01";
+        effetAnimKey = L"BulletEffect05";
         effectAnim.Initialize(0, 3, 0);
         break;
     }
+    fill(effectAnim.vTransitTime.begin(), effectAnim.vTransitTime.end(), 40);
 }
 
 void CBullet::Set_Direction(Vector2 vDir)
@@ -176,11 +183,15 @@ void CBullet::OnCollision(CObject* pObj)
 {
     if (pObj->Get_ObjType() == O_MAP)
     {
-        OnCollision_Map();
+        OnCollision_MapGround();
     }
 }
 
-void CBullet::OnCollision_Map()
+void CBullet::OnCollision_MapGround()
 {
+    pTransform->Direction({0.f, 0.f});
+
     spriteKey = effetAnimKey;
+    //effectAnim.dwLastPlayTime = GetTickCount();
+
 }

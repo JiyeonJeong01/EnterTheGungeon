@@ -54,7 +54,7 @@ Vector2 CCollisionManager::Get_OverlapCircle(CObject* dst, CObject* src)
     return Vector2{ 0.f, 0.f };
 }
 
-void CCollisionManager::Detect_MapCollision(list<CMapCollider*> groundList, list<CObject*> objList)
+void CCollisionManager::Detect_MapCollision(list<CMapGroundCollider*> groundList, list<CObject*> objList)
 {
     for (auto& obj : objList)
     {

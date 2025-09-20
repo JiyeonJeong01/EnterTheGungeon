@@ -1,7 +1,7 @@
 #pragma once
 #include "CScene.h"
 class CPlayer;
-class CMapCollider;
+class CMapGroundCollider;
 
 class CTestSCene : public CScene
 {
@@ -18,7 +18,7 @@ public:
 
 public :
 	CPlayer* pPlayer;
-	list<CMapCollider*> mapList;
+	list<CMapGroundCollider*> mapList;
 	
 };
 

@@ -23,4 +23,5 @@ public:
 	void On_End_Animation() override;
 
 	int Dir_AnimRow(Direction eDir) override;
+	int Get_WeaponPos();
 };

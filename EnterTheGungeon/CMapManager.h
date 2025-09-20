@@ -2,6 +2,7 @@
 #include "CManager.h"
 
 class CMapCollider;
+class CMapGroundCollider;
 class CMapObjCollider;
 class CButton;
 
@@ -31,8 +32,8 @@ public :
 	void OnClickTransModeButton();
 
 public :
-	list<CMapCollider*>* Get_MapList() { return &pCurMapCollider; }
-	list<CMapObjCollider*>* Get_ObjList() { return &pCurObjCollider; }
+	list<CMapGroundCollider*>* Get_MapGroundList() { return &pCurGroundCollider; }
+	list<CMapObjCollider*>* Get_MapObjList() { return &pCurObjCollider; }
 
 public :
 	CButton* pStartEditButton;
@@ -42,6 +43,7 @@ public :
 
 	list<RECT> tempRectList;
 	list<CMapCollider*> pCurMapCollider;
+	list< CMapGroundCollider*> pCurGroundCollider;
 	list<CMapObjCollider*> pCurObjCollider;
 
 private :

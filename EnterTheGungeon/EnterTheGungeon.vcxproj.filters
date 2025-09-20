@@ -148,6 +148,9 @@
     <Filter Include="03. Manager\08. UIManager">
       <UniqueIdentifier>{b4a7f82f-f45c-4522-bc01-060395185809}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.UI\03. HUD">
+      <UniqueIdentifier>{4da2a090-7d45-4fd5-a1fb-8f5d54702911}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -297,8 +300,23 @@
     <ClInclude Include="Vignette.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="CMapGroundCollider.h">
+      <Filter>25. Map</Filter>
+    </ClInclude>
+    <ClInclude Include="CWeapon.h">
+      <Filter>22. Weapon</Filter>
+    </ClInclude>
     <ClInclude Include="CUIManager.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>03. Manager\08. UIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerWeapon.h">
+      <Filter>22. Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="CReloadBar.h">
+      <Filter>05.UI\03. HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerInfo.h">
+      <Filter>05.UI\03. HUD</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -437,8 +455,23 @@
     <ClCompile Include="Vignette.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="CMapGroundCollider.cpp">
+      <Filter>25. Map</Filter>
+    </ClCompile>
+    <ClCompile Include="CWeapon.cpp">
+      <Filter>22. Weapon</Filter>
+    </ClCompile>
     <ClCompile Include="CUIManager.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>03. Manager\08. UIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerWeapon.cpp">
+      <Filter>22. Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="CReloadBar.cpp">
+      <Filter>05.UI\03. HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerInfo.cpp">
+      <Filter>05.UI\03. HUD</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
