@@ -1,8 +1,8 @@
 #pragma region INCLUDE
 #include "pch.h"
 #include "CMapManager.h"
-#include "CMapCollider.h"
-#include "CMapGroundCollider.h"
+#include "CMap.h"
+#include "CMapGround.h"
 
 #include "CInputManager.h"
 #include "CCollisionManager.h"
@@ -117,9 +117,10 @@ void CEnvironmentManager::Render(HDC _hDC)
 
 void CEnvironmentManager::Release()
 {
-	for_each(pCurGroundCollider.begin(), pCurGroundCollider.end(), [&](CMapGroundCollider* pMap) -> void
+	for_each(pCurGroundCollider.begin(), pCurGroundCollider.end(), [&](CMap* pMap) -> void
 	{
-		CRelease<CMapGroundCollider*>::Release(pMap);
+		if(pMap->Get_ObjType() == O_MAP) 
+			CRelease<CMap*>::Release(pMap);
 	});
 }
 
@@ -179,7 +180,7 @@ void CEnvironmentManager::Load_Data()
 			&posX, &posY, &left, &top, &right, &bottom) == 6)
 		{
 			RECT r{ left, top, right, bottom };
-			CMapGroundCollider* pMap = new CMapGroundCollider;
+			CMapGround* pMap = new CMapGround;
 			pMap->Initialize();
 
 			pMap->Get_Transform()->Position({ (float)posX, (float)posY });
@@ -221,7 +222,7 @@ void CEnvironmentManager::OnClickSaveButton()
 	{
 		for (auto& r : tempRectList)
 		{
-			CMapGroundCollider* pMap = new CMapGroundCollider;
+			CMapGround* pMap = new CMapGround;
 			pMap->Initialize();
 
 			Vector2 realPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RealPos({ r.left + (r.right - r.left) * 0.5f, r.top + (r.bottom - r.top) *    0.5f });

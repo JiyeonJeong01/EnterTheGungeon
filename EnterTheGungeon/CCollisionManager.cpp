@@ -3,7 +3,7 @@
 #include "CObject.h"
 #include "CCollider.h"
 #include "CTransform.h"
-#include "CMapCollider.h"
+#include "CMap.h"
 
 void CCollisionManager::Detect_RectCollision(list<CObject*> dstList, list<CObject*> srcList)
 {
@@ -54,65 +54,26 @@ Vector2 CCollisionManager::Get_OverlapCircle(CObject* dst, CObject* src)
     return Vector2{ 0.f, 0.f };
 }
 
-void CCollisionManager::Detect_MapCollision(list<CMapGroundCollider*> groundList, list<CObject*> objList)
+void CCollisionManager::Detect_MapCollision(list<CMap*> mapList, list<CObject*> objList)
 {
     for (auto& obj : objList)
     {
-        for (auto& ground : groundList)
-        {
-            //Vector2 objPos = obj->Get_Transform()->Position();
-            //Vector2 objSize = obj->Get_Collider()->Size();
-
-            //float fDistX = abs(objPos.X() - ground->Get_Transform()->Position().X());
-            //float fDistY = abs(objPos.Y() - ground->Get_Transform()->Position().Y());
-
-            //float fRadX = objSize.X() * 0.5f +(ground->Get_Transform()->Position().X() - ground->Get_Collider()->Left());
-            //float fRadY = objSize.Y() * 0.5f +(ground->Get_Transform()->Position().Y() - ground->Get_Collider()->Top());
-
-            //if ((fRadX >= fDistX) && (fRadY >= fDistY))
-            //{
-            //   // 충돌 확정
-            //   Vector2 vDiff = { fRadX - fDistX, fRadY - fDistY };
-            //   if (vDiff.X() > vDiff.Y())
-            //   {
-            //       if (objPos.Y() < ground->Get_Transform()->Position().Y()) // obj is above
-            //       {
-            //           obj->Get_Transform()->Position({ objPos.X(), objPos.Y() - vDiff.Y() });
-            //       }
-            //       else
-            //       {
-            //           obj->Get_Transform()->Position({ objPos.X(), objPos.Y() + vDiff.Y() });
-            //       }
-            //   }
-            //   else
-            //   {
-            //       if (objPos.X() < ground->Get_Transform()->Position().X()) // obj is left side
-            //       {
-            //           obj->Get_Transform()->Position({ objPos.X() - vDiff.X(), objPos.Y() });
-            //       }
-            //       else
-            //       {
-            //           obj->Get_Transform()->Position({ objPos.X() + vDiff.X(), objPos.Y() });
-            //       }
-            //   }
-            // 
-            
+        for (auto& map : mapList)
+        {          
             Vector2 objPos = obj->Get_Transform()->Position();
             Vector2 objSize = obj->Get_Collider()->Size();
 
-            float fDistX = abs(objPos.X() - ground->Get_Transform()->Position().X());
-            float fDistY = abs(objPos.Y() - ground->Get_Transform()->Position().Y());
+            float fDistX = abs(objPos.X() - map->Get_Transform()->Position().X());
+            float fDistY = abs(objPos.Y() - map->Get_Transform()->Position().Y());
 
-            float fRadX = objSize.X() * 0.5f +(ground->Get_Transform()->Position().X() - ground->Get_Collider()->Left());
-            float fRadY = objSize.Y() * 0.5f +(ground->Get_Transform()->Position().Y() - ground->Get_Collider()->Top());
+            float fRadX = objSize.X() * 0.5f +(map->Get_Transform()->Position().X() - map->Get_Collider()->Left());
+            float fRadY = objSize.Y() * 0.5f +(map->Get_Transform()->Position().Y() - map->Get_Collider()->Top());
 
             if ((fRadX >= fDistX) && (fRadY >= fDistY))
             {
                // 충돌 확정
-
-                ground->OnCollision(obj);
-
-
+                Vector2 vDiff = { fRadX - fDistX, fRadY - fDistY };
+                 map->OnCollision(obj, vDiff);
              }
         }
     }

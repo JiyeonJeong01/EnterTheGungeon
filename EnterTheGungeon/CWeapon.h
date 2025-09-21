@@ -36,6 +36,8 @@ public:
 	void Set_WeaponType(WeaponType type) { wType = type; }
 	void Set_EffectType(EffectType type) { eType = type; }
 
+	WeaponType Get_WeaponType() { return wType;  }
+
 protected:
 	CObject* pOwner;
 

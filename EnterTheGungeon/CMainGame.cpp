@@ -18,6 +18,7 @@
 
 #include "CBullet.h"
 #include "CMouse.h"
+#include "CMap.h"
 
 #include "Vignette.h"
 #pragma endregion
@@ -50,6 +51,7 @@ void CMainGame::Initialize()
 	CObjectFactory<CMouse>::Create(O_UI);
 	CBullet::Load_Resource();
 	CWeapon::Load_Resource();
+	CMap::Load_Resource();
 
 	//pVignette = new Vignette;
 	//pVignette->Initialize();
@@ -79,7 +81,6 @@ void CMainGame::Render()
 	MANAGER(CUIManager*, M_UI)->Render(hBackDC);
 
 	//pVignette->Render(hBackDC);
-
 	BitBlt(hDC, 0, 0, WINCX, WINCY, hBackDC, 0, 0, SRCCOPY);
 }
 

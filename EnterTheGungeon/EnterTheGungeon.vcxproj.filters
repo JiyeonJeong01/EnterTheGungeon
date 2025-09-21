@@ -151,6 +151,21 @@
     <Filter Include="05.UI\03. HUD">
       <UniqueIdentifier>{4da2a090-7d45-4fd5-a1fb-8f5d54702911}</UniqueIdentifier>
     </Filter>
+    <Filter Include="26. MapObject">
+      <UniqueIdentifier>{b356f9aa-63fe-4c00-8989-676bfb7a8aff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="25. Map\00. Map">
+      <UniqueIdentifier>{11d3e4a7-69a7-4e78-9cf0-c5fe8cc26df4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="25. Map\01. Ground">
+      <UniqueIdentifier>{a3bdc039-4fdb-4ff9-8ad3-37bd61f93a63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="25. Map\02. Object">
+      <UniqueIdentifier>{4fe5797a-8cef-41a2-ba84-cf2a649866eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\09. InventoryManager">
+      <UniqueIdentifier>{7984f679-3cdb-423c-8fae-3df3161fe4a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -270,9 +285,6 @@
     <ClInclude Include="CCollisionManager.h">
       <Filter>03. Manager\06. CollisionManager</Filter>
     </ClInclude>
-    <ClInclude Include="CMapCollider.h">
-      <Filter>25. Map</Filter>
-    </ClInclude>
     <ClInclude Include="CUIComponent.h">
       <Filter>05.UI\00. UIComponent</Filter>
     </ClInclude>
@@ -285,9 +297,6 @@
     <ClInclude Include="CMapManager.h">
       <Filter>03. Manager\07. CMapManager</Filter>
     </ClInclude>
-    <ClInclude Include="CMapObjCollider.h">
-      <Filter>25. Map</Filter>
-    </ClInclude>
     <ClInclude Include="CBullet.h">
       <Filter>24. Bullet\00. Bullet</Filter>
     </ClInclude>
@@ -299,9 +308,6 @@
     </ClInclude>
     <ClInclude Include="Vignette.h">
       <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CMapGroundCollider.h">
-      <Filter>25. Map</Filter>
     </ClInclude>
     <ClInclude Include="CWeapon.h">
       <Filter>22. Weapon</Filter>
@@ -317,6 +323,21 @@
     </ClInclude>
     <ClInclude Include="CPlayerInfo.h">
       <Filter>05.UI\03. HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="CMap.h">
+      <Filter>25. Map\00. Map</Filter>
+    </ClInclude>
+    <ClInclude Include="CMapGround.h">
+      <Filter>25. Map\01. Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="CMapObject.h">
+      <Filter>25. Map\02. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CTableObject.h">
+      <Filter>25. Map\02. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CInventory.h">
+      <Filter>03. Manager\09. InventoryManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -422,9 +443,6 @@
     <ClCompile Include="CCollisionManager.cpp">
       <Filter>03. Manager\06. CollisionManager</Filter>
     </ClCompile>
-    <ClCompile Include="CMapCollider.cpp">
-      <Filter>25. Map</Filter>
-    </ClCompile>
     <ClCompile Include="CUIComponent.cpp">
       <Filter>05.UI\00. UIComponent</Filter>
     </ClCompile>
@@ -436,9 +454,6 @@
     </ClCompile>
     <ClCompile Include="CMapManager.cpp">
       <Filter>03. Manager\07. CMapManager</Filter>
-    </ClCompile>
-    <ClCompile Include="CMapObjCollider.cpp">
-      <Filter>25. Map</Filter>
     </ClCompile>
     <ClCompile Include="EnterTheGungeon.cpp">
       <Filter>헤더 파일</Filter>
@@ -455,9 +470,6 @@
     <ClCompile Include="Vignette.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="CMapGroundCollider.cpp">
-      <Filter>25. Map</Filter>
-    </ClCompile>
     <ClCompile Include="CWeapon.cpp">
       <Filter>22. Weapon</Filter>
     </ClCompile>
@@ -472,6 +484,21 @@
     </ClCompile>
     <ClCompile Include="CPlayerInfo.cpp">
       <Filter>05.UI\03. HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="CMap.cpp">
+      <Filter>25. Map\00. Map</Filter>
+    </ClCompile>
+    <ClCompile Include="CMapGround.cpp">
+      <Filter>25. Map\01. Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="CMapObject.cpp">
+      <Filter>25. Map\02. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CTableObject.cpp">
+      <Filter>25. Map\02. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CInventory.cpp">
+      <Filter>03. Manager\09. InventoryManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

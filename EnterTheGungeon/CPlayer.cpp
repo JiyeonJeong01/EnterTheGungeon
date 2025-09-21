@@ -62,6 +62,9 @@ void CPlayer::Initialize()
 
     pPlayerInfo = dynamic_cast<CPlayerInfo*>(CObjectFactory<CPlayerInfo>::Create(O_UI));
     pPlayerInfo->Set_Player(this);
+
+    iMaxHP = 6;
+    iHP = iMaxHP;
 }
 
 int CPlayer::Update()
@@ -138,6 +141,15 @@ void CPlayer::Handle_Input()
     vInputDir.Normalize();
 
     pInputCursor = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
+
+    // Reloading 
+    bReloading = MANAGER(CInputManager*, M_INPUT)->Get_KeyDown('R');
+    if (bReloading) pReloadBar->Start_Reload();
+
+    if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown(VK_LCONTROL))
+        pWeapon->Swap_Weapon();
+
+    printf("Gun Type : %d\n", (int)pWeapon->Get_WeaponType());
 
 }
 

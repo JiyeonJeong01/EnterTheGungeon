@@ -35,8 +35,8 @@ void CPlayerDodgeState::Update()
 	{
 		bDodgePlaying = true;
 		Vector2 vNewPos = {
-		pObj->Get_Transform()->Position().X() + vDodgeDir.X() * fSpeed * 1.5f,
-		pObj->Get_Transform()->Position().Y() + vDodgeDir.Y() * fSpeed * 1.5f,
+		pObj->Get_Transform()->Position().X() + vDodgeDir.X() * fSpeed * 2.f,
+		pObj->Get_Transform()->Position().Y() + vDodgeDir.Y() * fSpeed * 2.f,
 		};
 		pObj->Get_Transform()->Position(move(vNewPos));
 		Update_AnimFrame();

@@ -14,7 +14,7 @@ CPlayerWeapon::~CPlayerWeapon()
 
 void CPlayerWeapon::Initialize()
 {
-	wType = PG02;
+	wType = PG01;
 	iPistolCurBullet = iPistolMaxBullet;
 	iShotgunCurBullet = iShotgunMaxBullet;
 }
@@ -25,7 +25,7 @@ void CPlayerWeapon::Attack()
 	{
 		Pistol_Attack();
 	}
-	if (wType == WeaponType::PG02)
+	else if (wType == WeaponType::PG02)
 	{
 		Shotgun_Attack();
 	}
@@ -33,6 +33,8 @@ void CPlayerWeapon::Attack()
 
 void CPlayerWeapon::Change_Weapon(WeaponType wType)
 {
+	this->wType = wType;
+
 	if (wType == WeaponType::PG01)
 	{
 		iPistolCurBullet = iPistolMaxBullet;
@@ -40,6 +42,18 @@ void CPlayerWeapon::Change_Weapon(WeaponType wType)
 	if (wType == WeaponType::PG02)
 	{
 		iShotgunCurBullet = iShotgunMaxBullet;
+	}
+}
+
+void CPlayerWeapon::Swap_Weapon()
+{
+	if (wType == WeaponType::PG01)
+	{
+		Change_Weapon(WeaponType::PG02);
+	}
+	else if (wType == WeaponType::PG02)
+	{
+		Change_Weapon(WeaponType::PG01);
 	}
 }
 
@@ -87,17 +101,17 @@ void CPlayerWeapon::Shotgun_Attack()
 	CPlayerBullet* pBullet3 = dynamic_cast<CPlayerBullet*>(CObjectFactory<CPlayerBullet>::Create(
 		O_PLBULLET, pOwner->Get_Transform()->Position().X(), pOwner->Get_Transform()->Position().Y()));
 
-	pBullet1->Set_BulletType(CBullet::B03);
+	pBullet1->Set_BulletType(CBullet::B02);
 	pBullet1->Set_EffectType(CBullet::E02);
 	pBullet1->Apply_BulletSprite();
 	pBullet1->Apply_EffectAnim();
 
-	pBullet2->Set_BulletType(CBullet::B03);
+	pBullet2->Set_BulletType(CBullet::B02);
 	pBullet2->Set_EffectType(CBullet::E02);
 	pBullet2->Apply_BulletSprite();
 	pBullet2->Apply_EffectAnim();
 
-	pBullet3->Set_BulletType(CBullet::B03);
+	pBullet3->Set_BulletType(CBullet::B02);
 	pBullet3->Set_EffectType(CBullet::E02);
 	pBullet3->Apply_BulletSprite();
 	pBullet3->Apply_EffectAnim();

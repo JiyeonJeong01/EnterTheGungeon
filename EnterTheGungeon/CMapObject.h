@@ -1,10 +1,11 @@
 #pragma once
-#include "CMapCollider.h"
-class CMapGroundCollider : public CMapCollider
+#include "CMap.h"
+class CObject;
+class CMapObject : public CMap
 {
 public:
-	CMapGroundCollider();
-	~CMapGroundCollider() override;
+	CMapObject();
+	~CMapObject() override;
 
 public:
 	void Initialize() override;
@@ -12,8 +13,6 @@ public:
 	void Render(HDC hDC) override; // Only used for debugging
 	void Release() override;
 
-public:
 	void OnCollision(CObject* pObj);
 	void OnCollision_Entity(CObject* pObj);
 };
-

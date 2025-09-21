@@ -1,7 +1,7 @@
 #pragma once
 #include "CManager.h"
 #include "CObject.h"
-#include "CMapGroundCollider.h"
+#include "CMapGround.h"
 class CCollisionManager : public CManager
 {
 public :
@@ -11,6 +11,6 @@ public :
 	static Vector2 Get_OverlapCircle(CObject* dstList, CObject* srcList);
 
 	// object <-> map(ground, wall)
-	static void Detect_MapCollision(list<CMapGroundCollider*> groundList, list<CObject*> objList);
+	static void Detect_MapCollision(list<CMap*> mapList, list<CObject*> objList);
 };
 

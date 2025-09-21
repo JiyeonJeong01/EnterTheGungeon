@@ -4,7 +4,7 @@
 #include "CTransform.h"
 #include "CRenderer.h"
 #include "CCollider.h"
-#include "CMapCollider.h"
+#include "CMap.h"
 #include "CWeapon.h"
 
 CBullet::CBullet()

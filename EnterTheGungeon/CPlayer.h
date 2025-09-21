@@ -44,8 +44,9 @@ public:
 	Direction eDir;
 	bool bReloading;
 
-private :
-	CStats* pHP;
+public :
+	int iHP;
+	int iMaxHP;
 
 private :
 	CPlayerStateMachine* pStateMachine;

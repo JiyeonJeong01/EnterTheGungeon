@@ -1,9 +1,9 @@
 #pragma once
 #include "CManager.h"
 
-class CMapCollider;
-class CMapGroundCollider;
-class CMapObjCollider;
+class CMap;
+class CMapGround;
+class CMapObject;
 class CButton;
 
 class CEnvironmentManager : public CManager
@@ -32,8 +32,8 @@ public :
 	void OnClickTransModeButton();
 
 public :
-	list<CMapGroundCollider*>* Get_MapGroundList() { return &pCurGroundCollider; }
-	list<CMapObjCollider*>* Get_MapObjList() { return &pCurObjCollider; }
+	list<CMap*>* Get_MapGroundList() { return &pCurGroundCollider; }
+	list<CMapObject*>* Get_MapObjList() { return &pCurObjCollider; }
 
 public :
 	CButton* pStartEditButton;
@@ -42,9 +42,9 @@ public :
 	CButton* pTransEditButton;
 
 	list<RECT> tempRectList;
-	list<CMapCollider*> pCurMapCollider;
-	list< CMapGroundCollider*> pCurGroundCollider;
-	list<CMapObjCollider*> pCurObjCollider;
+	list<CMap*> pCurMapCollider;
+	list< CMap*> pCurGroundCollider;
+	list<CMapObject*> pCurObjCollider;
 
 private :
 	bool bEdit;

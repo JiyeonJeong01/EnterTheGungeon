@@ -26,6 +26,9 @@ CObject::~CObject()
 	CRelease<CRenderer*>::Release(pRenderer);
 }
 
+/// <summary>
+/// All classes derived from CObject must call this method
+/// </summary>
 void CObject::Initialize()
 {
 	pTransform = new CTransform(this);
@@ -38,6 +41,10 @@ void CObject::Late_Update()
 	Update_Renderer();
 }
 
+/// <summary>
+/// Draw bounds of transform, collider, renderer
+/// </summary>
+/// <param name="_hDC"></param>
 void CObject::Render(HDC _hDC)
 {
 #pragma region Debug
@@ -52,8 +59,10 @@ void CObject::Render(HDC _hDC)
 		pTransform->Position().X() + pTransform->Size().X(),
 		pTransform->Position().Y() - pTransform->Size().Y());
 	Rectangle(_hDC, pRenderer->Left(), pRenderer->Top(), pRenderer->Right(), pRenderer->Bottom());
-	Rectangle(_hDC, renderPos.X() - pCollider->Size().X() * 0.5f, renderPos.Y() - pCollider->Size().Y() * 0.5f,
-		renderPos.X() + pCollider->Size().X() * 0.5f, renderPos.Y() + pCollider->Size().Y() * 0.5f);
+
+	Vector2 colliderLT = MANAGER(CCameraManager*, M_CAMERA)->Get_RenderPos({ (float)pCollider->Left(), (float)pCollider->Top() });
+	Vector2 colliderRB = MANAGER(CCameraManager*, M_CAMERA)->Get_RenderPos({ (float)pCollider->Right(), (float)pCollider->Bottom() });
+	Rectangle(_hDC, (int)colliderLT.X(), (int)colliderLT.Y(), (int)colliderRB.X(), (int)colliderRB.Y());
 
 	SelectObject(_hDC, hOldBrush);
 	SelectObject(_hDC, hOldPen);
@@ -66,6 +75,9 @@ void CObject::Update_Transform()
 
 }
 
+/// <summary>
+/// Update render position on the screen based on real transform.position
+/// </summary>
 void CObject::Update_Renderer()
 {
 	Vector2 vPosition = pTransform->Position();
@@ -79,6 +91,9 @@ void CObject::Update_Renderer()
 
 	}
 
+/// <summary>
+/// Update collider bounds based on transform.position
+/// </summary>
 void CObject::Update_Collider()
 {
 	Vector2 vPosition = pTransform->Position();
