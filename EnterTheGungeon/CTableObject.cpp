@@ -27,9 +27,9 @@ void CTableObject::Initialize()
 {
 	CMap::Initialize();
 
-	pTransform->Size({ 120, 120 });
-	pCollider->Size({ 100, 80 });
-	pRenderer->Size({ 120, 120 });
+	pTransform->Size({ 100, 100 });
+	pCollider->Size({ 90, 65 });
+	pRenderer->Size({ 100, 100 });
 
 	eType = O_INTERACTABLE;
 	pRenderer->rType = RND__GAMEBOJECT;
@@ -303,16 +303,16 @@ void CTableObject::Table_Broken()
 	iAnimRow = 2;
 	switch (iHitCount)
 	{
-	case 0:case 1 : case 2 : case 3 :
+	case 0:case 1 :
 		iAnimCol = 0;
 		break;
-	case 4:case 5: case 6: case 7:
+	case 2: case 3 : case 4:
 		iAnimCol = 1;
 		break;
-	case 8: case 9: case 10: case 11:
+	case 5: case 6: case 7: 
 		iAnimCol = 2;
 		break;
-	case 12: case 13: case 14: case 15:
+	case 8: case 9: case 10: 
 		iAnimCol = 3;
 		break;
 	}

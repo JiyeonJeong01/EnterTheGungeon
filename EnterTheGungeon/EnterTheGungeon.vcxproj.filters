@@ -166,6 +166,21 @@
     <Filter Include="03. Manager\09. InventoryManager">
       <UniqueIdentifier>{7984f679-3cdb-423c-8fae-3df3161fe4a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="23. Item\00. Item">
+      <UniqueIdentifier>{4e0028ad-07a7-48b6-a495-6e63134cb1c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="23. Item\01. Cartridge">
+      <UniqueIdentifier>{bf16409e-f291-4d9a-9a20-6984964964c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10. Utils\04. Resource">
+      <UniqueIdentifier>{10e0ae8e-a30a-4449-8837-52cf8ec0918d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="23. Item\02. Coin">
+      <UniqueIdentifier>{e9e26870-baba-4998-88cd-02a350c771d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="23. Item\03. Bomb">
+      <UniqueIdentifier>{3cbb5e5d-4967-4e47-b04a-dd0307362ce3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -339,6 +354,21 @@
     <ClInclude Include="CInventory.h">
       <Filter>03. Manager\09. InventoryManager</Filter>
     </ClInclude>
+    <ClInclude Include="CItem.h">
+      <Filter>23. Item\00. Item</Filter>
+    </ClInclude>
+    <ClInclude Include="CCartridge.h">
+      <Filter>23. Item\01. Cartridge</Filter>
+    </ClInclude>
+    <ClInclude Include="CResourceLoader.h">
+      <Filter>10. Utils\04. Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="CCoin.h">
+      <Filter>23. Item\02. Coin</Filter>
+    </ClInclude>
+    <ClInclude Include="CBomb.h">
+      <Filter>23. Item\03. Bomb</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -499,6 +529,21 @@
     </ClCompile>
     <ClCompile Include="CInventory.cpp">
       <Filter>03. Manager\09. InventoryManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CItem.cpp">
+      <Filter>23. Item\00. Item</Filter>
+    </ClCompile>
+    <ClCompile Include="CCartridge.cpp">
+      <Filter>23. Item\01. Cartridge</Filter>
+    </ClCompile>
+    <ClCompile Include="CResourceLoader.cpp">
+      <Filter>10. Utils\04. Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="CCoin.cpp">
+      <Filter>23. Item\02. Coin</Filter>
+    </ClCompile>
+    <ClCompile Include="CBomb.cpp">
+      <Filter>23. Item\03. Bomb</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

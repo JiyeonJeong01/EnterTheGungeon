@@ -34,7 +34,7 @@ void CReloadBar::Initialize()
 	bActive = false;
 	fReloadTime = 1.5f;
 	iCurMoveDist = 0;
-	iMoveDistPerFrame = 2;
+	iMoveDistPerFrame = 1;
 }
 
 int CReloadBar::Update()
@@ -55,6 +55,7 @@ int CReloadBar::Update()
 		}
 	}
 	return 0;
+
 }
 
 void CReloadBar::Late_Update()
@@ -87,6 +88,24 @@ void CReloadBar::Render(HDC hDC)
 		0, 0,
 		7, 18,
 		RGB(255, 0, 255));
+
+		// Text
+		HFONT hFont = CreateFont(
+			18, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
+			HANGUL_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+			DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, _T("Galmuri9 Regular")
+		);
+	
+		HFONT hOldFont = (HFONT)SelectObject(hDC, hFont);
+	
+		TCHAR buffer[64];
+		swprintf_s(buffer, 64, _T("¿Á¿Â¿¸ !!"));
+		SetTextColor(hDC, RGB(255, 255, 255));
+		SetBkMode(hDC, TRANSPARENT);
+		TextOut(hDC, iLeft + 20, iTop - 25, buffer, lstrlen(buffer));
+	
+		SelectObject(hDC, hOldFont);
+		DeleteObject(hFont);
 }
 
 void CReloadBar::Release()

@@ -14,6 +14,9 @@
 #include "CMapManager.h"
 #include "CBmpManager.h"
 #include "CTableObject.h"
+#include "CCartridge.h"
+#include "CCoin.h"
+#include "CBomb.h"
 
 CTestSCene::CTestSCene()
 {
@@ -32,6 +35,7 @@ void CTestSCene::Initialize()
 	MANAGER(CEnvironmentManager*, M_MAP)->Initialize();
 	MANAGER(CCameraManager*, M_CAMERA)->Set_LookAt({ WINCX >> 1, WINCY >> 1 });
 	MANAGER(CCameraManager*, M_CAMERA)->Set_Target(pPlayer);
+	MANAGER(CUIManager*, M_UI)->Initialize();
 
 	// 테스트용 테이블 생성 
 	CTableObject* pTable1 = dynamic_cast<CTableObject*>(CObjectFactory<CTableObject>::Create(O_INTERACTABLE, 600, 600));
@@ -40,6 +44,26 @@ void CTestSCene::Initialize()
 	MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList()->push_back(pTable2);
 	CTableObject* pTable3 = dynamic_cast<CTableObject*>(CObjectFactory<CTableObject>::Create(O_INTERACTABLE, 300, 800));
 	MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList()->push_back(pTable3);
+
+	// 테스트용 아이템 생성
+	CCartridge* pItem1 = dynamic_cast<CCartridge*>(CObjectFactory<CCartridge>::Create(O_ITEM, 900, 900));
+	pItem1->Drop_Item({ 900, 900 });
+
+	CCoin* pItem2 = dynamic_cast<CCoin*>(CObjectFactory<CCoin>::Create(O_ITEM, 800, 900));
+	pItem2->Drop_Item({ 800, 900 });
+
+	CBomb* pItem3 = dynamic_cast<CBomb*>(CObjectFactory<CBomb>::Create(O_ITEM, 1000, 900));
+	pItem3->Drop_Item({ 1000, 900 });
+
+	CCartridge* pItem4 = dynamic_cast<CCartridge*>(CObjectFactory<CCartridge>::Create(O_ITEM, 920, 880));
+	pItem4->Drop_Item({ 920, 880 });
+
+	CCoin* pItem5 = dynamic_cast<CCoin*>(CObjectFactory<CCoin>::Create(O_ITEM, 820, 880));
+	pItem5->Drop_Item({ 820, 880 });
+
+	CBomb* pItem6 = dynamic_cast<CBomb*>(CObjectFactory<CBomb>::Create(O_ITEM, 1020, 880));
+	pItem6->Drop_Item({ 1020, 880 });
+
 }
 
 void CTestSCene::Update()
@@ -63,6 +87,7 @@ void CTestSCene::Update()
 		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLBULLET));
 
 	MANAGER(CCameraManager*, M_CAMERA)->Update();
+	MANAGER(CUIManager*, M_UI)->Update();
 }
 
 void CTestSCene::Late_Update()
@@ -77,8 +102,10 @@ void CTestSCene::Render(HDC _hDC)
 	BitBlt(_hDC, 0, 0, WINCX, WINCY, hBackground, -vRenderPos.X(), -vRenderPos.Y(), SRCCOPY);
 
 	MANAGER(CObjectManager*, M_OBJECT)->Render(_hDC);
-	for_each(mapList.begin(), mapList.end(), [&](CMap* map)->void {map->Render(_hDC); });
+	//for_each(mapList.begin(), mapList.end(), [&](CMap* map)->void {map->Render(_hDC); });
 	MANAGER(CEnvironmentManager*, M_MAP)->Render(_hDC);
+
+	MANAGER(CUIManager*, M_UI)->Render(_hDC);
 }
 
 void CTestSCene::Release()

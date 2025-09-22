@@ -1,21 +1,24 @@
 #pragma region INCLUDE
 #include "pch.h"
 #include "CPlayer.h"
-#include "CRelease.h"
-#include "CPlayerStateMachine.h"
+
+#include "CCameraManager.h"
 #include "CInputManager.h"
+#include "CObjectFactory.h"
+#include "CRelease.h"
+
+#include "CPlayerStateMachine.h"
 #include "CState.h"
-#include "CStat.h"
+
 #include "CTransform.h"
 #include "CRenderer.h"
 #include "CCollider.h"
-#include "CCameraManager.h"
+
 #include "CPlayerWeapon.h"
+#include "CInventory.h"
 #include "CReloadBar.h"
-#include "CObjectFactory.h"
 #include "CPlayerInfo.h"
 #pragma endregion
-
 
 CPlayer::CPlayer()
 {
@@ -27,6 +30,7 @@ CPlayer::CPlayer()
     eDir = D_DOWN;
     pWeapon = nullptr;
     pReloadBar = nullptr;
+    pInventory = nullptr;
 }
 
 CPlayer::~CPlayer()
@@ -44,27 +48,21 @@ void CPlayer::Initialize()
     pCollider->Size({ 40.f, 60.f });
     pRenderer->Size({ 60.f, 60.f });
 
+    CObject::Update_Collider();
+    CObject::Update_Renderer();
+
     fSpeed = 6.f;
     fLimitFireTime = 0.5f; // TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!! must load gun's info
 
     pRenderer->rType = RND__GAMEBOJECT;
     eType = O_PLAYER;
 
-    pStateMachine = new CPlayerStateMachine(this);
-    pStateMachine->Initialize();
-
-    pWeapon = new CPlayerWeapon(this);
-    pWeapon->Initialize();
     bReloading = false;
-
-    pReloadBar = dynamic_cast<CReloadBar*>(CObjectFactory<CReloadBar>::Create(O_UI));
-    pReloadBar->Set_Player(this);
-
-    pPlayerInfo = dynamic_cast<CPlayerInfo*>(CObjectFactory<CPlayerInfo>::Create(O_UI));
-    pPlayerInfo->Set_Player(this);
 
     iMaxHP = 6;
     iHP = iMaxHP;
+
+    Initialize_PlayerComponents();
 }
 
 int CPlayer::Update()
@@ -73,6 +71,8 @@ int CPlayer::Update()
     Update_Renderer();
 
     pCurrentState->Update();
+    pInventory->Update();
+
     CObject::Update_Collider();
     return 0;
 }
@@ -89,12 +89,15 @@ void CPlayer::Render(HDC _hDC)
     CObject::Render(_hDC);
 
     pCurrentState->Render(_hDC);
+    pInventory->Draw_Inventory(_hDC);
 }
 
 void CPlayer::Release()
 {
     CRelease<CPlayerStateMachine*>::Release(pStateMachine);
     CRelease<CPlayerWeapon*>::Release(pWeapon);
+    CRelease<CInventory*>::Release(pInventory);
+
 }
 
 void CPlayer::Update_Transform()
@@ -107,6 +110,25 @@ void CPlayer::Update_Renderer()
 {
     // CObject::Update_Renderer() computes this based on Transform.position and Transform.size
     CObject::Update_Renderer();
+}
+
+void CPlayer::Initialize_PlayerComponents()
+{
+    pStateMachine = new CPlayerStateMachine(this);
+    pStateMachine->Initialize();
+
+    pWeapon = new CPlayerWeapon(this);
+    pWeapon->Initialize();
+
+    pInventory = new CInventory(this);
+    pInventory->Initialize();
+
+    pReloadBar = dynamic_cast<CReloadBar*>(CObjectFactory<CReloadBar>::Create(O_UI));
+    pReloadBar->Set_Player(this);
+
+    pPlayerInfo = dynamic_cast<CPlayerInfo*>(CObjectFactory<CPlayerInfo>::Create(O_UI));
+    pPlayerInfo->Set_Player(this);
+
 }
 
 void CPlayer::Handle_Input()
@@ -143,13 +165,19 @@ void CPlayer::Handle_Input()
     pInputCursor = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
 
     // Reloading 
-    bReloading = MANAGER(CInputManager*, M_INPUT)->Get_KeyDown('R');
-    if (bReloading) pReloadBar->Start_Reload();
+    if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown('R') && !bReloading)
+    {
+        pReloadBar->Start_Reload();
+        bReloading = true;
+    }
+
+
 
     if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown(VK_LCONTROL))
+    {
+        MANAGER(CCameraManager*, M_CAMERA)->Set_CamerMode(CCameraManager::Shake);
         pWeapon->Swap_Weapon();
-
-    printf("Gun Type : %d\n", (int)pWeapon->Get_WeaponType());
+    }
 
 }
 

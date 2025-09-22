@@ -10,15 +10,14 @@
 #include "CObjectFactory.h"
 #include "CCameraManager.h"
 #include "CRelease.h"
-#include "CWeapon.h"
+
+#include "CResourceLoader.h"
 
 #include "CObject.h"
 #include "CPlayer.h"
 #include "CState.h"
 
-#include "CBullet.h"
 #include "CMouse.h"
-#include "CMap.h"
 
 #include "Vignette.h"
 #pragma endregion
@@ -41,17 +40,14 @@ void CMainGame::Initialize()
 	llElapsedTime = GetTickCount64();
 	hDC = GetDC(g_hWnd);
 
+	CResourceLoader::Load_Resource();
+
 	MANAGER(CInputManager*, M_INPUT)->Initialize();
 	MANAGER(CObjectManager*, M_OBJECT)->Initialize();
 	MANAGER(CSceneManager*, M_SCENE)->Initialize();
-
-	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Back/Back.bmp", L"Back");
-	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Back/Tutorial.bmp", L"Tutorial");
 	
 	CObjectFactory<CMouse>::Create(O_UI);
-	CBullet::Load_Resource();
-	CWeapon::Load_Resource();
-	CMap::Load_Resource();
+
 
 	//pVignette = new Vignette;
 	//pVignette->Initialize();
@@ -98,7 +94,7 @@ void CMainGame::Compute_FPS()
 {
 	++iFPS;
 
-	if (llElapsedTime + 1000 < GetTickCount64())
+	if ((unsigned)(llElapsedTime + 1000 )< GetTickCount64())
 	{
 		swprintf_s(szFPS, L"FPS : %d", iFPS);
 		iFPS = 0;

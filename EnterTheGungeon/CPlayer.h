@@ -5,6 +5,7 @@ class CPlayerStateMachine;
 class CState;
 class CStats;
 class CPlayerWeapon;
+class CInventory;
 class CReloadBar;
 class CPlayerInfo;
 
@@ -28,6 +29,7 @@ public: // Components
 	void Update_Renderer() override;
 
 public :
+	void Initialize_PlayerComponents();
 	void Handle_Input();
 	void Finist_Reloading();
 
@@ -55,6 +57,7 @@ private :
 
 public :
 	CPlayerWeapon* pWeapon;
+	CInventory* pInventory;
 	CReloadBar* pReloadBar;
 	CPlayerInfo* pPlayerInfo;
 

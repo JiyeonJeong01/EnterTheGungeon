@@ -19,33 +19,21 @@ CPlayerInfo::~CPlayerInfo()
 	Release();
 }
 
+
+
 void CPlayerInfo::Initialize()
 {
 	CObject::Initialize();
 	pRenderer->rType = RND__UI;
 
-	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/HP0.bmp", L"HP");
-	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/WeaponType.bmp", L"WeaponType");
-	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/BulletBar.bmp", L"BulletBar1");
-	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/BulletBar2.bmp", L"BulletBar2");
-	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/BulletCount.bmp", L"BulletCount");
-	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/GunType1.bmp", L"GunType01");
-	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/GunType2.bmp", L"GunType02");
-
-
 	pTransform->Size({ 45.f, 45.f });
 	pCollider->Size({ 45.f, 45.f });
 	pRenderer->Size({ 45.f, 45.f });
-
-	iPlayerMaxHP = 6;
-	iPlayerHP = iPlayerMaxHP;
-	iCartridge = 0;
-	iCoin = 0;
-	iKey = 0;
 }
 
 int CPlayerInfo::Update()
 {
+	// for test, debugging
 	if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown('M'))
 	{
 		pPlayer->iHP--;
@@ -200,10 +188,22 @@ void CPlayerInfo::Draw_BulletCount(HDC hDC)
 			GdiTransparentBlt(hDC, WINCX - iX - iSizeX, WINCY - iY - iCurrent, iSizeX, iBulletSizeY, hBulletDC, 0, 5, iSizeX, iBulletSizeY, RGB(0, 0, 0));
 			iCurrent = iCurrent + iBulletSizeY + iBlankSizeY;
 		}
-
-
-
 	}
+}
+
+void CPlayerInfo::Shake()
+{
 
 
+}
+
+void CPlayerInfo::Load_Resource()
+{
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/HP0.bmp", L"HP");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/WeaponType.bmp", L"WeaponType");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/BulletBar.bmp", L"BulletBar1");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/BulletBar2.bmp", L"BulletBar2");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/BulletCount.bmp", L"BulletCount");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/GunType1.bmp", L"GunType01");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/GunType2.bmp", L"GunType02");
 }

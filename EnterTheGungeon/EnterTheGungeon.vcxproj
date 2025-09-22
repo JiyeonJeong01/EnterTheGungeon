@@ -134,9 +134,12 @@
     <ClInclude Include="CAnimation.h" />
     <ClInclude Include="CBmp.h" />
     <ClInclude Include="CBmpManager.h" />
+    <ClInclude Include="CBomb.h" />
     <ClInclude Include="CBullet.h" />
     <ClInclude Include="CButton.h" />
     <ClInclude Include="CCameraManager.h" />
+    <ClInclude Include="CCartridge.h" />
+    <ClInclude Include="CCoin.h" />
     <ClInclude Include="CCollider.h" />
     <ClInclude Include="CCollisionManager.h" />
     <ClInclude Include="CComponent.h" />
@@ -144,6 +147,7 @@
     <ClInclude Include="CInputManager.h" />
     <ClInclude Include="CIntroScene.h" />
     <ClInclude Include="CInventory.h" />
+    <ClInclude Include="CItem.h" />
     <ClInclude Include="CMainGame.h" />
     <ClInclude Include="CMainScene.h" />
     <ClInclude Include="CMapGround.h" />
@@ -167,6 +171,7 @@
     <ClInclude Include="CRelease.h" />
     <ClInclude Include="CReloadBar.h" />
     <ClInclude Include="CRenderer.h" />
+    <ClInclude Include="CResourceLoader.h" />
     <ClInclude Include="CScene.h" />
     <ClInclude Include="CSceneManager.h" />
     <ClInclude Include="CStat.h" />
@@ -193,9 +198,12 @@
     <ClCompile Include="CAnimation.cpp" />
     <ClCompile Include="CBmp.cpp" />
     <ClCompile Include="CBmpManager.cpp" />
+    <ClCompile Include="CBomb.cpp" />
     <ClCompile Include="CBullet.cpp" />
     <ClCompile Include="CButton.cpp" />
     <ClCompile Include="CCameraManager.cpp" />
+    <ClCompile Include="CCartridge.cpp" />
+    <ClCompile Include="CCoin.cpp" />
     <ClCompile Include="CCollider.cpp" />
     <ClCompile Include="CCollisionManager.cpp" />
     <ClCompile Include="CComponent.cpp" />
@@ -203,6 +211,7 @@
     <ClCompile Include="CInputManager.cpp" />
     <ClCompile Include="CIntroScene.cpp" />
     <ClCompile Include="CInventory.cpp" />
+    <ClCompile Include="CItem.cpp" />
     <ClCompile Include="CMainGame.cpp" />
     <ClCompile Include="CMainScene.cpp" />
     <ClCompile Include="CMapGround.cpp" />
@@ -226,6 +235,7 @@
     <ClCompile Include="CRelease.cpp" />
     <ClCompile Include="CReloadBar.cpp" />
     <ClCompile Include="CRenderer.cpp" />
+    <ClCompile Include="CResourceLoader.cpp" />
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
     <ClCompile Include="CStat.cpp" />

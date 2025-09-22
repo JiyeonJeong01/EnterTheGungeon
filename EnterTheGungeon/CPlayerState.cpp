@@ -22,7 +22,7 @@ void CPlayerState::Update()
 	fSpeed = static_cast<CPlayer*>(pObj)->fSpeed;
 	bDodgePlaying = static_cast<CPlayer*>(pObj)->bDodgePlaying;
 	bReloading = static_cast<CPlayer*>(pObj)->bReloading;
-	
+
 	Dir_ByCursor();
 
 	if (dwLastFireTime + fLimitFireTime * 1000 < GetTickCount())
@@ -148,6 +148,8 @@ void CPlayerState::Dir_ByCursor()
 
 void CPlayerState::Shot_Bullet()
 {
+	printf("PlayerState.cs : %d\n", (int)bReloading);
+
 	if (!bCanShot || bDodgePlaying || bReloading)
 		return;
 

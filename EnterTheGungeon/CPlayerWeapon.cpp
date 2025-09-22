@@ -6,6 +6,7 @@
 #include "CInputManager.h"
 #include "CPlayerState.h"
 #include "CReloadBar.h"
+#include "CPlayer.h"
 
 CPlayerWeapon::~CPlayerWeapon()
 {
@@ -64,7 +65,8 @@ void CPlayerWeapon::Pistol_Attack()
 		static_cast<CPlayer*>(pOwner)->bReloading = true;
 		static_cast<CPlayer*>(pOwner)->pReloadBar->Start_Reload();
 	}
-	
+	printf("PlayerWeapon : %d\n", (int)(static_cast<CPlayer*>(pOwner))->bReloading);
+
 
 	CPlayerBullet* pBullet = dynamic_cast<CPlayerBullet*>(CObjectFactory<CPlayerBullet>::Create(
 		O_PLBULLET, pOwner->Get_Transform()->Position().X(), pOwner->Get_Transform()->Position().Y()));
@@ -101,18 +103,18 @@ void CPlayerWeapon::Shotgun_Attack()
 	CPlayerBullet* pBullet3 = dynamic_cast<CPlayerBullet*>(CObjectFactory<CPlayerBullet>::Create(
 		O_PLBULLET, pOwner->Get_Transform()->Position().X(), pOwner->Get_Transform()->Position().Y()));
 
-	pBullet1->Set_BulletType(CBullet::B02);
-	pBullet1->Set_EffectType(CBullet::E02);
+	pBullet1->Set_BulletType(CBullet::B01);
+	pBullet1->Set_EffectType(CBullet::E05);
 	pBullet1->Apply_BulletSprite();
 	pBullet1->Apply_EffectAnim();
 
-	pBullet2->Set_BulletType(CBullet::B02);
-	pBullet2->Set_EffectType(CBullet::E02);
+	pBullet2->Set_BulletType(CBullet::B01);
+	pBullet2->Set_EffectType(CBullet::E05);
 	pBullet2->Apply_BulletSprite();
 	pBullet2->Apply_EffectAnim();
 
-	pBullet3->Set_BulletType(CBullet::B02);
-	pBullet3->Set_EffectType(CBullet::E02);
+	pBullet3->Set_BulletType(CBullet::B01);
+	pBullet3->Set_EffectType(CBullet::E05);
 	pBullet3->Apply_BulletSprite();
 	pBullet3->Apply_EffectAnim();
 
