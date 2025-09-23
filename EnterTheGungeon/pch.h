@@ -9,6 +9,7 @@
 #pragma region Container
 #include <vector>
 #include <list>
+#include <unordered_map>
 #include <map>
 #pragma endregion
 
@@ -23,9 +24,17 @@
 #endif
 #pragma endregion
 
+#include <io.h>
+#include <iostream>
+
 #include <Vfw.h>
 #pragma comment(lib, "vfw32.lib")
 
+#include "fmod.hpp"
+#include "fmod_errors.h"
+#include "fmod_common.h"
+
+#pragma comment(lib, "fmod_vc.lib")
 
 #pragma region Debug
 #ifdef _DEBUG
@@ -43,7 +52,6 @@
 #include "Vector2.h"
 
 #pragma endregion
-
 
 using namespace std;
 

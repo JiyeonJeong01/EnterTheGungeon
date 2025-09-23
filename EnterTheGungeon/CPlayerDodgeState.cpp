@@ -8,6 +8,7 @@
 #include "CTransform.h"
 #include "CPlayer.h"
 #include "CStateMachine.h"
+#include "CSoundManager.h"
 #pragma endregion
 
 
@@ -103,6 +104,7 @@ void CPlayerDodgeState::Update_AnimFrame()
 
 	if (animation.iCurrIndex == 5)
 	{
+		MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"Player_DODGE.wav", SOUND_EFFECT, 1.f);
 		effectAnim.dwLastPlayTime = GetTickCount();
 		effectAnim.iCurrIndex = 0;
 		bEffectPlay = true;

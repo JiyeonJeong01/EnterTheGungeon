@@ -174,6 +174,7 @@
     <ClInclude Include="CResourceLoader.h" />
     <ClInclude Include="CScene.h" />
     <ClInclude Include="CSceneManager.h" />
+    <ClInclude Include="CSoundManager.h" />
     <ClInclude Include="CStat.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CStateMachine.h" />
@@ -238,6 +239,7 @@
     <ClCompile Include="CResourceLoader.cpp" />
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
+    <ClCompile Include="CSoundManager.cpp" />
     <ClCompile Include="CStat.cpp" />
     <ClCompile Include="CState.cpp" />
     <ClCompile Include="CStateMachine.cpp" />

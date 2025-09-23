@@ -9,6 +9,7 @@
 #include "CBmpManager.h"
 #include "CObjectFactory.h"
 #include "CCameraManager.h"
+#include "CSoundManager.h"
 #include "CRelease.h"
 
 #include "CResourceLoader.h"
@@ -45,9 +46,11 @@ void CMainGame::Initialize()
 	MANAGER(CInputManager*, M_INPUT)->Initialize();
 	MANAGER(CObjectManager*, M_OBJECT)->Initialize();
 	MANAGER(CSceneManager*, M_SCENE)->Initialize();
-	
+	MANAGER(CSoundManager*, M_SOUND)->Initialize();
+
 	CObjectFactory<CMouse>::Create(O_UI);
 
+	MANAGER(CSoundManager*, M_SOUND)->PlayBGM(L"BGM_Boss.wav", 0.35f);
 
 	//pVignette = new Vignette;
 	//pVignette->Initialize();

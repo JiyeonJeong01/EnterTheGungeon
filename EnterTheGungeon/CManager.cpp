@@ -7,6 +7,7 @@
 #include "CCameraManager.h"
 #include "CMapManager.h"
 #include "CUIManager.h"
+#include "CSoundManager.h"
 
 CManager* CManager::g_pManagers[MGREND] = { nullptr, };
 
@@ -36,6 +37,9 @@ CManager* CManager::Get_Manager(ManagerType eManager)
 			break;
 		case ManagerType::M_UI:
 			g_pManagers[eManager] = new CUIManager();
+			break;
+		case ManagerType::M_SOUND:
+			g_pManagers[eManager] = new CSoundManager();
 			break;
 		}
 	}

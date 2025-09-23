@@ -181,6 +181,9 @@
     <Filter Include="23. Item\03. Bomb">
       <UniqueIdentifier>{3cbb5e5d-4967-4e47-b04a-dd0307362ce3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Manager\10. SoundManager">
+      <UniqueIdentifier>{dec47ae4-661a-457c-be52-44f2ecbcb88d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -369,6 +372,9 @@
     <ClInclude Include="CBomb.h">
       <Filter>23. Item\03. Bomb</Filter>
     </ClInclude>
+    <ClInclude Include="CSoundManager.h">
+      <Filter>03. Manager\10. SoundManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -544,6 +550,9 @@
     </ClCompile>
     <ClCompile Include="CBomb.cpp">
       <Filter>23. Item\03. Bomb</Filter>
+    </ClCompile>
+    <ClCompile Include="CSoundManager.cpp">
+      <Filter>03. Manager\10. SoundManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
