@@ -38,7 +38,7 @@ public :
 	void OnCollision(CObject* pObj);
 	void OnCollision_MapGround();
 
-private :
+protected :
 	float fSpeed;
 
 	BulletType eBulletType;
@@ -48,6 +48,9 @@ private :
 	const TCHAR* bulletSpriteKey;
 	const TCHAR* effetAnimKey;
 	CAnimation effectAnim;
+	
+public :
+	bool bCanRend;
 
 };
 

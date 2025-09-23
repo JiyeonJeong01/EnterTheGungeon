@@ -8,6 +8,7 @@
 #include "CRenderer.h"
 #include "CInputManager.h"
 #include "CInventory.h"
+#include "CBossState.h"
 
 void CItem::Load_Resource()
 {

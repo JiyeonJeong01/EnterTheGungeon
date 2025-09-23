@@ -15,6 +15,8 @@ void CCollisionManager::Detect_RectCollision(list<CObject*> dstList, list<CObjec
             Vector2 overlapped = Get_OverlapRect(dst, src);
             if (overlapped.X() != 0.f && overlapped.Y() != 0.f)
             {
+                //dst->OnCollision(src, overlapped);
+                //src->OnCollision(dst, overlapped);
                 for_each(dst->Get_Collider()->Get_OnCollision()->begin(),
                     dst->Get_Collider()->Get_OnCollision()->end(),
                     [&](function<void(CObject*, Vector2)> listener) -> void {
@@ -25,6 +27,7 @@ void CCollisionManager::Detect_RectCollision(list<CObject*> dstList, list<CObjec
                     [&](function<void(CObject*, Vector2)> listener) -> void {
                         listener(dst, overlapped);
                     });
+
             }
         }
     }

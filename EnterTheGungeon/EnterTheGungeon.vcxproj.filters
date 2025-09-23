@@ -184,6 +184,24 @@
     <Filter Include="03. Manager\10. SoundManager">
       <UniqueIdentifier>{dec47ae4-661a-457c-be52-44f2ecbcb88d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="21. Enemy\00. Boss">
+      <UniqueIdentifier>{55e8eede-2ddb-41dd-beb7-971bc5edb9df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="21. Enemy\00. Boss\00. Boss">
+      <UniqueIdentifier>{75da90e0-2ae2-4d83-af3a-9b18309efa0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="21. Enemy\00. Boss\01. StateMachine">
+      <UniqueIdentifier>{9777c9f8-d4ac-4159-8537-9da2db1722b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="21. Enemy\00. Boss\02. State">
+      <UniqueIdentifier>{7e2f33d6-748d-4351-b479-809f8e072494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="21. Enemy\00. Boss\02. State\01. BossState">
+      <UniqueIdentifier>{3235134b-9cea-4870-bd2e-b413b7d50748}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="24. Bullet\02. EnemyBullet">
+      <UniqueIdentifier>{afac0bb8-42ec-4b17-9b7a-88cd7bbaebe8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -375,6 +393,36 @@
     <ClInclude Include="CSoundManager.h">
       <Filter>03. Manager\10. SoundManager</Filter>
     </ClInclude>
+    <ClInclude Include="CBossState.h">
+      <Filter>21. Enemy\00. Boss\02. State\01. BossState</Filter>
+    </ClInclude>
+    <ClInclude Include="CBossStateMachine.h">
+      <Filter>21. Enemy\00. Boss\01. StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="CBoss.h">
+      <Filter>21. Enemy\00. Boss\00. Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="CBossCheeseAttackState.h">
+      <Filter>21. Enemy\00. Boss\02. State</Filter>
+    </ClInclude>
+    <ClInclude Include="CBossDodgeState.h">
+      <Filter>21. Enemy\00. Boss\02. State</Filter>
+    </ClInclude>
+    <ClInclude Include="CBossIdleState.h">
+      <Filter>21. Enemy\00. Boss\02. State</Filter>
+    </ClInclude>
+    <ClInclude Include="CBossKunaiAttackState.h">
+      <Filter>21. Enemy\00. Boss\02. State</Filter>
+    </ClInclude>
+    <ClInclude Include="CBossSummonAttackState.h">
+      <Filter>21. Enemy\00. Boss\02. State</Filter>
+    </ClInclude>
+    <ClInclude Include="CBossWalkState.h">
+      <Filter>21. Enemy\00. Boss\02. State</Filter>
+    </ClInclude>
+    <ClInclude Include="CBossBullet.h">
+      <Filter>24. Bullet\02. EnemyBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -553,6 +601,36 @@
     </ClCompile>
     <ClCompile Include="CSoundManager.cpp">
       <Filter>03. Manager\10. SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossState.cpp">
+      <Filter>21. Enemy\00. Boss\02. State\01. BossState</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossStateMachine.cpp">
+      <Filter>21. Enemy\00. Boss\01. StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="CBoss.cpp">
+      <Filter>21. Enemy\00. Boss\00. Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossKunaiAttackState.cpp">
+      <Filter>21. Enemy\00. Boss\02. State</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossCheeseAttackState.cpp">
+      <Filter>21. Enemy\00. Boss\02. State</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossDodgeState.cpp">
+      <Filter>21. Enemy\00. Boss\02. State</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossIdleState.cpp">
+      <Filter>21. Enemy\00. Boss\02. State</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossWalkState.cpp">
+      <Filter>21. Enemy\00. Boss\02. State</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossSummonAttackState.cpp">
+      <Filter>21. Enemy\00. Boss\02. State</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossBullet.cpp">
+      <Filter>24. Bullet\02. EnemyBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

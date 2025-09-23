@@ -65,7 +65,6 @@ void CPlayerWeapon::Pistol_Attack()
 		static_cast<CPlayer*>(pOwner)->bReloading = true;
 		static_cast<CPlayer*>(pOwner)->pReloadBar->Start_Reload();
 	}
-	printf("PlayerWeapon : %d\n", (int)(static_cast<CPlayer*>(pOwner))->bReloading);
 
 
 	CPlayerBullet* pBullet = dynamic_cast<CPlayerBullet*>(CObjectFactory<CPlayerBullet>::Create(

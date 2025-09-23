@@ -8,6 +8,9 @@
 #include "CObjectManager.h"
 #include "CRelease.h"
 
+#include "CPlayerBullet.h"
+#include "CBossBullet.h"
+
 /// <summary>
 /// Derived objects must initialize rDetectBound, spriteKey, iAnimSizeX, iAnimSizeY, transform, renderer;
 /// </summary>
@@ -34,14 +37,12 @@ void CCartridge::Apply_ItemEffect()
 {
 	for (auto& obj : *MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLBULLET))
 	{
-		CRelease<CObject*>::Release(obj);
+		static_cast<CPlayerBullet*>(obj)->OnCollision_MapGround();
 	}
-	MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLBULLET)->clear();
 
 	for (auto& obj : *MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENBULLET))
 	{
-		CRelease<CObject*>::Release(obj);
+		static_cast<CBossBullet*>(obj)->OnCollision_MapGround();
 	}
-	MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENBULLET)->clear();
 
 }

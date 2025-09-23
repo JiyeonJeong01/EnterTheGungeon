@@ -34,7 +34,9 @@ public :
 	/// </summary>
 	/// <param name="vObjPos"></param>
 	/// <returns></returns>
-	Vector2 Get_RenderPos(Vector2 vObjPos) { return vObjPos - vDiff;  }
+	Vector2 Get_RenderPos(Vector2 vObjPos) {
+		return vObjPos - vDiff;
+	}
 	/// <summary>
 	/// Get objec'ts real world position
 	/// </summary>

@@ -21,6 +21,8 @@ public: // Components
 	virtual void Update_Renderer();
 	virtual void Update_Collider();
 
+	virtual 	void OnCollision(CObject* pObj, Vector2 vDiff) {};
+
 public:
 	CTransform* Get_Transform() { return pTransform; }
 	CCollider* Get_Collider() { return pCollider; }

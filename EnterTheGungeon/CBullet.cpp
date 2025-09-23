@@ -24,8 +24,8 @@ void CBullet::Load_Resource()
     MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Weapon/Bullet03.bmp", L"Bullet03");
     MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Weapon/Bullet04.bmp", L"Bullet04");
 
-    MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Weapon/Boss_Bullet.bmp", L"Boss_Bullet");
-    MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Weapon/Boss_Cheese_Bullet.bmp", L"Boss_Cheese");
+    MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Weapon/Boss_Bullet01.bmp", L"Boss_Bullet");
+    MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Weapon/Boss_Cheese_Bullet01.bmp", L"Boss_Cheese");
     MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Weapon/Boss_Kunai.bmp", L"Boss_Kunai");
     // MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Weapon/Boss_Bullet.bmp", L"Bullet04");
 
@@ -40,9 +40,9 @@ void CBullet::Load_Resource()
 void CBullet::Initialize()
 {
     CObject::Initialize();
+    bCanRend = true;
 }
 
-// 쌤 코드의 애니메이션 키 받아오는 부분 그대로 구현 시발!
 int CBullet::Update()
 {
     if (!bAlive) return S_DEAD;
@@ -62,8 +62,10 @@ void CBullet::Render(HDC _hDC)
 {
     CObject::Render(_hDC);
 
-    HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(spriteKey);
+    if (!bCanRend) return;
 
+    HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(spriteKey);
+    this;
     GdiTransparentBlt(_hDC,
         pRenderer->Left(),
         pRenderer->Top(),
@@ -181,9 +183,22 @@ bool CBullet::Check_InBound()
 
 void CBullet::OnCollision(CObject* pObj)
 {
-    if (pObj->Get_ObjType() == O_MAP)
+    ObjectType type = pObj->Get_ObjType();
+    if (type == O_MAP)
     {
         OnCollision_MapGround();
+    }
+    else if (eType == O_PLBULLET && type == O_ENEMY)
+    {
+        pTransform->Direction({ 0.f, 0.f });
+
+        spriteKey = effetAnimKey;
+    }
+    else if (eType == O_ENBULLET && type == O_PLAYER)
+    {
+        pTransform->Direction({ 0.f, 0.f });
+
+        spriteKey = effetAnimKey;
     }
 }
 
@@ -193,5 +208,4 @@ void CBullet::OnCollision_MapGround()
 
     spriteKey = effetAnimKey;
     //effectAnim.dwLastPlayTime = GetTickCount();
-
 }

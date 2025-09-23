@@ -22,6 +22,7 @@ public:
 
 public :
 	void Draw_Inventory(HDC hDC);
+	void Draw_BossStat(HDC hDC);
 
 public :
 	list<CObject*> uiObjects;
@@ -33,5 +34,8 @@ public :
 	int iCoin;
 	int iKey;
 	int iBomb;
+
+	// boss
+	bool bBossDraw;
 };
 

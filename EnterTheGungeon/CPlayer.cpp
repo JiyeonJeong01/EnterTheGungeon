@@ -112,6 +112,28 @@ void CPlayer::Update_Renderer()
     CObject::Update_Renderer();
 }
 
+void CPlayer::OnCollision(CObject* pObj, Vector2 vDiff)
+{
+    ObjectType type = pObj->Get_ObjType();
+    switch (type)
+    {
+    case O_ENBULLET:
+        OnCollision_EnBullet(pObj, vDiff);
+    }
+
+
+
+
+
+
+
+}
+
+void CPlayer::OnCollision_EnBullet(CObject* pObj, Vector2 vDiff)
+{
+    iHP = (iHP - 1 <= 0 ? 0 : iHP - 1);
+}
+
 void CPlayer::Initialize_PlayerComponents()
 {
     pStateMachine = new CPlayerStateMachine(this);

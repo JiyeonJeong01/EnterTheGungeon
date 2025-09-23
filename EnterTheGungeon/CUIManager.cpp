@@ -39,6 +39,8 @@ void CUIManager::Update()
 	}
 	iCartridge = pInventory->Get_Cartridge();
 	iCoin = pInventory->Get_Coin();
+
+	
 }
 
 void CUIManager::Late_Update()
@@ -56,6 +58,7 @@ void CUIManager::Render(HDC hDC)
 		ui->Render(hDC);
 	}
 	Draw_Inventory(hDC);
+	Draw_BossStat(hDC);
 }
 
 void CUIManager::Release()
@@ -128,4 +131,20 @@ void CUIManager::Draw_Inventory(HDC hDC)
 
 #pragma endregion
 
-};
+}
+
+void CUIManager::Draw_BossStat(HDC hDC)
+{
+	if (!bBossDraw) return;
+
+	int iX = 661, iY = 60;
+
+	HDC hBar = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Boss_HPBar");
+
+	GdiTransparentBlt(hDC, WINCX / 2 - iX/2, WINCY - iY - iY, iX, iY, hBar, 0, 0, iX, iY, RGB(0, 0, 0));
+
+
+
+
+}
+;

@@ -132,7 +132,7 @@ void CTableObject::OnCollision(CObject* pObj, Vector2 vDiff)
 
 	switch (oType)
 	{
-	case O_PLBULLET: O_ENBULLET:
+	case O_PLBULLET: case O_ENBULLET:
 	if (!bInvincible)
 	{
 		iHitCount++;

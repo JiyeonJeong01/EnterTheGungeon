@@ -3,7 +3,7 @@
 class CPlayer;
 class CMapGround;
 class CMap;
-
+class CBoss;
 class CTestSCene : public CScene
 {
 public:
@@ -19,6 +19,7 @@ public:
 
 public :
 	CPlayer* pPlayer;
+	CBoss* pBoss;
 	list<CMap*> mapObjList;
 	list<CMapGround*> mapList;
 	

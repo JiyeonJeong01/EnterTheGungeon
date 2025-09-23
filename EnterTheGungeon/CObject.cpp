@@ -54,11 +54,11 @@ void CObject::Render(HDC _hDC)
 
 	Vector2 renderPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RenderPos(pTransform->Position());
 
-	Rectangle(_hDC, pTransform->Position().X() - pTransform->Size().X(),
-		pTransform->Position().Y() - pTransform->Size().Y(),
-		pTransform->Position().X() + pTransform->Size().X(),
-		pTransform->Position().Y() - pTransform->Size().Y());
-	Rectangle(_hDC, pRenderer->Left(), pRenderer->Top(), pRenderer->Right(), pRenderer->Bottom());
+	//Rectangle(_hDC, pTransform->Position().X() - pTransform->Size().X(),
+	//	pTransform->Position().Y() - pTransform->Size().Y(),
+	//	pTransform->Position().X() + pTransform->Size().X(),
+	//	pTransform->Position().Y() - pTransform->Size().Y());
+	//Rectangle(_hDC, pRenderer->Left(), pRenderer->Top(), pRenderer->Right(), pRenderer->Bottom());
 
 	Vector2 colliderLT = MANAGER(CCameraManager*, M_CAMERA)->Get_RenderPos({ (float)pCollider->Left(), (float)pCollider->Top() });
 	Vector2 colliderRB = MANAGER(CCameraManager*, M_CAMERA)->Get_RenderPos({ (float)pCollider->Right(), (float)pCollider->Bottom() });
@@ -89,6 +89,7 @@ void CObject::Update_Renderer()
 	pRenderer->Top(vRenderPos.Y() - vSize.Y() / 2.f);
 	pRenderer->Bottom(vRenderPos.Y() + vSize.Y() / 2.f);
 
+	this;
 	}
 
 /// <summary>

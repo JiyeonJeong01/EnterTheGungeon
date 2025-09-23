@@ -40,7 +40,6 @@ void CPlayerDodgeState::Update()
 		pObj->Get_Transform()->Position().Y() + vDodgeDir.Y() * fSpeed * 2.f,
 		};
 		pObj->Get_Transform()->Position(move(vNewPos));
-		Update_AnimFrame();
 	}
 
 }

@@ -97,58 +97,32 @@ void CPlayerState::Dir_ByCursor()
 	{
 		if (vDiff.Y() < 0)
 		{
-			if (vDiff.X() < fAlpha)
-			{
-				eDir = D_UP;
-			}
-			else
-			{
-				eDir = D_UR;
-			}
+			if (vDiff.X() < fAlpha) eDir = D_UP;
+			else 	eDir = D_UR;
 		}
 		else
 		{
-			if (vDiff.X() < fAlpha)
-			{
-				eDir = D_DOWN;
-			}
-			else
-			{
-				eDir = D_DR;
-			}
+			if (vDiff.X() < fAlpha) 	eDir = D_DOWN;
+			else 	eDir = D_DR;
 		}
 	}
 	else 
 	{
 		if (vDiff.Y() < 0)
 		{
-			if (vDiff.X() > -fAlpha)
-			{
-				eDir = D_UP;
-			}
-			else
-			{
-				eDir = D_UL;
-			}
+			if (vDiff.X() > -fAlpha)  	eDir = D_UP;
+			else  	eDir = D_UL;
 		}
 		else
 		{
-			if (vDiff.X() > -fAlpha)
-			{
-				eDir = D_DOWN;
-			}
-			else
-			{
-				eDir = D_DL;
-			}
+			if (vDiff.X() > -fAlpha) 	eDir = D_DOWN;
+			else 		eDir = D_DL;
 		}
 	}
-
 }
 
 void CPlayerState::Shot_Bullet()
 {
-	printf("PlayerState.cs : %d\n", (int)bReloading);
 
 	if (!bCanShot || bDodgePlaying || bReloading)
 		return;

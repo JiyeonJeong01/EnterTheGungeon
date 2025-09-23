@@ -34,6 +34,10 @@ public :
 	void Finist_Reloading();
 
 public :
+	void OnCollision(CObject* pObj, Vector2 vDiff) override;
+	void OnCollision_EnBullet(CObject* pObj, Vector2 vDiff);
+
+public :
 	void Set_CurrentState(PlayerState eState, CState* pState) { eCurrentState = eState; pCurrentState = pState; }
 
 public:

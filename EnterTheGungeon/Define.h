@@ -3,6 +3,8 @@
 #define WINCX 1280
 #define WINCY 720
 
+#define PI 3.141592
+
 extern HWND g_hWnd;
 
 #define MANAGER(objType, eType) static_cast<objType>(CManager::Get_Manager(eType))
