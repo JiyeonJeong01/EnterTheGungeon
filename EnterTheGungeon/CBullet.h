@@ -28,6 +28,9 @@ public :
 	void Apply_EffectAnim();
 
 public :
+	void Check_LifeTime();
+
+public :
 	void Set_Speed(float fSpeed) { this->fSpeed = fSpeed; }
 	void Set_Direction(Vector2 vDir);
 	void Set_BulletType(BulletType type) { eBulletType = type; }
@@ -36,7 +39,7 @@ public :
 public :
 	bool Check_InBound();
 	void OnCollision(CObject* pObj);
-	void OnCollision_MapGround();
+	virtual void OnCollision_MapGround();
 
 protected :
 	float fSpeed;
@@ -51,6 +54,7 @@ protected :
 	
 public :
 	bool bCanRend;
-
+	float fLifeTime;
+	DWORD dwElapsedLifeTime;
 };
 

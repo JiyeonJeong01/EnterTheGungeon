@@ -2,6 +2,7 @@
 #include "pch.h"
 #include "CBoss.h"
 #include "CObjectFactory.h"
+#include "CInputManager.h"
 #include "CRelease.h"
 
 #include "CBossStateMachine.h"
@@ -36,7 +37,7 @@ void CBoss::Initialize()
 
     pTransform->Position({ WINCX >> 1, WINCY >> 1 });
     pTransform->Size({ 100.f, 100.f });
-    pCollider->Size({ 150.f, 150.f });
+    pCollider->Size({ 100.f, 100.f });
     pRenderer->Size({ 200.f, 200.f });
 
     CObject::Update_Collider();
@@ -54,12 +55,22 @@ void CBoss::Initialize()
     bShouldAttack = false;
     dwLastAttackTime = GetTickCount();
     Initialize_BossComponents();
+
+    MANAGER(CUIManager*, M_UI)->bBossDraw = true;
+    MANAGER(CUIManager*, M_UI)->pBoss = this;
 }
 
 int CBoss::Update()
 {
     Check_ShouldAtack();
     pCurrentState->Update();
+
+
+    if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown('M'))
+    {
+        iHP--;
+    }
+
 	return 0;
 }
 
@@ -76,6 +87,7 @@ void CBoss::Render(HDC _hDC)
     CObject::Render(_hDC);
 
     pCurrentState->Render(_hDC);
+
 }
 
 void CBoss::Release()
@@ -121,4 +133,5 @@ void CBoss::Check_ShouldAtack()
     {
         bShouldAttack = false;
     }
+   // printf("boss should attack : %d\n", bShouldAttack);
 }

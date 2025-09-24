@@ -98,7 +98,13 @@ void CBossSummonAttackState::Release()
 
 void CBossSummonAttackState::Exit()
 {
-
+    rBound = {};
+    curState = SummonEnd;
+    dwWaitElapsedTime = GetTickCount();
+    iBombCurrIndex = 0;
+    dwReshotWaitingTime = GetTickCount();
+    static_cast<CBoss*>(pObj)->Set_LastAttackTime();
+    static_cast<CBossStateMachine*>(pStateMachine)->Set_PrevAttack(CBoss::BS_SUMMONATTACK);
 }
 
 void CBossSummonAttackState::Enter()
@@ -117,15 +123,14 @@ void CBossSummonAttackState::Enter()
 
 	rCameraToRealPos = { static_cast<int>(vLT.X()), static_cast<int>(vLT.Y()), static_cast<int>(vRT.X()), static_cast<int>(vRT.Y()) };
 
-
-    int bulletsPerEdge = 20;
+    int bulletsPerEdge = 30;
 
     int left = rCameraToRealPos.left + 30;
     int top = rCameraToRealPos.top + 30;
     int right = rCameraToRealPos.right - 30;
     int bottom = rCameraToRealPos.bottom - 30;
     
-    const int offsetRange = 30; // 가장자리에서 ±30픽셀 정도 흔들림
+    const int offsetRange = 40; 
 
     // 상단
     for (int i = 0; i < bulletsPerEdge; ++i)
@@ -133,13 +138,12 @@ void CBossSummonAttackState::Enter()
         int randX = rand() % (right - left) + left;
         int randY = top + (rand() % (offsetRange * 2 + 1) - offsetRange); // top ± offsetRange
 
-        CBossBullet* pBullet = static_cast<CBossBullet*>(
-            CObjectFactory<CBossBullet>::Create(O_ENBULLET, randX, randY)
-            );
-        pBullet->Set_BulletType(CBullet::BossBullet);
+        CBossBullet* pBullet = static_cast<CBossBullet*>(   CObjectFactory<CBossBullet>::Create(O_ENBULLET, randX, randY)   );
+        pBullet->Set_BulletType(CBullet::Boss_Summon);
         pBullet->Set_EffectType(CBullet::E04);
         pBullet->Apply_BulletSprite();
         pBullet->Apply_EffectAnim();
+        pBullet->Set_SummonBulletIndex(1);
         bulletList.push_back(pBullet);
         iTotalBullet++;
     }
@@ -150,13 +154,12 @@ void CBossSummonAttackState::Enter()
         int randX = rand() % (right - left) + left;
         int randY = bottom + (rand() % (offsetRange * 2 + 1) - offsetRange); // bottom ± offsetRange
 
-        CBossBullet* pBullet = static_cast<CBossBullet*>(
-            CObjectFactory<CBossBullet>::Create(O_ENBULLET, randX, randY)
-            );
-        pBullet->Set_BulletType(CBullet::BossBullet);
+        CBossBullet* pBullet = static_cast<CBossBullet*>(  CObjectFactory<CBossBullet>::Create(O_ENBULLET, randX, randY)    );
+        pBullet->Set_BulletType(CBullet::Boss_Summon);
         pBullet->Set_EffectType(CBullet::E04);
         pBullet->Apply_BulletSprite();
         pBullet->Apply_EffectAnim();
+        pBullet->Set_SummonBulletIndex(0);
         bulletList.push_back(pBullet);
         iTotalBullet++;
     }
@@ -167,13 +170,12 @@ void CBossSummonAttackState::Enter()
         int randX = left + (rand() % (offsetRange * 2 + 1) - offsetRange); // left ± offsetRange
         int randY = rand() % (bottom - top) + top;
 
-        CBossBullet* pBullet = static_cast<CBossBullet*>(
-            CObjectFactory<CBossBullet>::Create(O_ENBULLET, randX, randY)
-            );
-        pBullet->Set_BulletType(CBullet::BossBullet);
+        CBossBullet* pBullet = static_cast<CBossBullet*>(     CObjectFactory<CBossBullet>::Create(O_ENBULLET, randX, randY)  );
+        pBullet->Set_BulletType(CBullet::Boss_Summon);
         pBullet->Set_EffectType(CBullet::E04);
         pBullet->Apply_BulletSprite();
         pBullet->Apply_EffectAnim();
+        pBullet->Set_SummonBulletIndex(2);
         bulletList.push_back(pBullet);
         iTotalBullet++;
     }
@@ -184,13 +186,12 @@ void CBossSummonAttackState::Enter()
         int randX = right + (rand() % (offsetRange * 2 + 1) - offsetRange); // right ± offsetRange
         int randY = rand() % (bottom - top) + top;
 
-        CBossBullet* pBullet = static_cast<CBossBullet*>(
-            CObjectFactory<CBossBullet>::Create(O_ENBULLET, randX, randY)
-            );
-        pBullet->Set_BulletType(CBullet::BossBullet);
+        CBossBullet* pBullet = static_cast<CBossBullet*>(   CObjectFactory<CBossBullet>::Create(O_ENBULLET, randX, randY) );
+        pBullet->Set_BulletType(CBullet::Boss_Summon);
         pBullet->Set_EffectType(CBullet::E04);
         pBullet->Apply_BulletSprite();
         pBullet->Apply_EffectAnim();
+        pBullet->Set_SummonBulletIndex(3);
         bulletList.push_back(pBullet);
         iTotalBullet++;
     }
@@ -354,13 +355,11 @@ void CBossSummonAttackState::ReShooting()
         CBossBullet* pBullet = *bulletIter;
         if (!pBullet) continue;
         pBullet->bCanRend = true;
-        // 저장해둔 방향 그대로 다시 세팅
         pBullet->Set_Direction(*dirIter * -1.f);
 
-        // 속도는 자유롭게 조정 가능
         pBullet->Set_Speed(35.f);
+        pBullet->bSummonCanDestoryed = true;
     }
     curState = SummonEnd;
     pStateMachine->Change_State(CBoss::BS_IDLE);
 }
-

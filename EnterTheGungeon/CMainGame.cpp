@@ -27,8 +27,9 @@
 CMainGame::CMainGame()
 {
 	llElapsedTime = 0;
-	iFPS = 0;
+	iFPS = iFPSCounter = 0;
 	hDC = NULL;
+	bFrameUpdated = true;
 }
 
 CMainGame::~CMainGame()
@@ -42,7 +43,7 @@ void CMainGame::Initialize()
 	hDC = GetDC(g_hWnd);
 
 	CResourceLoader::Load_Resource();
-
+	MANAGER(CUIManager*, M_UI)->Initialize();
 	MANAGER(CInputManager*, M_INPUT)->Initialize();
 	MANAGER(CObjectManager*, M_OBJECT)->Initialize();
 	MANAGER(CSceneManager*, M_SCENE)->Initialize();
@@ -95,14 +96,18 @@ void CMainGame::Release()
 
 void CMainGame::Compute_FPS()
 {
-	++iFPS;
+	POINT pPos = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
+	Vector2 vRealPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RealPos({ (float)pPos.x, (float)pPos.y });
 
+	++iFPSCounter;
 	if ((unsigned)(llElapsedTime + 1000 )< GetTickCount64())
 	{
-		swprintf_s(szFPS, L"FPS : %d", iFPS);
-		iFPS = 0;
-
-		SetWindowText(g_hWnd, szFPS);
+		iFPS = iFPSCounter;
+		iFPSCounter = 0;
 		llElapsedTime = GetTickCount64();
 	}
+
+	swprintf_s(szFPS, L"FPS : %d\t, Cursor Pos : {%ld, %ld}, Real Pos : {%d, %d}", 	iFPS, pPos.x, pPos.y, (int)vRealPos.X(), (int)vRealPos.Y());
+
+	SetWindowText(g_hWnd, szFPS);
 }

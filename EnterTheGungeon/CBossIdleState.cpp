@@ -13,8 +13,8 @@ void CBossIdleState::Initialize()
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Enemy/Boss_IDLE.bmp", L"Boss_IDLE");
 	animation.Initialize(0, 3, (int)D_DOWN);
 	fill(animation.vTransitTime.begin(), animation.vTransitTime.end(), 150);
-	
-	fCurStateMaxTime = 3.f;
+
+	fCurStateMaxTime = 2.2f;
 }
 
 void CBossIdleState::Update()
@@ -29,10 +29,17 @@ void CBossIdleState::Late_Update()
 
 	if (bShouldAttack)
 	{
-		if (static_cast<CBossStateMachine*>(pStateMachine)->Get_PrevState() != CBoss::BS_CHEESEATTACK)
+		static_cast<CBoss*>(pObj)->Check_ShouldAtack();
+		if (static_cast<CBoss*>(pObj)->bShouldAttack)
 		{
-			//pStateMachine->Change_State(CBoss::BS_CHEESEATTACK);
-			pStateMachine->Change_State(CBoss::BS_SUMMONATTACK);
+			if (static_cast<CBossStateMachine*>(pStateMachine)->Get_PrevAttack() != CBoss::BS_CHEESEATTACK)
+			{
+				pStateMachine->Change_State(CBoss::BS_CHEESEATTACK);
+			}
+			else if (static_cast<CBossStateMachine*>(pStateMachine)->Get_PrevAttack() != CBoss::BS_SUMMONATTACK)
+			{
+				pStateMachine->Change_State(CBoss::BS_SUMMONATTACK);
+			}
 		}
 	}
 	if (dwCurrentStateElapsedTime + int(fCurStateMaxTime * 1000) < GetTickCount()

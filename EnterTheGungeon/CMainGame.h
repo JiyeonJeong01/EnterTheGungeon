@@ -20,11 +20,12 @@ public :
 
 public:
 	int iFPS;
-
+	int iFPSCounter;
 private:
 	HDC hDC;
 	Vignette* pVignette;
 private:
 	LONGLONG llElapsedTime;
-	TCHAR		szFPS[16];
+	TCHAR		szFPS[64];
+	bool bFrameUpdated;
 };

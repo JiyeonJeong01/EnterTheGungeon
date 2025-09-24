@@ -11,6 +11,7 @@
 #include "CPlayer.h"
 #include "CInventory.h"
 #include "CItem.h"
+#include "CBoss.h"
 
 CUIManager::CUIManager()
 {
@@ -24,6 +25,9 @@ CUIManager::~CUIManager()
 
 void CUIManager::Initialize()
 {
+	bBossDraw = false;
+	dwEffecctTime = GetTickCount();
+	iEffectIndex = 0;
 }
 
 void CUIManager::Update()
@@ -39,8 +43,6 @@ void CUIManager::Update()
 	}
 	iCartridge = pInventory->Get_Cartridge();
 	iCoin = pInventory->Get_Coin();
-
-	
 }
 
 void CUIManager::Late_Update()
@@ -58,7 +60,10 @@ void CUIManager::Render(HDC hDC)
 		ui->Render(hDC);
 	}
 	Draw_Inventory(hDC);
-	Draw_BossStat(hDC);
+	if (bBossDraw)
+	{
+		Draw_BossStat(hDC);
+	}
 }
 
 void CUIManager::Release()
@@ -140,11 +145,39 @@ void CUIManager::Draw_BossStat(HDC hDC)
 	int iX = 661, iY = 60;
 
 	HDC hBar = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Boss_HPBar");
-
+	HDC hEffect = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Boss_HP_Effect");
 	GdiTransparentBlt(hDC, WINCX / 2 - iX/2, WINCY - iY - iY, iX, iY, hBar, 0, 0, iX, iY, RGB(0, 0, 0));
+	//Rectangle(hDC, WINCX / 2 - iX / 2, WINCY - iY + 30, WINCX / 2 + iX / 2, WINCY - iY + 30);
 
 
+	int iBarL = 375, iBarT = 620, iBarR = 907, iBarB = 642;
+	int iLen = iBarR - iBarL;
+	int iHPLen = pBoss->iMaxHP - pBoss->iHP;
+	int iNewL = iBarR - (float)iHPLen * 0.01f * iLen;
+	if (iNewL <= iBarL) iNewL = iBarL;
 
+	HPEN hPen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
+	HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 0));
+	HPEN hOldPen = (HPEN)SelectObject(hDC, hPen);
+	HBRUSH hOldBrush = (HBRUSH)SelectObject(hDC, hBrush);
+
+	Rectangle(hDC, iNewL, iBarT, iBarR, iBarB);
+
+	SelectObject(hDC, hOldPen);
+	SelectObject(hDC, hOldBrush);
+	DeleteObject(hPen);
+	DeleteObject(hBrush);
+
+	int iEffectX = 64, iEffectY = 64;
+	GdiTransparentBlt(hDC, iNewL - iEffectX/2 + 10, iBarT-iEffectY/2+10, iEffectX, iEffectY, hEffect, iEffectIndex * iEffectX, 0, iEffectX, iEffectY, RGB(0, 0, 0));
+	if (dwEffecctTime + 100 < GetTickCount())
+	{
+		dwEffecctTime = GetTickCount();
+		iEffectIndex++;
+		if (iEffectIndex > 5)
+		{
+			iEffectIndex = 0;
+		}
+	}
 
 }
-;

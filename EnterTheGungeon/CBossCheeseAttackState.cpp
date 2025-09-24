@@ -60,6 +60,7 @@ void CBossCheeseAttackState::Release()
 void CBossCheeseAttackState::Exit()
 {
 	static_cast<CBoss*>(pObj)->Set_LastAttackTime();
+	static_cast<CBossStateMachine*>(pStateMachine)->Set_PrevAttack(CBoss::BS_CHEESEATTACK);
 }
 
 void CBossCheeseAttackState::Enter()

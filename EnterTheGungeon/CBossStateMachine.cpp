@@ -54,12 +54,6 @@ void CBossStateMachine::Initialize()
      dynamic_cast<CBoss*>(pObj)->Set_CurrentState(CBoss::BS_IDLE, idle);
      pCurrentState = idle;
      curState = CBoss::BS_IDLE;
-     
-    //dynamic_cast<CBoss*>(pObj)->Set_CurrentState(CBoss::BS_SUMMONATTACK, summonAttack);
-    //pCurrentState = summonAttack;
-    //pCurrentState->Enter();
-    //curState = CBoss::BS_SUMMONATTACK;
-    
 }
 
 void CBossStateMachine::Change_State(int iStateKey)
@@ -70,6 +64,16 @@ void CBossStateMachine::Change_State(int iStateKey)
     }
 
     pCurrentState->Exit();
+
+    if (curState == CBoss::BS_SUMMONATTACK || pCurrentState == summonAttack)
+    {
+        CRelease<CState*>::Release(mBossStates[CBoss::BS_SUMMONATTACK]);
+        mBossStates.erase(CBoss::BS_SUMMONATTACK);
+        summonAttack = new CBossSummonAttackState(pObj, this);
+        mBossStates.insert({ CBoss::BS_SUMMONATTACK, summonAttack });
+        summonAttack->Initialize();
+    }
+
     pPrevState = pCurrentState;
     prevState = curState;
 

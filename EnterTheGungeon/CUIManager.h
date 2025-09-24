@@ -1,6 +1,7 @@
 #pragma once
 #include "CManager.h"
 class CObject;
+class CBoss;
 class CInventory;
 class CUIManager :  public CManager
 {
@@ -36,6 +37,9 @@ public :
 	int iBomb;
 
 	// boss
+	CBoss* pBoss;
 	bool bBossDraw;
+	DWORD dwEffecctTime;
+	int iEffectIndex;
 };
 

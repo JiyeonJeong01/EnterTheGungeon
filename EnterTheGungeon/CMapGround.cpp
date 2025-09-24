@@ -37,11 +37,11 @@ void CMapGround::Release()
 void CMapGround::OnCollision(CObject* pObj, Vector2 vDiff)
 {
     ObjectType pType = pObj->Get_ObjType();
-    if (pType == O_PLAYER)
+    if (pType == O_PLAYER || pType == O_ENEMY)
     {
         OnCollision_Entity(pObj, vDiff);
     }
-    else if (pType == O_PLBULLET)
+    else if (pType == O_PLBULLET || pType == O_ENBULLET)
     {
         static_cast<CBullet*>(pObj)->OnCollision_MapGround();
     }

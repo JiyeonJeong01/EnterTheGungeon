@@ -27,7 +27,7 @@ void CBullet::Load_Resource()
     MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Weapon/Boss_Bullet01.bmp", L"Boss_Bullet");
     MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Weapon/Boss_Cheese_Bullet01.bmp", L"Boss_Cheese");
     MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Weapon/Boss_Kunai.bmp", L"Boss_Kunai");
-    // MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Weapon/Boss_Bullet.bmp", L"Bullet04");
+    MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Weapon/Boss_SummonBullet.bmp", L"Boss_SummonBullet");
 
 
     MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Weapon/BulletEffect01.bmp", L"BulletEffect01");
@@ -41,15 +41,18 @@ void CBullet::Initialize()
 {
     CObject::Initialize();
     bCanRend = true;
+    fLifeTime = 110.f;
+    dwElapsedLifeTime = GetTickCount();
 }
 
 int CBullet::Update()
 {
+    Check_LifeTime();
     if (!bAlive) return S_DEAD;
     CObject::Update_Collider();
     Update_Transform();
     Update_AnimFrame();
-
+    
     return 0;
 }
 
@@ -80,6 +83,7 @@ void CBullet::Render(HDC _hDC)
 
 void CBullet::Release()
 {
+    printf("ÃÑ¾Ë ÀÚµ¿ »èÁ¦µÊ\n");
 }
 
 void CBullet::Update_Transform()
@@ -130,7 +134,7 @@ void CBullet::Apply_BulletSprite()
         bulletSpriteKey = L"Boss_Cheese"; 
         break;
     case CBullet::Boss_Summon:     
-        bulletSpriteKey = L"Boss_Summon";  
+        bulletSpriteKey = L"Boss_SummonBullet";  
         break;
     case CBullet::Boss_Kunai:            
         bulletSpriteKey = L"Boss_Kunai"; 
@@ -169,6 +173,15 @@ void CBullet::Apply_EffectAnim()
         break;
     }
     fill(effectAnim.vTransitTime.begin(), effectAnim.vTransitTime.end(), 40);
+}
+
+void CBullet::Check_LifeTime()
+{
+    if (dwElapsedLifeTime + fLifeTime * 1000 < GetTickCount())
+    {
+        this;
+        bAlive = false;
+    }
 }
 
 void CBullet::Set_Direction(Vector2 vDir)

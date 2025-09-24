@@ -21,6 +21,8 @@ public:
 
 public :
 	CBoss::BossState Get_PrevState() { return prevState; }
+	void Set_PrevAttack(CBoss::BossState state) { prevAttack = state; }
+	CBoss::BossState Get_PrevAttack() { return prevAttack;; }
 
 private:
 	map<CBoss::BossState, CState*> mBossStates;
@@ -34,4 +36,5 @@ private:
 private :
 	CBoss::BossState curState;
 	CBoss::BossState prevState;
+	CBoss::BossState prevAttack;
 };

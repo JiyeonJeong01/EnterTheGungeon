@@ -31,13 +31,17 @@ CTestSCene::~CTestSCene()
 
 void CTestSCene::Initialize()
 {
+
+
 	eScene = SC_TEST;
-	pPlayer = dynamic_cast<CPlayer*>(CObjectFactory<CPlayer>::Create(O_PLAYER, WINCX, WINCY));
-	pBoss = dynamic_cast<CBoss*>(CObjectFactory<CBoss>::Create(O_ENEMY, 800, 400));
+	POINT pPlayerPos = { 3000, 3050 };
+	POINT pBossPos = { pPlayerPos.x + 1500, pPlayerPos.y - 200 };
+	pPlayer = dynamic_cast<CPlayer*>(CObjectFactory<CPlayer>::Create(O_PLAYER, pPlayerPos.x, pPlayerPos.y));
+	pBoss = dynamic_cast<CBoss*>(CObjectFactory<CBoss>::Create(O_ENEMY, pBossPos.x, pBossPos.y));
 	MANAGER(CEnvironmentManager*, M_MAP)->Initialize();
-	MANAGER(CCameraManager*, M_CAMERA)->Set_LookAt({ WINCX >> 1, WINCY >> 1 });
+	MANAGER(CCameraManager*, M_CAMERA)->Set_LookAt({ (float)pPlayerPos.x, (float)pPlayerPos.y });
 	MANAGER(CCameraManager*, M_CAMERA)->Set_Target(pPlayer);
-	MANAGER(CUIManager*, M_UI)->Initialize();
+
 
 	// 테스트용 테이블 생성 
 	CTableObject* pTable1 = dynamic_cast<CTableObject*>(CObjectFactory<CTableObject>::Create(O_INTERACTABLE, 600, 600));
@@ -47,24 +51,24 @@ void CTestSCene::Initialize()
 	CTableObject* pTable3 = dynamic_cast<CTableObject*>(CObjectFactory<CTableObject>::Create(O_INTERACTABLE, 300, 800));
 	MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList()->push_back(pTable3);
 
-	// 테스트용 아이템 생성w
-	CCartridge* pItem1 = dynamic_cast<CCartridge*>(CObjectFactory<CCartridge>::Create(O_ITEM, 900, 900));
-	pItem1->Drop_Item({ 900, 900 });
+	//// 테스트용 아이템 생성w
+	//CCartridge* pItem1 = dynamic_cast<CCartridge*>(CObjectFactory<CCartridge>::Create(O_ITEM, 900, 900));
+	//pItem1->Drop_Item({ 900, 900 });
 
-	CCoin* pItem2 = dynamic_cast<CCoin*>(CObjectFactory<CCoin>::Create(O_ITEM, 800, 900));
-	pItem2->Drop_Item({ 800, 900 });
+	//CCoin* pItem2 = dynamic_cast<CCoin*>(CObjectFactory<CCoin>::Create(O_ITEM, 800, 900));
+	//pItem2->Drop_Item({ 800, 900 });
 
-	CBomb* pItem3 = dynamic_cast<CBomb*>(CObjectFactory<CBomb>::Create(O_ITEM, 1000, 900));
-	pItem3->Drop_Item({ 1000, 900 });
+	//CBomb* pItem3 = dynamic_cast<CBomb*>(CObjectFactory<CBomb>::Create(O_ITEM, 1000, 900));
+	//pItem3->Drop_Item({ 1000, 900 });
 
-	CCartridge* pItem4 = dynamic_cast<CCartridge*>(CObjectFactory<CCartridge>::Create(O_ITEM, 920, 880));
-	pItem4->Drop_Item({ 920, 880 });
+	//CCartridge* pItem4 = dynamic_cast<CCartridge*>(CObjectFactory<CCartridge>::Create(O_ITEM, 920, 880));
+	//pItem4->Drop_Item({ 920, 880 });
 
-	CCoin* pItem5 = dynamic_cast<CCoin*>(CObjectFactory<CCoin>::Create(O_ITEM, 820, 880));
-	pItem5->Drop_Item({ 820, 880 });
+	//CCoin* pItem5 = dynamic_cast<CCoin*>(CObjectFactory<CCoin>::Create(O_ITEM, 820, 880));
+	//pItem5->Drop_Item({ 820, 880 });
 
-	CBomb* pItem6 = dynamic_cast<CBomb*>(CObjectFactory<CBomb>::Create(O_ITEM, 1020, 880));
-	pItem6->Drop_Item({ 1020, 880 });
+	//CBomb* pItem6 = dynamic_cast<CBomb*>(CObjectFactory<CBomb>::Create(O_ITEM, 1020, 880));
+	//pItem6->Drop_Item({ 1020, 880 });
 
 }
 
@@ -73,35 +77,35 @@ void CTestSCene::Update()
 	MANAGER(CObjectManager*, M_OBJECT)->Update();
 	MANAGER(CEnvironmentManager*, M_MAP)->Update();
 
-	//// Map ground <-> Player
-	//CCollisionManager::Detect_MapCollision(
-	//	*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(), 
-	//	*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER));
+	// Map ground <-> Player
+	CCollisionManager::Detect_MapCollision(
+		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(), 
+		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER));
 
-	//// Map ground <-> Player Bullet
-	//CCollisionManager::Detect_MapCollision(
-	//	*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
-	//	*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLBULLET));
+	// Map ground <-> Player
+	CCollisionManager::Detect_MapCollision(
+		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
+		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENEMY));
 
-	//// Map object <-> Player
-	//CCollisionManager::Detect_MapCollision(
-	//	*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
-	//	*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLBULLET));
+	// Map ground <-> Player Bullet
+	CCollisionManager::Detect_MapCollision(
+		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
+		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLBULLET));
 
-	//// Map object <-> Player
-	//CCollisionManager::Detect_MapCollision(
-	//	*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
-	//	*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENBULLET));
+	// Map object <-> Enemy Bullet
+	CCollisionManager::Detect_MapCollision(
+		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
+		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENBULLET));
 
-	//// Player <-> Enemy Bullet
-	//CCollisionManager::Detect_RectCollision(
-	//	*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER),
-	//	*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENBULLET));
+	// Player <-> Enemy Bullet
+	CCollisionManager::Detect_RectCollision(
+		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER),
+		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENBULLET));
 
-	//// Player <-> Enemy Bullet
-	//CCollisionManager::Detect_RectCollision(
-	//	*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENEMY),
-	//	*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLBULLET));
+	// Player <-> Enemy Bullet
+	CCollisionManager::Detect_RectCollision(
+		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENEMY),
+		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLBULLET));
 
 	MANAGER(CCameraManager*, M_CAMERA)->Update();
 	MANAGER(CUIManager*, M_UI)->Update();
@@ -115,11 +119,9 @@ void CTestSCene::Late_Update()
 void CTestSCene::Render(HDC _hDC)
 {
 	Vector2 vRenderPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RenderPos({0.f, 0.f});
-	HDC hBackground = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Tutorial");
+	HDC hBackground = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Stage02");
 	BitBlt(_hDC, 0, 0, WINCX, WINCY, hBackground, -vRenderPos.X(), -vRenderPos.Y(), SRCCOPY);
-
 	MANAGER(CObjectManager*, M_OBJECT)->Render(_hDC);
-	//for_each(mapList.begin(), mapList.end(), [&](CMap* map)->void {map->Render(_hDC); });
 	MANAGER(CEnvironmentManager*, M_MAP)->Render(_hDC);
 
 	MANAGER(CUIManager*, M_UI)->Render(_hDC);
