@@ -27,8 +27,6 @@ public:
 
 protected:
 	CBoss::BossState eState;
-
-protected :
 	CPlayer* pPlayer;
 
 protected:

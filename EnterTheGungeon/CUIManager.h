@@ -31,6 +31,7 @@ public :
 	CInventory* pInventory;
 
 	// inventory
+	bool bDrawPlayer;
 	int iCartridge;
 	int iCoin;
 	int iKey;

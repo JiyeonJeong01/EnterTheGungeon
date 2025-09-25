@@ -5,6 +5,7 @@
 #include "CCameraManager.h"
 #include "CInputManager.h"
 #include "CObjectFactory.h"
+#include "CUIManager.h"
 #include "CRelease.h"
 
 #include "CPlayerStateMachine.h"
@@ -63,6 +64,8 @@ void CPlayer::Initialize()
     iHP = iMaxHP;
 
     Initialize_PlayerComponents();
+
+    MANAGER(CUIManager*, M_UI)->bDrawPlayer = true;
 }
 
 int CPlayer::Update()
@@ -120,13 +123,6 @@ void CPlayer::OnCollision(CObject* pObj, Vector2 vDiff)
     case O_ENBULLET:
         OnCollision_EnBullet(pObj, vDiff);
     }
-
-
-
-
-
-
-
 }
 
 void CPlayer::OnCollision_EnBullet(CObject* pObj, Vector2 vDiff)

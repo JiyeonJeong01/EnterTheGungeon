@@ -26,6 +26,7 @@ CUIManager::~CUIManager()
 void CUIManager::Initialize()
 {
 	bBossDraw = false;
+	bDrawPlayer = false;
 	dwEffecctTime = GetTickCount();
 	iEffectIndex = 0;
 }
@@ -36,13 +37,12 @@ void CUIManager::Update()
 	{
 		ui->Update();
 	}
-	if (pInventory == nullptr)
+	if (bDrawPlayer && pInventory == nullptr)
 	{
 		this->pInventory = static_cast<CPlayer*>(MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER)->front())->pInventory;
 		if (pInventory == nullptr) return;
 	}
-	iCartridge = pInventory->Get_Cartridge();
-	iCoin = pInventory->Get_Coin();
+
 }
 
 void CUIManager::Late_Update()
@@ -59,7 +59,10 @@ void CUIManager::Render(HDC hDC)
 	{
 		ui->Render(hDC);
 	}
-	Draw_Inventory(hDC);
+	if (bDrawPlayer)
+	{
+		Draw_Inventory(hDC);
+	}
 	if (bBossDraw)
 	{
 		Draw_BossStat(hDC);
@@ -86,6 +89,8 @@ void CUIManager::Draw_Inventory(HDC hDC)
 #pragma region Basic item info
 	int iX = 20, iY = 65;
 	int iSize = 27;
+	iCartridge = pInventory->Get_Cartridge();
+	iCoin = pInventory->Get_Coin();
 
 	HDC hCartridge = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Cartridge_UI");
 	HDC hCoin = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Coin_UI");

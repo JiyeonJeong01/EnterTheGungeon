@@ -70,6 +70,10 @@ int CBoss::Update()
     {
         iHP--;
     }
+    if (iHP <= 0)
+    {
+        pStateMachine->Change_State(BS_DEAD);
+    }
 
 	return 0;
 }
@@ -112,7 +116,9 @@ void CBoss::OnCollision(CObject* pObj, Vector2 vDiff)
     ObjectType type = pObj->Get_ObjType();
     if (type == O_PLBULLET)
     {
+        this;
         iHP = (iHP - 1 <= 0 ? 0 : iHP - 1);
+        printf("boss hp : %d\n", iHP);
     }
 }
 

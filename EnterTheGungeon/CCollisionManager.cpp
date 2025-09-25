@@ -15,31 +15,21 @@ void CCollisionManager::Detect_RectCollision(list<CObject*> dstList, list<CObjec
             Vector2 overlapped = Get_OverlapRect(dst, src);
             if (overlapped.X() != 0.f && overlapped.Y() != 0.f)
             {
-                //dst->OnCollision(src, overlapped);
-                //src->OnCollision(dst, overlapped);
-                for_each(dst->Get_Collider()->Get_OnCollision()->begin(),
-                    dst->Get_Collider()->Get_OnCollision()->end(),
-                    [&](function<void(CObject*, Vector2)> listener) -> void {
-                        listener(src, overlapped);
-                    });
-                for_each(src->Get_Collider()->Get_OnCollision()->begin(),
-                    src->Get_Collider()->Get_OnCollision()->end(),
-                    [&](function<void(CObject*, Vector2)> listener) -> void {
-                        listener(dst, overlapped);
-                    });
+                dst->OnCollision(src, overlapped);
+                src->OnCollision(dst, overlapped);
 
             }
         }
     }
 }
 
-Vector2 CCollisionManager::Get_OverlapRect(CObject* dst, CObject* srcList)
+Vector2 CCollisionManager::Get_OverlapRect(CObject* dst, CObject* src)
 {
-    float fDistX = abs(dst->Get_Transform()->Position().X() - dst->Get_Transform()->Position().X());
-    float fDistY = abs(dst->Get_Transform()->Position().Y() - dst->Get_Transform()->Position().Y());
+    float fDistX = abs(dst->Get_Transform()->Position().X() - src->Get_Transform()->Position().X());
+    float fDistY = abs(dst->Get_Transform()->Position().Y() - src->Get_Transform()->Position().Y());
     
-    float fRadX = (dst->Get_Collider()->Size().X() + dst->Get_Collider()->Size().X()) * 0.5f;
-    float fRadY = (dst->Get_Collider()->Size().Y() + dst->Get_Collider()->Size().Y()) * 0.5f;
+    float fRadX = (dst->Get_Collider()->Size().X() + src->Get_Collider()->Size().X()) * 0.5f;
+    float fRadY = (dst->Get_Collider()->Size().Y() + src->Get_Collider()->Size().Y()) * 0.5f;
 
     if ((fRadX >= fDistX) && (fRadY >= fDistY))
     {

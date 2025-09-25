@@ -23,7 +23,7 @@ public:
 	const POINT& Get_CursorPosition();
 
 private:
-	vector<int> vKeys { VK_LBUTTON, VK_RBUTTON, VK_LCONTROL, VK_SPACE, VK_LSHIFT,
+	vector<int> vKeys { VK_LBUTTON, VK_RBUTTON, VK_LCONTROL, VK_SPACE, VK_LSHIFT, VK_RETURN,
 									'W', 'A', 'S', 'D', 'Q', 'E', 'R', 'M'};
 	map<int, CInputKeyInfo*> mKeyInfos;
 

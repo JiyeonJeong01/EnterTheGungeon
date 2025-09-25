@@ -8,6 +8,7 @@
 #include "CBossCheeseAttackState.h"
 #include "CBossSummonAttackState.h"
 #include "CBossKunaiAttackState.h"
+#include "CBossDeadState.h"
 #include "CObject.h"
 #include "CRelease.h"
 #pragma endregion
@@ -20,6 +21,7 @@ CBossStateMachine::CBossStateMachine(CObject* pObj) : CStateMachine(pObj)
     cheeseAttack = nullptr;
     summonAttack = nullptr;
     kunaiAttack = nullptr;
+    dead = nullptr;
     curState = prevState = CBoss::BS_END;
 }
 
@@ -35,21 +37,24 @@ void CBossStateMachine::Initialize()
     dodge = new CBossDodgeState(pObj, this);
     cheeseAttack = new CBossCheeseAttackState(pObj, this);
     summonAttack = new CBossSummonAttackState(pObj, this);
-    //kunaiAttack = new CBossKunaiAttackState(pObj, this);
+    kunaiAttack = new CBossKunaiAttackState(pObj, this);
+    dead = new CBossDeadState(pObj, this);
 
     mBossStates.insert({ CBoss::BS_IDLE,         idle });
     mBossStates.insert({ CBoss::BS_WALK,         walk });
     mBossStates.insert({ CBoss::BS_DODGE,        dodge });
     mBossStates.insert({ CBoss::BS_CHEESEATTACK, cheeseAttack });
     mBossStates.insert({ CBoss::BS_SUMMONATTACK, summonAttack });
-    //mBossStates.insert({ CBoss::BS_KUNAIATTACK,  kunaiAttack });
+    mBossStates.insert({ CBoss::BS_KUNAIATTACK,  kunaiAttack });
+    mBossStates.insert({ CBoss::BS_DEAD, dead });
 
     idle->Initialize();
     walk->Initialize();
     dodge->Initialize();
     cheeseAttack->Initialize();
     summonAttack->Initialize();
-    //kunaiAttack->Initialize();
+    kunaiAttack->Initialize();
+    dead->Initialize();
 
      dynamic_cast<CBoss*>(pObj)->Set_CurrentState(CBoss::BS_IDLE, idle);
      pCurrentState = idle;

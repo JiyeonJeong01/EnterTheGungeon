@@ -6,6 +6,7 @@
 #include "CRenderer.h"
 #include "CCollider.h"
 #include "CTransform.h"
+#include "CSoundManager.h"
 
 CReloadBar::CReloadBar()
 {
@@ -122,5 +123,7 @@ void CReloadBar::Start_Reload()
 	{
 		bActive = true;
 		dwTime = GetTickCount();
+		MANAGER(CSoundManager*, M_SOUND)->StopSound(SOUND_EFFECT);
+		MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"Player_Reload.wav", SOUND_EFFECT, 1.f);
 	}
 }

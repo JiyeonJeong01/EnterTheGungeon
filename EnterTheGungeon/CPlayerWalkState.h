@@ -24,4 +24,7 @@ public:
 
 	int Dir_AnimRow(Direction eDir) override;
 	int Get_WeaponPos();
+
+private :
+	int iPrevFrame;
 };

@@ -18,7 +18,7 @@ void CIntroScene::Initialize()
     hVideo = MCIWndCreate(g_hWnd,
         nullptr,
         WS_CHILD | WS_VISIBLE | MCIWNDF_NOPLAYBAR,
-        L"../Video/IntroVideo.wmv");
+        L"../Video/IntroVideo00.wmv");
 
     MoveWindow(hVideo, 0, 0, WINCX, WINCY, FALSE);
 
@@ -28,7 +28,7 @@ void CIntroScene::Initialize()
 
 void CIntroScene::Update()
 {
-    if ( MANAGER(CInputManager*, M_INPUT)->Get_KeyDown(VK_LBUTTON)||
+    if ( MANAGER(CInputManager*, M_INPUT)->Get_KeyDown(VK_RETURN) ||
         MCIWndGetLength(hVideo) <= MCIWndGetPosition(hVideo))
     {
         MANAGER(CSceneManager*, M_SCENE)->Change_Scene(SC_TEST);

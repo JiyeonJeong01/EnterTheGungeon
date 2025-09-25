@@ -126,6 +126,5 @@ void CPlayerState::Shot_Bullet()
 
 	if (!bCanShot || bDodgePlaying || bReloading)
 		return;
-
 	static_cast<CPlayer*>(pObj)->pWeapon->Attack();
 }

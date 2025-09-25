@@ -82,6 +82,8 @@ void CMainGame::Render()
 
 	//pVignette->Render(hBackDC);
 	BitBlt(hDC, 0, 0, WINCX, WINCY, hBackDC, 0, 0, SRCCOPY);
+
+	SetStretchBltMode(hDC, COLORONCOLOR);
 }
 
 void CMainGame::Release()

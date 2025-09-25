@@ -7,6 +7,7 @@
 #include "CRenderer.h"
 #include "CStateMachine.h"
 #include "CCameraManager.h"
+#include "CSoundManager.h"
 
 void CPlayerWalkState::Initialize()
 {
@@ -91,6 +92,11 @@ void CPlayerWalkState::Enter()
 void CPlayerWalkState::Update_AnimFrame()
 {
 	CState::Update_AnimFrame();
+	if (iPrevFrame != animation.iCurrIndex)
+	{
+		iPrevFrame = animation.iCurrIndex;
+		MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"Player_FootStep.wav", SOUND_EFFECT, 1.f);
+	}
 }
 
 void CPlayerWalkState::Stop_Animation()

@@ -15,7 +15,6 @@ void CBossDodgeState::Initialize()
 	animation.Initialize(0, 8, (int)D_DOWN);
 	fill(animation.vTransitTime.begin(), animation.vTransitTime.end(), 90);
 
-
 	effectAnim.Initialize(0, 5, 0);
 	fill(effectAnim.vTransitTime.begin(), effectAnim.vTransitTime.end(), 40);
 	bEffectPlay = false;

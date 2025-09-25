@@ -8,8 +8,11 @@
 
 #include "CScene.h"
 #include "CIntroScene.h"
+#include "CStage01.h"
+#include "CStage02.h"
 #include "CMainScene.h"
 #include "CTestSCene.h"
+
 
 #include "CObject.h"
 #include "CPlayer.h"
@@ -29,7 +32,7 @@ CSceneManager::~CSceneManager()
 
 void CSceneManager::Initialize()
 {
-	Change_Scene(SC_TEST);
+	Change_Scene(SC_INTRO);
 }
 
 void CSceneManager::Update()
@@ -64,6 +67,12 @@ void CSceneManager::Change_Scene(SceneType sType)
 	case SC_INTRO : 
 		pCurrentScene = new CIntroScene;
 		break;
+	case SC_STAGE01:
+		pCurrentScene = new CStage01;
+			break;
+	case SC_STAGE02:
+		pCurrentScene = new CStage02;
+		break;
 	case SC_MAIN :
 		//pCurrentScene = new CMainScene;
 		break;
@@ -71,8 +80,8 @@ void CSceneManager::Change_Scene(SceneType sType)
 		pCurrentScene = new CTestSCene;
 		break;
 	}
-	pCurrentScene->Initialize();
 	eCurrentScene = sType;
+	pCurrentScene->Initialize();
 }
 
 void CSceneManager::Change_SceneEffect()

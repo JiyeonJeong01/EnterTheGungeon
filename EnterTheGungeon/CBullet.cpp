@@ -41,7 +41,7 @@ void CBullet::Initialize()
 {
     CObject::Initialize();
     bCanRend = true;
-    fLifeTime = 110.f;
+    fLifeTime = 11.f;
     dwElapsedLifeTime = GetTickCount();
 }
 
@@ -138,6 +138,7 @@ void CBullet::Apply_BulletSprite()
         break;
     case CBullet::Boss_Kunai:            
         bulletSpriteKey = L"Boss_Kunai"; 
+        pRenderer->Size({ 72.f, 25.f });
         break;
     }
     spriteKey = bulletSpriteKey;

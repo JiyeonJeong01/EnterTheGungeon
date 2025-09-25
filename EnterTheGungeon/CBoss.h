@@ -35,6 +35,9 @@ public:
 public:
 	void Set_CurrentState(BossState eState, CState* pState) { eCurrentState = eState; pCurrentState = pState; }
 	void Set_LastAttackTime() { dwLastAttackTime = GetTickCount(); }
+	void Set_Speed(float fSpeed) { this->fSpeed = fSpeed; }
+
+
 public:
 	DWORD dwLastFireTime;
 	float fLimitFireTime;

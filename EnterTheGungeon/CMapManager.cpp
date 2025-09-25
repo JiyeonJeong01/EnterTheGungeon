@@ -8,6 +8,7 @@
 #include "CCollisionManager.h"
 #include "CObjectFactory.h"
 #include "CCameraManager.h"
+#include "CSceneManager.h"
 #include "CRelease.h"
 
 #include "CButton.h"
@@ -128,7 +129,11 @@ void CEnvironmentManager::Save_Data()
 {
 	CObject* pPlayer = MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER)->front();
 
-	std::wofstream ofs(L"../Data/Ground.json");
+	int iNum = (int)MANAGER(CSceneManager*, M_SCENE)->Get_CurrentScene();
+
+	wstring filePath = L"../Data/Ground" + to_wstring(iNum) + L".json";
+
+	std::wofstream ofs(filePath);
 	if (!ofs.is_open())
 	{
 		_tprintf(_T("Save Failed\n"));
@@ -164,7 +169,11 @@ void CEnvironmentManager::Save_Data()
 
 void CEnvironmentManager::Load_Data()
 {
-	std::wifstream ifs(L"../Data/Ground.json");
+	int iNum = (int)MANAGER(CSceneManager*, M_SCENE)->Get_CurrentScene();
+	
+	wstring filePath = L"../Data/Ground" + to_wstring(iNum) + L".json";
+	
+	wifstream ifs(filePath);
 	if (!ifs.is_open())
 	{
 		_tprintf(_T("Load Failed\n"));

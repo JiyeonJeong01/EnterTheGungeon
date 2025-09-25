@@ -50,8 +50,6 @@ void CBossSummonAttackState::Update()
     {
         ReShooting();
     }
-
-
 }
 
 void CBossSummonAttackState::Late_Update()
@@ -89,6 +87,11 @@ void CBossSummonAttackState::Render(HDC hDC)
             0,
             300, 300,
             RGB(255, 0, 255));
+        if (iBombCurrIndex == 6)
+        {
+            MANAGER(CSoundManager*, M_SOUND)->StopSound(SOUND_EFFECT);
+            MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"Boss_SummonBomb.wav", SOUND_EFFECT, 1.f);
+        }
     }
 }
 
@@ -123,14 +126,14 @@ void CBossSummonAttackState::Enter()
 
 	rCameraToRealPos = { static_cast<int>(vLT.X()), static_cast<int>(vLT.Y()), static_cast<int>(vRT.X()), static_cast<int>(vRT.Y()) };
 
-    int bulletsPerEdge = 30;
+    int bulletsPerEdge = 60;
 
     int left = rCameraToRealPos.left + 30;
     int top = rCameraToRealPos.top + 30;
     int right = rCameraToRealPos.right - 30;
     int bottom = rCameraToRealPos.bottom - 30;
     
-    const int offsetRange = 40; 
+    const int offsetRange = 70; 
 
     // »ó´Ü
     for (int i = 0; i < bulletsPerEdge; ++i)
@@ -217,7 +220,7 @@ void CBossSummonAttackState::On_End_Animation()
 
 void CBossSummonAttackState::Create_Cheese()
 {
-    int spawnCount = rand() % 3 + 1;
+    int spawnCount = rand() % 6 + 1;
 
     int activated = 0;
     for (auto& pBullet : bulletList)

@@ -202,6 +202,9 @@
     <Filter Include="24. Bullet\02. EnemyBullet">
       <UniqueIdentifier>{afac0bb8-42ec-4b17-9b7a-88cd7bbaebe8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="25. Map\03. Teleport">
+      <UniqueIdentifier>{a9e0dc25-928c-453b-a7ae-0716f54476f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -423,6 +426,18 @@
     <ClInclude Include="CBossBullet.h">
       <Filter>24. Bullet\02. EnemyBullet</Filter>
     </ClInclude>
+    <ClInclude Include="CStage01.h">
+      <Filter>04. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="CTeleport.h">
+      <Filter>25. Map\03. Teleport</Filter>
+    </ClInclude>
+    <ClInclude Include="CStage02.h">
+      <Filter>04. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="CBossDeadState.h">
+      <Filter>21. Enemy\00. Boss\02. State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -631,6 +646,18 @@
     </ClCompile>
     <ClCompile Include="CBossBullet.cpp">
       <Filter>24. Bullet\02. EnemyBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="CStage01.cpp">
+      <Filter>04. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CTeleport.cpp">
+      <Filter>25. Map\03. Teleport</Filter>
+    </ClCompile>
+    <ClCompile Include="CStage02.cpp">
+      <Filter>04. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossDeadState.cpp">
+      <Filter>21. Enemy\00. Boss\02. State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

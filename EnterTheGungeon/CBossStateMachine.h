@@ -7,6 +7,7 @@ class CBossDodgeState;
 class CBossCheeseAttackState;
 class CBossSummonAttackState;
 class CBossKunaiAttackState;
+class CBossDeadState;
 
 class CBossStateMachine : public CStateMachine
 {
@@ -32,6 +33,7 @@ private:
 	CBossCheeseAttackState* cheeseAttack;
 	CBossSummonAttackState* summonAttack;
 	CBossKunaiAttackState* kunaiAttack;
+	CBossDeadState* dead;
 
 private :
 	CBoss::BossState curState;

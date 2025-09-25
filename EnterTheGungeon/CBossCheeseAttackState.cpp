@@ -22,6 +22,7 @@ void CBossCheeseAttackState::Initialize()
 	fCurAttackDegree = 90.f;
 
 	dwLastFireTime = GetTickCount();
+	iRandAttack = -1;
 }
 
 void CBossCheeseAttackState::Update()
@@ -69,7 +70,14 @@ void CBossCheeseAttackState::Enter()
 	iPrevFrame = -1;
 	dwLastFireTime = 0;
 
-	iRandAttack = rand() % 2;
+	if (iRandAttack == -1 || iRandAttack == 0)
+	{
+		iRandAttack = 1;
+	}
+	else
+	{
+		iRandAttack = 0;
+	}
 
 	if (iRandAttack)
 	{
@@ -78,7 +86,7 @@ void CBossCheeseAttackState::Enter()
 		int iFrameRange = 70;
 		fill(animation.vTransitTime.begin(), animation.vTransitTime.end(), iFrameRange);
 		fFireTimeRange = (iFrameRange * 11) / (360.f / fFireDegreeRange);
-	 bAnimLoop = true;
+		bAnimLoop = true;
 	}
 	else
 	{
@@ -87,7 +95,7 @@ void CBossCheeseAttackState::Enter()
 		int iFrameRange = 80;
 		fill(animation.vTransitTime.begin(), animation.vTransitTime.end(), iFrameRange);
 		fFireTimeRange = (iFrameRange * 10) / (360.f / fFireDegreeRange);
-	 bAnimLoop = false;
+		bAnimLoop = false;
 	}
 }
 
@@ -98,6 +106,11 @@ void CBossCheeseAttackState::Update_AnimFrame()
 	{
 		if (iRandAttack)
 		{
+			if (animation.iCurrIndex == 9)
+			{
+				MANAGER(CSoundManager*, M_SOUND)->StopSound(SOUND_EFFECT);
+				MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"Boss_CheeseAttack01.wav", SOUND_EFFECT, 1.f);
+			}
 			Attack_CheeseBullet();
 		}
 		else
@@ -134,27 +147,38 @@ int CBossCheeseAttackState::Dir_AnimRow(Direction eDir)
 
 void CBossCheeseAttackState::Attack_CheeseBullet()
 {
-	float fRad = PI / 180.f * fCurAttackDegree;
+	float fCenter = fCurAttackDegree;
+	float fSpread = 10.f;
+	float fAngles[5] = { fCenter, fCenter - fSpread, fCenter + fSpread, fCenter - fSpread * 2.f, fCenter + fSpread * 2.f };
 
-	float dx = cosf(fRad);
-	float dy = sinf(fRad);
-	Vector2 vDir = { dx, dy };
-	vDir.Normalize();
+	for (int i = 0; i < 5; ++i)
+	{
+		float fRad = PI / 180.f * fAngles[i];
+		Vector2 vDir = { cosf(fRad), sinf(fRad) };
+		vDir.Normalize();
 
-	CBossBullet* pBullet = static_cast<CBossBullet*>(CObjectFactory<CBossBullet>::Create(
-		O_ENBULLET, pObj->Get_Transform()->Position().X() + vDir.X(), pObj->Get_Transform()->Position().Y() + vDir.Y()));
-	pBullet->Set_BulletType(CBullet::Boss_Cheese);
-	pBullet->Set_EffectType(CBullet::E04);
-	pBullet->Apply_BulletSprite();
-	pBullet->Apply_EffectAnim();
+		CBossBullet* pBullet = static_cast<CBossBullet*>(CObjectFactory<CBossBullet>::Create(
+			O_ENBULLET,
+			pObj->Get_Transform()->Position().X() + vDir.X(),
+			pObj->Get_Transform()->Position().Y() + vDir.Y()
+		));
+		pBullet->Set_BulletType(CBullet::Boss_Cheese);
+		pBullet->Set_EffectType(CBullet::E04);
+		pBullet->Apply_BulletSprite();
+		pBullet->Apply_EffectAnim();
 
-	pBullet->Set_Direction(vDir);
-	pBullet->Set_Speed(23.f);
+		pBullet->Set_Direction(vDir);
+		pBullet->Set_Speed(23.f);
+	}
 	fCurAttackDegree += fFireDegreeRange;
 }
 
+
 void CBossCheeseAttackState::Attack_CircleBullet()
 {
+	MANAGER(CSoundManager*, M_SOUND)->StopSound(SOUND_EFFECT);
+	MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"Boss_CheeseAttack02.wav", SOUND_EFFECT, 1.f);
+
 	float fRad = PI / 180.f * fCurAttackDegree;
 	float fDistToPlayer = 200.f;
 	float dx = cosf(fRad) * fDistToPlayer;

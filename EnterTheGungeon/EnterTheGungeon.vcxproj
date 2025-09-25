@@ -138,6 +138,7 @@
     <ClInclude Include="CBoss.h" />
     <ClInclude Include="CBossBullet.h" />
     <ClInclude Include="CBossCheeseAttackState.h" />
+    <ClInclude Include="CBossDeadState.h" />
     <ClInclude Include="CBossDodgeState.h" />
     <ClInclude Include="CBossIdleState.h" />
     <ClInclude Include="CBossKunaiAttackState.h" />
@@ -185,10 +186,13 @@
     <ClInclude Include="CScene.h" />
     <ClInclude Include="CSceneManager.h" />
     <ClInclude Include="CSoundManager.h" />
+    <ClInclude Include="CStage01.h" />
+    <ClInclude Include="CStage02.h" />
     <ClInclude Include="CStat.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CStateMachine.h" />
     <ClInclude Include="CTableObject.h" />
+    <ClInclude Include="CTeleport.h" />
     <ClInclude Include="CTestSCene.h" />
     <ClInclude Include="CTransform.h" />
     <ClInclude Include="CUIManager.h" />
@@ -213,6 +217,7 @@
     <ClCompile Include="CBoss.cpp" />
     <ClCompile Include="CBossBullet.cpp" />
     <ClCompile Include="CBossCheeseAttackState.cpp" />
+    <ClCompile Include="CBossDeadState.cpp" />
     <ClCompile Include="CBossDodgeState.cpp" />
     <ClCompile Include="CBossIdleState.cpp" />
     <ClCompile Include="CBossKunaiAttackState.cpp" />
@@ -260,10 +265,13 @@
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
     <ClCompile Include="CSoundManager.cpp" />
+    <ClCompile Include="CStage01.cpp" />
+    <ClCompile Include="CStage02.cpp" />
     <ClCompile Include="CStat.cpp" />
     <ClCompile Include="CState.cpp" />
     <ClCompile Include="CStateMachine.cpp" />
     <ClCompile Include="CTableObject.cpp" />
+    <ClCompile Include="CTeleport.cpp" />
     <ClCompile Include="CTestSCene.cpp" />
     <ClCompile Include="CTransform.cpp" />
     <ClCompile Include="CUIManager.cpp" />
