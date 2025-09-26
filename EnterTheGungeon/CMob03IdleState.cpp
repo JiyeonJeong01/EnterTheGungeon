@@ -19,7 +19,7 @@ void CMob03IdleState::Initialize()
 	CMobState::Initialize();
 	fAttackTimeRange = 1.5f;
 	dwLastAttackTime = GetTickCount();
-	fCurStateMaxTime = 1.5f;
+	fCurStateMaxTime = 2.5f;
 	dwCurrentStateElapsedTime = GetTickCount();
 	eState = CMob::Idle;
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Enemy/Monster03_IDLE.bmp", L"Monster03_IDLE");

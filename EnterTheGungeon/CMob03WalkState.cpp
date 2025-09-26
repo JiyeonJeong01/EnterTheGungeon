@@ -21,7 +21,7 @@ CMob03WalkState::CMob03WalkState(CObject* pObj, CStateMachine* pStateMachine)
 void CMob03WalkState::Initialize()
 {
 	CMobState::Initialize();
-	fAttackTimeRange = 0.8f;
+	fAttackTimeRange = 2.0f;
 	fCurStateMaxTime = 5.f;
 	dwLastAttackTime = GetTickCount();
 	dwCurrentStateElapsedTime = GetTickCount();
@@ -30,30 +30,28 @@ void CMob03WalkState::Initialize()
 
 	animation.Initialize(0, 7, (int)D_DOWN);
 	fill(animation.vTransitTime.begin(), animation.vTransitTime.end(), 70);
+
+	Pre_Calculate();
 }
 
 void CMob03WalkState::Update()
 {
 	CMobState::Update();
-
 	Update_AnimFrame();
-	if (fCurDistToPlayer >= fMinStopDist && fCurDistToPlayer <= fMaxStopDist)
+	
+	if (bAttackTimer)
 	{
-		pStateMachine->Change_State((int)CMob::Idle);
+		Do_Attack();
 	}
-	else if (bInProperDist)
-	{
-		pObj->Get_Transform()->Direction(move(vDirToPlayer));
-	}
-	else if (fCurDistToPlayer <= fMinDistToPlayer)
-	{
-		pObj->Get_Transform()->Direction(move(vDirToPlayer * -1.f));
-	}
+
 }
 
 void CMob03WalkState::Late_Update()
 {
-
+	if (dwLastAttackTime + fAttackTimeRange * 1000 < GetTickCount())
+	{
+		bAttackTimer = true;
+	}
 }
 
 void CMob03WalkState::Render(HDC hDC)
@@ -80,24 +78,21 @@ void CMob03WalkState::Release()
 
 void CMob03WalkState::Exit()
 {
+
 }
 
 void CMob03WalkState::Enter()
 {
 	dwCurrentStateElapsedTime = GetTickCount();
+	bAttackTimer = true;
+	dwLastAttackTime = GetTickCount();
+	iCurrentAttackCount = 0;
+
 }
 
 void CMob03WalkState::Update_AnimFrame()
 {
 	CState::Update_AnimFrame();
-	if (animation.iCurrIndex == 5)
-	{
-		bCanAttack = true;
-	}
-	if (animation.iCurrIndex == animation.iEndIndex - 1)
-	{
-		Do_Attack();
-	}
 }
 
 void CMob03WalkState::Stop_Animation()
@@ -117,22 +112,143 @@ int CMob03WalkState::Dir_AnimRow(Direction eDir)
 void CMob03WalkState::Do_Attack()
 {
 	if (!bCanAttack) return;
-	CMobBullet* pBullet = static_cast<CMobBullet*>(CObjectFactory<CMobBullet>::Create(
-		O_ENBULLET,
-		pObj->Get_Transform()->Position().X() + vDirToPlayer.X() * 5.f,
-		pObj->Get_Transform()->Position().Y() + vDirToPlayer.Y() * 10.f
-	));
-	pBullet->Set_BulletType(CBullet::B02);
-	pBullet->Set_EffectType(CBullet::E04);
-	pBullet->Apply_BulletSprite();
-	pBullet->Apply_EffectAnim();
-
-	pBullet->Set_Direction(vDirToPlayer);
-	pBullet->Set_Speed(6.f);
-
-	bCanAttack = false;
+	
+	if (iCurrentAttackCount % 3 == 0)
+	{
+		Attack01();
+	}
+	else if (iCurrentAttackCount % 3 == 1)
+	{
+		Attack02();
+	}
+	else
+	{
+		Attack03();
+	}
+	iCurrentAttackCount++;
+	bAttackTimer = false;
+	dwLastAttackTime = GetTickCount();
 }
 
 void CMob03WalkState::Do_KnockBack()
 {
+}
+
+void CMob03WalkState::Attack01()
+{
+	int iDist = 30;
+
+	for (auto vDir : vNormalizedDir01)
+	{
+		float fX = vDir.X() * iDist;
+		float fY = vDir.Y() * iDist;
+
+		CMobBullet* pBullet = static_cast<CMobBullet*>(CObjectFactory<CMobBullet>::Create(
+			O_ENBULLET, pObj->Get_Transform()->Position().X() + fX, pObj->Get_Transform()->Position().Y() + fY));
+
+		pBullet->Set_BulletType(CBullet::B02);
+		pBullet->Set_EffectType(CBullet::E04);
+		pBullet->Apply_BulletSprite();
+		pBullet->Apply_EffectAnim();
+		pBullet->Set_Direction(vDir);
+		pBullet->Set_Speed(6.f);
+	}
+}
+
+void CMob03WalkState::Attack02()
+{
+	int iDist = 25;
+
+	for (auto vDir : vNormalizedDir01)
+	{
+		float fX = vDir.X() * iDist;
+		float fY = vDir.Y() * iDist;
+
+		CMobBullet* pBullet = static_cast<CMobBullet*>(CObjectFactory<CMobBullet>::Create(
+			O_ENBULLET,
+			pObj->Get_Transform()->Position().X() + fX,
+			pObj->Get_Transform()->Position().Y() + fY));
+
+		pBullet->Set_BulletType(CBullet::B02);
+		pBullet->Set_EffectType(CBullet::E04);
+		pBullet->Apply_BulletSprite();
+		pBullet->Apply_EffectAnim();
+		pBullet->Set_Direction(vDir);
+		pBullet->Set_Speed(6.f);
+	}
+
+	Vector2 crossDirs[4] = {	{ 1,  0}, {-1,  0}, { 0,  1}, { 0, -1}};
+
+	for (auto vDir : crossDirs)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			float fX = vDir.X() * (iDist + i * 25);
+			float fY = vDir.Y() * (iDist + i * 25);
+
+			CMobBullet* pBullet = static_cast<CMobBullet*>(CObjectFactory<CMobBullet>::Create(
+				O_ENBULLET,
+				pObj->Get_Transform()->Position().X() + fX,
+				pObj->Get_Transform()->Position().Y() + fY));
+
+			pBullet->Set_BulletType(CBullet::B02);
+			pBullet->Set_EffectType(CBullet::E04);
+			pBullet->Apply_BulletSprite();
+			pBullet->Apply_EffectAnim();
+			pBullet->Set_Direction(vDir);
+			pBullet->Set_Speed(6.f);
+		}
+	}
+}
+
+void CMob03WalkState::Attack03()
+{
+	int iDist = 25;
+	Vector2 crossDirs[4] = { {1,1}, {-1,1}, {1,-1}, {-1,-1} };
+
+	for (auto vDir : crossDirs)
+	{
+		vDir.Normalize();
+
+
+		for (int i = 0; i < 20; i++)
+		{
+			float fX = vDir.X() * (iDist + i * 35);
+			float fY = vDir.Y() * (iDist + i * 35);
+
+			CMobBullet* pBullet = static_cast<CMobBullet*>(CObjectFactory<CMobBullet>::Create(
+				O_ENBULLET,
+				pObj->Get_Transform()->Position().X() + fX,
+				pObj->Get_Transform()->Position().Y() + fY));
+
+			pBullet->Set_BulletType(CBullet::B02);
+			pBullet->Set_EffectType(CBullet::E04);
+			pBullet->Apply_BulletSprite();
+			pBullet->Apply_EffectAnim();
+			pBullet->Set_Direction(vDir);
+			pBullet->Set_Speed(6.f);
+		}
+	}
+
+}
+
+void CMob03WalkState::Pre_Calculate()
+{
+	int iBulletCount = 50;
+	int iDegree = 360 / iBulletCount;
+	int iCurDegree = 0;
+	int iDist = 30;
+
+	for (int i = 0; i < iBulletCount; ++i)
+	{
+		float fRad = iCurDegree * PI / 180.f;
+		float fX = cosf(fRad) * iDist;
+		float fY = sinf(fRad) * iDist;
+
+		Vector2 vDir = { fX, fY };
+		vDir.Normalize();
+		iCurDegree += iDegree;
+
+		vNormalizedDir01.push_back(vDir);
+	}
 }

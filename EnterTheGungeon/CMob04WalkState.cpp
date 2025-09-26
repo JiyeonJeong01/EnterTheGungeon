@@ -21,7 +21,7 @@ CMob04WalkState::CMob04WalkState(CObject* pObj, CStateMachine* pStateMachine)
 void CMob04WalkState::Initialize()
 {
 	CMobState::Initialize();
-	fAttackTimeRange = 0.8f;
+	fAttackTimeRange = 1.8f;
 	fCurStateMaxTime = 5.f;
 	dwLastAttackTime = GetTickCount();
 	dwCurrentStateElapsedTime = GetTickCount();
@@ -119,19 +119,34 @@ int CMob04WalkState::Dir_AnimRow(Direction eDir)
 
 void CMob04WalkState::Do_Attack()
 {
-	CMobBullet* pBullet = static_cast<CMobBullet*>(CObjectFactory<CMobBullet>::Create(
-		O_ENBULLET,
-		pObj->Get_Transform()->Position().X() + vDirToPlayer.X() * 5.f,
-		pObj->Get_Transform()->Position().Y() + vDirToPlayer.Y() * 5.f
-	));
-	pBullet->Set_BulletType(CBullet::B04);
-	pBullet->Set_EffectType(CBullet::E03);
-	pBullet->Apply_BulletSprite();
-	pBullet->Apply_EffectAnim();
+	int bulletCount = 7;
+	float angleRange = 30.f;  
+	float angleStep = angleRange / (bulletCount - 1); 
+	vDirToPlayer.Normalize();
+	Vector2 vBaseDir = vDirToPlayer;
 
-	pBullet->Set_Direction(vDirToPlayer);
-	pBullet->Set_Speed(5.f);
+	float startAngle = -angleRange / 2.f;
+	for (int i = 0; i < bulletCount; i++)
+	{
+		float angleDeg = startAngle + i * angleStep;
+		float angleRad = angleDeg * (3.14159265f / 180.f);
+		float cosA = cosf(angleRad);
+		float sinA = sinf(angleRad);
+
+		Vector2 vRotatedDir( vBaseDir.X() * cosA - vBaseDir.Y() * sinA, 	vBaseDir.X() * sinA + vBaseDir.Y() * cosA );
+
+		CMobBullet* pBullet = static_cast<CMobBullet*>(CObjectFactory<CMobBullet>::Create(
+			O_ENBULLET, pObj->Get_Transform()->Position().X() + vRotatedDir.X() * 5.f, pObj->Get_Transform()->Position().Y() + vRotatedDir.Y() * 5.f ));
+
+		pBullet->Set_BulletType(CBullet::B04);
+		pBullet->Set_EffectType(CBullet::E03);
+		pBullet->Apply_BulletSprite();
+		pBullet->Apply_EffectAnim();
+		pBullet->Set_Direction(vRotatedDir);
+		pBullet->Set_Speed(5.f);
+	}
 }
+
 
 void CMob04WalkState::Do_KnockBack()
 {

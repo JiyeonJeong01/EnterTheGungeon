@@ -32,7 +32,21 @@ public:
 	void Do_Attack();
 	void Do_KnockBack();
 
+
+private :
+	void Attack01();
+	void Attack02();
+	void Attack03();
+private :
+	void Pre_Calculate();
+
 private:
 	bool bCanAttack;
+	bool bAttackTimer;
+	int iCurrentAttackCount;
+
+private :
+	list<Vector2> vNormalizedDir01;
+
 };
 

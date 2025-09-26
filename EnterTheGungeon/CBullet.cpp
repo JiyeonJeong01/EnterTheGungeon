@@ -41,7 +41,7 @@ void CBullet::Initialize()
 {
     CObject::Initialize();
     bCanRend = true;
-    fLifeTime = 20.f;
+    fLifeTime = 10.f;
     dwElapsedLifeTime = GetTickCount();
 }
 
