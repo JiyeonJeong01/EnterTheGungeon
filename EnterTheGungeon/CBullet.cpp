@@ -41,7 +41,7 @@ void CBullet::Initialize()
 {
     CObject::Initialize();
     bCanRend = true;
-    fLifeTime = 11.f;
+    fLifeTime = 20.f;
     dwElapsedLifeTime = GetTickCount();
 }
 
@@ -83,7 +83,7 @@ void CBullet::Render(HDC _hDC)
 
 void CBullet::Release()
 {
-    printf("ÃÑ¾Ë ÀÚµ¿ »èÁ¦µÊ\n");
+
 }
 
 void CBullet::Update_Transform()

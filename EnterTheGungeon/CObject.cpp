@@ -48,25 +48,25 @@ void CObject::Late_Update()
 void CObject::Render(HDC _hDC)
 {
 #pragma region Debug
-	//HPEN hPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
-	//HBRUSH hOldBrush = (HBRUSH)SelectObject(_hDC, GetStockObject(HOLLOW_BRUSH));
-	//HPEN hOldPen = (HPEN)SelectObject(_hDC, hPen);
+	HPEN hPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
+	HBRUSH hOldBrush = (HBRUSH)SelectObject(_hDC, GetStockObject(HOLLOW_BRUSH));
+	HPEN hOldPen = (HPEN)SelectObject(_hDC, hPen);
 
-	//Vector2 renderPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RenderPos(pTransform->Position());
+	Vector2 renderPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RenderPos(pTransform->Position());
 
-	////Rectangle(_hDC, pTransform->Position().X() - pTransform->Size().X(),
-	////	pTransform->Position().Y() - pTransform->Size().Y(),
-	////	pTransform->Position().X() + pTransform->Size().X(),
-	////	pTransform->Position().Y() - pTransform->Size().Y());
-	////Rectangle(_hDC, pRenderer->Left(), pRenderer->Top(), pRenderer->Right(), pRenderer->Bottom());
+	//Rectangle(_hDC, pTransform->Position().X() - pTransform->Size().X(),
+	//	pTransform->Position().Y() - pTransform->Size().Y(),
+	//	pTransform->Position().X() + pTransform->Size().X(),
+	//	pTransform->Position().Y() - pTransform->Size().Y());
+	//Rectangle(_hDC, pRenderer->Left(), pRenderer->Top(), pRenderer->Right(), pRenderer->Bottom());
 
-	//Vector2 colliderLT = MANAGER(CCameraManager*, M_CAMERA)->Get_RenderPos({ (float)pCollider->Left(), (float)pCollider->Top() });
-	//Vector2 colliderRB = MANAGER(CCameraManager*, M_CAMERA)->Get_RenderPos({ (float)pCollider->Right(), (float)pCollider->Bottom() });
-	//Rectangle(_hDC, (int)colliderLT.X(), (int)colliderLT.Y(), (int)colliderRB.X(), (int)colliderRB.Y());
+	Vector2 colliderLT = MANAGER(CCameraManager*, M_CAMERA)->Get_RenderPos({ (float)pCollider->Left(), (float)pCollider->Top() });
+	Vector2 colliderRB = MANAGER(CCameraManager*, M_CAMERA)->Get_RenderPos({ (float)pCollider->Right(), (float)pCollider->Bottom() });
+	Rectangle(_hDC, (int)colliderLT.X(), (int)colliderLT.Y(), (int)colliderRB.X(), (int)colliderRB.Y());
 
-	//SelectObject(_hDC, hOldBrush);
-	//SelectObject(_hDC, hOldPen);
-	//DeleteObject(hPen);
+	SelectObject(_hDC, hOldBrush);
+	SelectObject(_hDC, hOldPen);
+	DeleteObject(hPen);
 #pragma endregion
 }
 

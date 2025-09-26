@@ -1,36 +1,36 @@
 #include "pch.h"
-#include "CMob01.h"
+#include "CMob04.h"
 
 #include "CRelease.h"
 
-#include "CMob01StateMachine.h"
+#include "CMob04StateMachine.h"
 #include "CState.h"
 
 #include "CTransform.h"
 #include "CRenderer.h"
 #include "CCollider.h"
 
-CMob01::CMob01()
+CMob04::CMob04()
 {
     pStateMachine = nullptr;
     pCurrentState = nullptr;
 }
 
-CMob01::~CMob01()
+CMob04::~CMob04()
 {
     Release();
 }
 
-void CMob01::Initialize()
+void CMob04::Initialize()
 {
     CMob::Initialize();
 
     pTransform->Position({ WINCX >> 1, WINCY >> 1 });
-    pTransform->Size({ 80.f, 80.f });
+    pTransform->Size({ 110.f, 110.f });
     pCollider->Size({ 80.f, 80.f });
-    pRenderer->Size({ 80.f, 80.f });
+    pRenderer->Size({ 110.f, 110.f });
 
-    pStateMachine = new CMob01StateMachine(this);
+    pStateMachine = new CMob04StateMachine(this);
     pStateMachine->Initialize();
 
     fSpeed = 1.5f;
@@ -39,7 +39,7 @@ void CMob01::Initialize()
     iHP = iMaxHP;
 }
 
-int CMob01::Update()
+int CMob04::Update()
 {
     if (bAlive == false) return S_DEAD;
     CObject::Update_Collider();
@@ -51,13 +51,13 @@ int CMob01::Update()
 
     if (iHP <= 0 && eCurrentState != CMob::MobState::Dead)
         pStateMachine->Change_State(CMob::Dead);
-    
+
     pCurrentState->Update();
 
     return 0;
 }
 
-void CMob01::Late_Update()
+void CMob04::Late_Update()
 {
     CObject::Update_Renderer();
     CMob::Check_Invincible();
@@ -65,18 +65,18 @@ void CMob01::Late_Update()
     Update_Transform();
 }
 
-void CMob01::Render(HDC _hDC)
+void CMob04::Render(HDC _hDC)
 {
     CObject::Render(_hDC);
     pCurrentState->Render(_hDC);
 }
 
-void CMob01::Release()
+void CMob04::Release()
 {
-    CRelease<CMob01StateMachine*>::Release(pStateMachine);
+    CRelease<CMob04StateMachine*>::Release(pStateMachine);
 }
 
-void CMob01::Update_Transform()
+void CMob04::Update_Transform()
 {
     Vector2 vNew = { pTransform->Position().X() + pTransform->Direction().X() * fSpeed,
                              pTransform->Position().Y() + pTransform->Direction().Y() * fSpeed };

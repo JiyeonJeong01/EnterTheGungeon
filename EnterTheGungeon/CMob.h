@@ -27,15 +27,18 @@ public: // Components
 
 public:
 	void OnCollision(CObject* pObj, Vector2 vDiff) override;
-
+	
 public :
 	void Check_ShouldAtack();
+	void Check_Invincible();
 
 public :
 	float Get_Speed() { return fSpeed;  }
 	void Set_Speed(float fSpeed) { this->fSpeed = fSpeed; }
 
 	int Get_HP() { return iHP; }
+	
+	void Set_Dead() { bAlive = false; }
 
 protected :
 	// Player
@@ -54,5 +57,10 @@ protected:
 protected :
 	float fAttackTimeRange;
 	float fSpeed;
+
+	float fInvincibleTime;
+	DWORD dwInvincibleTime;
+	bool bInvincible;
+	bool bKnockback;
 };
 

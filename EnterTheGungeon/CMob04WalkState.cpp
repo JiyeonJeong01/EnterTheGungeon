@@ -1,24 +1,24 @@
 #pragma region INCLUDE
 #include "pch.h"
-#include "CMob01WalkState.h"
+#include "CMob04WalkState.h"
 #include "CBmpManager.h"
 #include "CObject.h"
 #include "CRenderer.h"
 #include "CTransform.h"
 #include "CPlayer.h"
-#include "CMob01.h"
+#include "CMob04.h"
 #include "CStateMachine.h"
 #include "CMobBullet.h"
 #include "CObjectFactory.h"
 #pragma endregion
 
 
-CMob01WalkState::CMob01WalkState(CObject* pObj, CStateMachine* pStateMachine)
-    : CMobState(pObj, pStateMachine)
+CMob04WalkState::CMob04WalkState(CObject* pObj, CStateMachine* pStateMachine)
+	: CMobState(pObj, pStateMachine)
 {
 }
 
-void CMob01WalkState::Initialize()
+void CMob04WalkState::Initialize()
 {
 	CMobState::Initialize();
 	fAttackTimeRange = 0.8f;
@@ -26,12 +26,13 @@ void CMob01WalkState::Initialize()
 	dwLastAttackTime = GetTickCount();
 	dwCurrentStateElapsedTime = GetTickCount();
 	eState = CMob::Idle;
-	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Enemy/Monster01_WALK.bmp", L"Monster01_WALK");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Enemy/Monster04_WALK.bmp", L"Monster04_WALK");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Enemy/Monster05_WALK.bmp", L"Monster05_WALK");
 	animation.Initialize(0, 5, (int)D_DOWN);
 	fill(animation.vTransitTime.begin(), animation.vTransitTime.end(), 100);
 }
 
-void CMob01WalkState::Update()
+void CMob04WalkState::Update()
 {
 	CMobState::Update();
 
@@ -48,12 +49,9 @@ void CMob01WalkState::Update()
 	{
 		pObj->Get_Transform()->Direction(move(vDirToPlayer * -1.f));
 	}
-
-	//printf("CMob01WalkState -> Dist to player: %d\n", (int)fCurDistToPlayer);
-	//printf("CMob01WalkState -> Should Attack : %d\n", bShouldAttack);
 }
 
-void CMob01WalkState::Late_Update()
+void CMob04WalkState::Late_Update()
 {
 	if (dwLastAttackTime + fAttackTimeRange * 1000 < GetTickCount())
 	{
@@ -62,70 +60,64 @@ void CMob01WalkState::Late_Update()
 	}
 }
 
-void CMob01WalkState::Render(HDC hDC)
+void CMob04WalkState::Render(HDC hDC)
 {
-	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Monster01_WALK");
+	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Monster05_WALK");
 
 	CRenderer renderer = *(pObj->Get_Renderer());
-	int size = 220;
+
+	int realSize = 150;
+	int renderSize = 110;
+
 	GdiTransparentBlt(hDC,
 		renderer.Left(),
 		renderer.Top(),
-		80, 80,
+		renderSize, renderSize,
 		hMemDC,
-		animation.iCurrIndex * size,
-		Dir_AnimRow(eDir) * size,
-		size, size,
+		animation.iCurrIndex * realSize,
+		Dir_AnimRow(eDir) * realSize,
+		realSize, realSize,
 		RGB(255, 0, 255));
 }
 
-void CMob01WalkState::Release()
+void CMob04WalkState::Release()
 {
 }
 
-void CMob01WalkState::Exit()
+void CMob04WalkState::Exit()
 {
 }
 
-void CMob01WalkState::Enter()
+void CMob04WalkState::Enter()
 {
 	dwCurrentStateElapsedTime = GetTickCount();
 }
 
-void CMob01WalkState::Update_AnimFrame()
+void CMob04WalkState::Update_AnimFrame()
 {
 	CState::Update_AnimFrame();
 }
 
-void CMob01WalkState::Stop_Animation()
+void CMob04WalkState::Stop_Animation()
 {
 }
 
-void CMob01WalkState::On_End_Animation()
+void CMob04WalkState::On_End_Animation()
 {
 }
 
-int CMob01WalkState::Dir_AnimRow(Direction eDir)
+int CMob04WalkState::Dir_AnimRow(Direction eDir)
 {
 	switch (eDir)
 	{
 	case D_UP: 	case D_UR:	case D_UL:
 		return 0;
-	case D_DOWN:
-		return 1;
-	case D_LEFT: case D_DL:
-		return 2;
-	case D_RIGHT:case D_DR:
-		return 3;
-	case D_END:
-		break;
 	default:
-		break;
+		return 1;
 	}
-    return 0;
 }
 
-void CMob01WalkState::Do_Attack()
+void CMob04WalkState::Do_Attack()
 {
 	CMobBullet* pBullet = static_cast<CMobBullet*>(CObjectFactory<CMobBullet>::Create(
 		O_ENBULLET,
@@ -141,6 +133,6 @@ void CMob01WalkState::Do_Attack()
 	pBullet->Set_Speed(5.f);
 }
 
-void CMob01WalkState::Do_KnockBack()
+void CMob04WalkState::Do_KnockBack()
 {
 }

@@ -21,6 +21,9 @@
 #include "CBoss.h"
 #include "CTeleport.h"
 #include "CMob01.h"
+#include "CMob02.h"
+#include "CMob03.h"
+#include "CMob04.h"
 #pragma endregion
 
 
@@ -41,8 +44,11 @@ void CTestSCene::Initialize()
 	POINT pBossPos = { pPlayerPos.x + 1500, pPlayerPos.y - 200 };
 
 	pPlayer = dynamic_cast<CPlayer*>(CObjectFactory<CPlayer>::Create(O_PLAYER, pPlayerPos.x, pPlayerPos.y));
-	pBoss = dynamic_cast<CBoss*>(CObjectFactory<CBoss>::Create(O_ENEMY, pBossPos.x, pBossPos.y));
+	// pBoss = dynamic_cast<CBoss*>(CObjectFactory<CBoss>::Create(O_ENEMY, pBossPos.x, pBossPos.y));
 	CObjectFactory<CMob01>::Create(O_ENEMY, pBossPos.x, pBossPos.y);
+	CObjectFactory<CMob02>::Create(O_ENEMY, pBossPos.x + 200, pBossPos.y + 200);
+	CObjectFactory<CMob03>::Create(O_ENEMY, pBossPos.x - 200, pBossPos.y - 200);
+	CObjectFactory<CMob04>::Create(O_ENEMY, pBossPos.x + 200, pBossPos.y - 200);
 	MANAGER(CEnvironmentManager*, M_MAP)->Initialize();
 	MANAGER(CCameraManager*, M_CAMERA)->Set_LookAt({ (float)pPlayerPos.x, (float)pPlayerPos.y });
 	MANAGER(CCameraManager*, M_CAMERA)->Set_Target(pPlayer);

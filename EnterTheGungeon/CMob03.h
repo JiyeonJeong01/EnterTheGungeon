@@ -1,16 +1,11 @@
 #pragma once
 #include "CMob.h"
-class CMobState;
-class CMob01StateMachine;
-class CMob01WalkState;
-class CMob01IdleState;
-class CMob01DeadState;
-
-class CMob01 : public CMob
+class CMob03StateMachine;
+class CMob03 : public CMob
 {
 public:
-	CMob01();
-	~CMob01() override;
+	CMob03();
+	~CMob03() override;
 
 public: // Core
 	void Initialize() override;
@@ -21,17 +16,16 @@ public: // Core
 
 	void Update_Transform() override;
 
-public :
+public:
 	void Set_CurrentState(MobState eState, CState* pState) { eCurrentState = eState; pCurrentState = pState; }
 
-public :
-	float Get_AttackTimeRange() { return fAttackTimeRange;  }
-private :
-	CMob01StateMachine* pStateMachine;
+public:
+	float Get_AttackTimeRange() { return fAttackTimeRange; }
+private:
+	CMob03StateMachine* pStateMachine;
 	CState* pCurrentState;
 
-private :
+private:
 	float fAttackTimeRange;
 
 };
-

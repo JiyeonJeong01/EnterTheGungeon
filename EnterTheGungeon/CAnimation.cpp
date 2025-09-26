@@ -19,6 +19,9 @@ void CAnimation::Initialize(int _iStartIndex, int _iEndIndex, int _iDirRow)
 
 	dwLastPlayTime = GetTickCount();
 
-	vTransitTime.resize(iEndIndex);
+	if (iEndIndex != 0)
+		vTransitTime.resize(iEndIndex);
+	else
+		vTransitTime.resize(1);
 	fill(vTransitTime.begin(), vTransitTime.end(), 90);
 }

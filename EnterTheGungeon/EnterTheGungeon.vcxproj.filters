@@ -477,6 +477,66 @@
     <ClInclude Include="CMobBullet.h">
       <Filter>24. Bullet\02. EnemyBullet</Filter>
     </ClInclude>
+    <ClInclude Include="CMob01KnockbackState.h">
+      <Filter>21. Enemy\01. Mob1</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob01DeadState.h">
+      <Filter>21. Enemy\01. Mob1</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob02.h">
+      <Filter>21. Enemy\02. Mob2</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob02DeadState.h">
+      <Filter>21. Enemy\02. Mob2</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob02IdleState.h">
+      <Filter>21. Enemy\02. Mob2</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob02KnockbackState.h">
+      <Filter>21. Enemy\02. Mob2</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob02StateMachine.h">
+      <Filter>21. Enemy\02. Mob2</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob02WalkState.h">
+      <Filter>21. Enemy\02. Mob2</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob03.h">
+      <Filter>21. Enemy\03. Mob3</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob03DeadState.h">
+      <Filter>21. Enemy\03. Mob3</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob03IdleState.h">
+      <Filter>21. Enemy\03. Mob3</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob03KnockbackState.h">
+      <Filter>21. Enemy\03. Mob3</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob03StateMachine.h">
+      <Filter>21. Enemy\03. Mob3</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob03WalkState.h">
+      <Filter>21. Enemy\03. Mob3</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob04DeadState.h">
+      <Filter>21. Enemy\04. Mob4</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob04.h">
+      <Filter>21. Enemy\04. Mob4</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob04IdleState.h">
+      <Filter>21. Enemy\04. Mob4</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob04KnockbackState.h">
+      <Filter>21. Enemy\04. Mob4</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob04StateMachine.h">
+      <Filter>21. Enemy\04. Mob4</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob04WalkState.h">
+      <Filter>21. Enemy\04. Mob4</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -721,6 +781,66 @@
     </ClCompile>
     <ClCompile Include="CMobBullet.cpp">
       <Filter>24. Bullet\02. EnemyBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob01KnockbackState.cpp">
+      <Filter>21. Enemy\01. Mob1</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob01DeadState.cpp">
+      <Filter>21. Enemy\01. Mob1</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob02.cpp">
+      <Filter>21. Enemy\02. Mob2</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob02DeadState.cpp">
+      <Filter>21. Enemy\02. Mob2</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob02IdleState.cpp">
+      <Filter>21. Enemy\02. Mob2</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob02KnockbackState.cpp">
+      <Filter>21. Enemy\02. Mob2</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob02StateMachine.cpp">
+      <Filter>21. Enemy\02. Mob2</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob02WalkState.cpp">
+      <Filter>21. Enemy\02. Mob2</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob03.cpp">
+      <Filter>21. Enemy\03. Mob3</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob03DeadState.cpp">
+      <Filter>21. Enemy\03. Mob3</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob03IdleState.cpp">
+      <Filter>21. Enemy\03. Mob3</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob03KnockbackState.cpp">
+      <Filter>21. Enemy\03. Mob3</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob03StateMachine.cpp">
+      <Filter>21. Enemy\03. Mob3</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob03WalkState.cpp">
+      <Filter>21. Enemy\03. Mob3</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob04WalkState.cpp">
+      <Filter>21. Enemy\04. Mob4</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob04DeadState.cpp">
+      <Filter>21. Enemy\04. Mob4</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob04.cpp">
+      <Filter>21. Enemy\04. Mob4</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob04IdleState.cpp">
+      <Filter>21. Enemy\04. Mob4</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob04KnockbackState.cpp">
+      <Filter>21. Enemy\04. Mob4</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob04StateMachine.cpp">
+      <Filter>21. Enemy\04. Mob4</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

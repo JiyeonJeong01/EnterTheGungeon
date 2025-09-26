@@ -5,6 +5,7 @@
 #include "CRenderer.h"
 #include "CCollider.h"
 #include "CMobStateMachine.h"
+#include "CMob01StateMachine.h"
 #include "CRelease.h"
 
 CMob::CMob()
@@ -15,6 +16,7 @@ CMob::CMob()
 	iHP = iMaxHP;
 	pStateMachine = nullptr;
 	pCurrentState = nullptr;
+	fInvincibleTime = 0.3f;
 }
 
 CMob::~CMob()
@@ -27,6 +29,9 @@ void CMob::Initialize()
 	CObject::Initialize();
 	pRenderer->rType = RND__GAMEBOJECT;
 	eType = O_ENEMY;
+
+	bInvincible = false;
+	bKnockback = false;
 
 	pStateMachine = new CMobStateMachine(this);
 	pStateMachine->Initialize();
@@ -67,7 +72,25 @@ void CMob::OnCollision(CObject* pObj, Vector2 vDiff)
 	ObjectType type = pObj->Get_ObjType();
 	if (type == O_PLBULLET)
 	{
-		this;
-		iHP = (iHP - 1 <= 0 ? 0 : iHP - 1);
+		if (!bInvincible)
+		{
+			this;
+			bInvincible = true;
+			bKnockback = true;
+			dwInvincibleTime = GetTickCount();
+			iHP = (iHP - 1 <= 0 ? 0 : iHP - 1);
+			
+			printf("몬스터 현재 체력 : %d\n", iHP);
+
+		}
+	}
+}
+
+void CMob::Check_Invincible()
+{
+	if (bInvincible && dwInvincibleTime + fInvincibleTime * 1000 < GetTickCount())
+	{
+		dwInvincibleTime = GetTickCount();
+		bInvincible = false;
 	}
 }
