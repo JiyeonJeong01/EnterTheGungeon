@@ -5,10 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -204,6 +200,25 @@
     </Filter>
     <Filter Include="25. Map\03. Teleport">
       <UniqueIdentifier>{a9e0dc25-928c-453b-a7ae-0716f54476f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="21. Enemy\01. Mob1">
+      <UniqueIdentifier>{64c1b27b-67a5-4027-9def-595c941d1e22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="21. Enemy\02. Mob2">
+      <UniqueIdentifier>{c90fb3c4-cd05-43a2-99a7-5b2e44eebe88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="21. Enemy\03. Mob3">
+      <UniqueIdentifier>{89f2aead-e9d1-463a-833b-bad0db855c8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="21. Enemy\04. Mob4">
+      <UniqueIdentifier>{a286c49d-4e8e-4bc4-988a-3d3122ad9356}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="21. Enemy\05. MobBase">
+      <UniqueIdentifier>{7e96d99c-e817-4997-98f9-936133db9d3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -438,6 +453,30 @@
     <ClInclude Include="CBossDeadState.h">
       <Filter>21. Enemy\00. Boss\02. State</Filter>
     </ClInclude>
+    <ClInclude Include="CMob.h">
+      <Filter>21. Enemy\05. MobBase</Filter>
+    </ClInclude>
+    <ClInclude Include="CMobState.h">
+      <Filter>21. Enemy\05. MobBase</Filter>
+    </ClInclude>
+    <ClInclude Include="CMobStateMachine.h">
+      <Filter>21. Enemy\05. MobBase</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob01.h">
+      <Filter>21. Enemy\01. Mob1</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob01IdleState.h">
+      <Filter>21. Enemy\01. Mob1</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob01StateMachine.h">
+      <Filter>21. Enemy\01. Mob1</Filter>
+    </ClInclude>
+    <ClInclude Include="CMob01WalkState.h">
+      <Filter>21. Enemy\01. Mob1</Filter>
+    </ClInclude>
+    <ClInclude Include="CMobBullet.h">
+      <Filter>24. Bullet\02. EnemyBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -658,6 +697,30 @@
     </ClCompile>
     <ClCompile Include="CBossDeadState.cpp">
       <Filter>21. Enemy\00. Boss\02. State</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob.cpp">
+      <Filter>21. Enemy\05. MobBase</Filter>
+    </ClCompile>
+    <ClCompile Include="CMobState.cpp">
+      <Filter>21. Enemy\05. MobBase</Filter>
+    </ClCompile>
+    <ClCompile Include="CMobStateMachine.cpp">
+      <Filter>21. Enemy\05. MobBase</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob01.cpp">
+      <Filter>21. Enemy\01. Mob1</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob01IdleState.cpp">
+      <Filter>21. Enemy\01. Mob1</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob01StateMachine.cpp">
+      <Filter>21. Enemy\01. Mob1</Filter>
+    </ClCompile>
+    <ClCompile Include="CMob01WalkState.cpp">
+      <Filter>21. Enemy\01. Mob1</Filter>
+    </ClCompile>
+    <ClCompile Include="CMobBullet.cpp">
+      <Filter>24. Bullet\02. EnemyBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

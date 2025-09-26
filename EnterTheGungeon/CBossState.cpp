@@ -45,6 +45,7 @@ void CBossState::Update()
 	Detect_Player();
 }
 
+
 void CBossState::Compute_Dir(Vector2 vDiff)
 {
 	float fAlpha = 150.f;
@@ -83,7 +84,6 @@ void CBossState::Compute_CurrentStateElapsedTime()
 
 void CBossState::Detect_Player()
 {
-	printf("detect player\n");
 	Vector2 vPlayerPos = pPlayer->Get_Transform()->Position();
 	Vector2 vBossPos = pObj->Get_Transform()->Position();
 	Vector2 vDiff = vPlayerPos - vBossPos;

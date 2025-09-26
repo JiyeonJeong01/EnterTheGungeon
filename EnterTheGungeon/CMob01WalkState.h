@@ -1,12 +1,15 @@
 #pragma once
-#include "CBossState.h"
-class CBossIdleState :  public CBossState
+#include "CMobState.h"
+
+class CObject;
+class CStateMachine;
+
+class CMob01WalkState : public CMobState
 {
 public:
-	CBossIdleState(CObject* pObj, CStateMachine* pStateMachine)
-		: CBossState(pObj, pStateMachine) {
-	}
-	~CBossIdleState() override {};
+	CMob01WalkState(CObject* pObj, CStateMachine* pStateMachine);
+	~CMob01WalkState() override {};
+
 public:
 	void Initialize() override;
 	void Update() override;
@@ -23,6 +26,11 @@ public:
 	void On_End_Animation() override;
 
 	int Dir_AnimRow(Direction eDir) override;
+	int Get_WeaponPos();
+	int Get_WeaponDir();
 
+public :
+	void Do_Attack();
+	void Do_KnockBack();
 };
 

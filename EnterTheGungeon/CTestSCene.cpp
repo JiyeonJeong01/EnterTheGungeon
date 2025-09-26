@@ -1,3 +1,4 @@
+#pragma region INCLUDE
 #include "pch.h"
 #include "CTestSCene.h"
 #include "CManager.h"
@@ -19,6 +20,9 @@
 #include "CBomb.h"
 #include "CBoss.h"
 #include "CTeleport.h"
+#include "CMob01.h"
+#pragma endregion
+
 
 CTestSCene::CTestSCene()
 {
@@ -38,7 +42,7 @@ void CTestSCene::Initialize()
 
 	pPlayer = dynamic_cast<CPlayer*>(CObjectFactory<CPlayer>::Create(O_PLAYER, pPlayerPos.x, pPlayerPos.y));
 	pBoss = dynamic_cast<CBoss*>(CObjectFactory<CBoss>::Create(O_ENEMY, pBossPos.x, pBossPos.y));
-
+	CObjectFactory<CMob01>::Create(O_ENEMY, pBossPos.x, pBossPos.y);
 	MANAGER(CEnvironmentManager*, M_MAP)->Initialize();
 	MANAGER(CCameraManager*, M_CAMERA)->Set_LookAt({ (float)pPlayerPos.x, (float)pPlayerPos.y });
 	MANAGER(CCameraManager*, M_CAMERA)->Set_Target(pPlayer);
