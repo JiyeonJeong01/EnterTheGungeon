@@ -1,21 +1,21 @@
 #include "pch.h"
-#include "CMob04IdleState.h"
+#include "CMob05IdleState.h"
 #include "CBmpManager.h"
 #include "CObject.h"
 #include "CRenderer.h"
 #include "CTransform.h"
 #include "CPlayer.h"
-#include "CMob04.h"
+#include "CMob05.h"
 #include "CStateMachine.h"
 #include "CMob01StateMachine.h"
 
-CMob04IdleState::CMob04IdleState(CObject* pObj, CStateMachine* pStateMachine)
+CMob05IdleState::CMob05IdleState(CObject* pObj, CStateMachine* pStateMachine)
 	: CMobState(pObj, pStateMachine)
 {
 
 }
 
-void CMob04IdleState::Initialize()
+void CMob05IdleState::Initialize()
 {
 	CMobState::Initialize();
 	fAttackTimeRange = 1.5f;
@@ -23,19 +23,19 @@ void CMob04IdleState::Initialize()
 	fCurStateMaxTime = 1.5f;
 	dwCurrentStateElapsedTime = GetTickCount();
 	eState = CMob::Idle;
-	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Enemy/Monster04_IDLE.bmp", L"Monster04_IDLE");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Enemy/Monster05_IDLE.bmp", L"Monster05_IDLE");
 	animation.Initialize(0, 2, (int)D_DOWN);
 	fill(animation.vTransitTime.begin(), animation.vTransitTime.end(), 150);
 }
 
-void CMob04IdleState::Update()
+void CMob05IdleState::Update()
 {
 	CMobState::Update();
 
 	Update_AnimFrame();
 }
 
-void CMob04IdleState::Late_Update()
+void CMob05IdleState::Late_Update()
 {
 	if (dwCurrentStateElapsedTime + int(fCurStateMaxTime * 1000) < GetTickCount()
 		|| (fCurDistToPlayer <= fMinStopDist || fCurDistToPlayer >= fMaxStopDist))
@@ -44,15 +44,15 @@ void CMob04IdleState::Late_Update()
 	}
 }
 
-void CMob04IdleState::Render(HDC hDC)
+void CMob05IdleState::Render(HDC hDC)
 {
-	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Monster04_IDLE");
+	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Monster05_IDLE");
 
 	CRenderer renderer = *(pObj->Get_Renderer());
 
 	int realSize = 150;
-	int renderSize = 110;	
-	
+	int renderSize = 110;
+
 	GdiTransparentBlt(hDC,
 		renderer.Left(),
 		renderer.Top(),
@@ -64,34 +64,34 @@ void CMob04IdleState::Render(HDC hDC)
 		RGB(255, 0, 255));
 }
 
-void CMob04IdleState::Release()
+void CMob05IdleState::Release()
 {
 }
 
-void CMob04IdleState::Exit()
+void CMob05IdleState::Exit()
 {
 }
 
-void CMob04IdleState::Enter()
+void CMob05IdleState::Enter()
 {
 	dwCurrentStateElapsedTime = GetTickCount();
 	pObj->Get_Transform()->Direction({ 0.f, 0.f });
 }
 
-void CMob04IdleState::Update_AnimFrame()
+void CMob05IdleState::Update_AnimFrame()
 {
 	CState::Update_AnimFrame();
 }
 
-void CMob04IdleState::Stop_Animation()
+void CMob05IdleState::Stop_Animation()
 {
 }
 
-void CMob04IdleState::On_End_Animation()
+void CMob05IdleState::On_End_Animation()
 {
 }
 
-int CMob04IdleState::Dir_AnimRow(Direction eDir)
+int CMob05IdleState::Dir_AnimRow(Direction eDir)
 {
 	switch (eDir)
 	{

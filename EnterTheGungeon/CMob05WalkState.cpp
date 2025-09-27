@@ -1,24 +1,24 @@
 #pragma region INCLUDE
 #include "pch.h"
-#include "CMob04WalkState.h"
+#include "CMob05WalkState.h"
 #include "CBmpManager.h"
 #include "CObject.h"
 #include "CRenderer.h"
 #include "CTransform.h"
 #include "CPlayer.h"
-#include "CMob04.h"
+#include "CMob05.h"
 #include "CStateMachine.h"
 #include "CMobBullet.h"
 #include "CObjectFactory.h"
 #pragma endregion
 
 
-CMob04WalkState::CMob04WalkState(CObject* pObj, CStateMachine* pStateMachine)
+CMob05WalkState::CMob05WalkState(CObject* pObj, CStateMachine* pStateMachine)
 	: CMobState(pObj, pStateMachine)
 {
 }
 
-void CMob04WalkState::Initialize()
+void CMob05WalkState::Initialize()
 {
 	CMobState::Initialize();
 	fAttackTimeRange = 1.8f;
@@ -26,12 +26,12 @@ void CMob04WalkState::Initialize()
 	dwLastAttackTime = GetTickCount();
 	dwCurrentStateElapsedTime = GetTickCount();
 	eState = CMob::Idle;
-	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Enemy/Monster04_WALK.bmp", L"Monster04_WALK");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Enemy/Monster05_WALK.bmp", L"Monster05_WALK");
 	animation.Initialize(0, 5, (int)D_DOWN);
 	fill(animation.vTransitTime.begin(), animation.vTransitTime.end(), 100);
 }
 
-void CMob04WalkState::Update()
+void CMob05WalkState::Update()
 {
 	CMobState::Update();
 
@@ -50,7 +50,7 @@ void CMob04WalkState::Update()
 	}
 }
 
-void CMob04WalkState::Late_Update()
+void CMob05WalkState::Late_Update()
 {
 	if (dwLastAttackTime + fAttackTimeRange * 1000 < GetTickCount())
 	{
@@ -59,9 +59,9 @@ void CMob04WalkState::Late_Update()
 	}
 }
 
-void CMob04WalkState::Render(HDC hDC)
+void CMob05WalkState::Render(HDC hDC)
 {
-	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Monster04_WALK");
+	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Monster05_WALK");
 
 	CRenderer renderer = *(pObj->Get_Renderer());
 
@@ -79,33 +79,33 @@ void CMob04WalkState::Render(HDC hDC)
 		RGB(255, 0, 255));
 }
 
-void CMob04WalkState::Release()
+void CMob05WalkState::Release()
 {
 }
 
-void CMob04WalkState::Exit()
+void CMob05WalkState::Exit()
 {
 }
 
-void CMob04WalkState::Enter()
+void CMob05WalkState::Enter()
 {
 	dwCurrentStateElapsedTime = GetTickCount();
 }
 
-void CMob04WalkState::Update_AnimFrame()
+void CMob05WalkState::Update_AnimFrame()
 {
 	CState::Update_AnimFrame();
 }
 
-void CMob04WalkState::Stop_Animation()
+void CMob05WalkState::Stop_Animation()
 {
 }
 
-void CMob04WalkState::On_End_Animation()
+void CMob05WalkState::On_End_Animation()
 {
 }
 
-int CMob04WalkState::Dir_AnimRow(Direction eDir)
+int CMob05WalkState::Dir_AnimRow(Direction eDir)
 {
 	switch (eDir)
 	{
@@ -116,11 +116,11 @@ int CMob04WalkState::Dir_AnimRow(Direction eDir)
 	}
 }
 
-void CMob04WalkState::Do_Attack()
+void CMob05WalkState::Do_Attack()
 {
 	int bulletCount = 7;
-	float angleRange = 30.f;  
-	float angleStep = angleRange / (bulletCount - 1); 
+	float angleRange = 30.f;
+	float angleStep = angleRange / (bulletCount - 1);
 	vDirToPlayer.Normalize();
 	Vector2 vBaseDir = vDirToPlayer;
 
@@ -132,10 +132,10 @@ void CMob04WalkState::Do_Attack()
 		float cosA = cosf(angleRad);
 		float sinA = sinf(angleRad);
 
-		Vector2 vRotatedDir( vBaseDir.X() * cosA - vBaseDir.Y() * sinA, 	vBaseDir.X() * sinA + vBaseDir.Y() * cosA );
+		Vector2 vRotatedDir(vBaseDir.X() * cosA - vBaseDir.Y() * sinA, vBaseDir.X() * sinA + vBaseDir.Y() * cosA);
 
 		CMobBullet* pBullet = static_cast<CMobBullet*>(CObjectFactory<CMobBullet>::Create(
-			O_ENBULLET, pObj->Get_Transform()->Position().X() + vRotatedDir.X() * 5.f, pObj->Get_Transform()->Position().Y() + vRotatedDir.Y() * 5.f ));
+			O_ENBULLET, pObj->Get_Transform()->Position().X() + vRotatedDir.X() * 5.f, pObj->Get_Transform()->Position().Y() + vRotatedDir.Y() * 5.f));
 
 		pBullet->Set_BulletType(CBullet::B04);
 		pBullet->Set_EffectType(CBullet::E03);
@@ -147,6 +147,6 @@ void CMob04WalkState::Do_Attack()
 }
 
 
-void CMob04WalkState::Do_KnockBack()
+void CMob05WalkState::Do_KnockBack()
 {
 }

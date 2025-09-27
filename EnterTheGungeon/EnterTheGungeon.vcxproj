@@ -189,6 +189,12 @@
     <ClInclude Include="CMob04KnockbackState.h" />
     <ClInclude Include="CMob04StateMachine.h" />
     <ClInclude Include="CMob04WalkState.h" />
+    <ClInclude Include="CMob05.h" />
+    <ClInclude Include="CMob05DeadState.h" />
+    <ClInclude Include="CMob05IdleState.h" />
+    <ClInclude Include="CMob05KnockbackState.h" />
+    <ClInclude Include="CMob05StateMachine.h" />
+    <ClInclude Include="CMob05WalkState.h" />
     <ClInclude Include="CMobBullet.h" />
     <ClInclude Include="CMob01KnockbackState.h" />
     <ClInclude Include="CMobState.h" />
@@ -296,6 +302,12 @@
     <ClCompile Include="CMob04KnockbackState.cpp" />
     <ClCompile Include="CMob04StateMachine.cpp" />
     <ClCompile Include="CMob04WalkState.cpp" />
+    <ClCompile Include="CMob05.cpp" />
+    <ClCompile Include="CMob05DeadState.cpp" />
+    <ClCompile Include="CMob05IdleState.cpp" />
+    <ClCompile Include="CMob05KnockbackState.cpp" />
+    <ClCompile Include="CMob05StateMachine.cpp" />
+    <ClCompile Include="CMob05WalkState.cpp" />
     <ClCompile Include="CMobBullet.cpp" />
     <ClCompile Include="CMob01KnockbackState.cpp" />
     <ClCompile Include="CMobState.cpp" />

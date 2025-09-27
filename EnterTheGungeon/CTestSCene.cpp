@@ -24,6 +24,7 @@
 #include "CMob02.h"
 #include "CMob03.h"
 #include "CMob04.h"
+#include "CMob05.h"
 #pragma endregion
 
 
@@ -49,6 +50,7 @@ void CTestSCene::Initialize()
 	CObjectFactory<CMob02>::Create(O_ENEMY, pBossPos.x + 200, pBossPos.y + 200);
 	CObjectFactory<CMob03>::Create(O_ENEMY, pBossPos.x - 200, pBossPos.y - 200);
 	CObjectFactory<CMob04>::Create(O_ENEMY, pBossPos.x + 200, pBossPos.y - 200);
+	CObjectFactory<CMob05>::Create(O_ENEMY, pBossPos.x, pBossPos.y - 200);
 	MANAGER(CEnvironmentManager*, M_MAP)->Initialize();
 	MANAGER(CCameraManager*, M_CAMERA)->Set_LookAt({ (float)pPlayerPos.x, (float)pPlayerPos.y });
 	MANAGER(CCameraManager*, M_CAMERA)->Set_Target(pPlayer);

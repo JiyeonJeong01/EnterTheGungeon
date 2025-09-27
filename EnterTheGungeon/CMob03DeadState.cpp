@@ -24,7 +24,7 @@ void CMob03DeadState::Initialize()
 	eState = CMob::Dead;
 
 	animation.Initialize(0, 2, (int)D_DOWN);
-	fill(animation.vTransitTime.begin(), animation.vTransitTime.end(), 80);
+	fill(animation.vTransitTime.begin(), animation.vTransitTime.end(), 150);
 }
 
 void CMob03DeadState::Update()
@@ -53,19 +53,25 @@ void CMob03DeadState::Render(HDC hDC)
 	int realSize = 230;
 	int iRenderSize = 230;
 
-	if (bCanMoveAnim)
-	{
-		GdiTransparentBlt(hDC,
-			renderer.Left(),
-			renderer.Top(),
-			iRenderSize, iRenderSize,
-			hMemDC,
-			animation.iCurrIndex * realSize,
-			0,
-			realSize, realSize,
-			RGB(255, 0, 255));
-	}
 
+	//GdiTransparentBlt(hDC,
+	//	renderer.Left(),
+	//	renderer.Top(),
+	//	iRenderSize, iRenderSize,
+	//	hMemDC,
+	//	animation.iCurrIndex * realSize,
+	//	0,
+	//	realSize, realSize,
+	//	RGB(255, 0, 255));
+	// 
+	GdiTransparentBlt(hDC,
+		0, 0,
+		iRenderSize, iRenderSize,
+		hMemDC,
+		0,
+		0,
+		realSize, realSize,
+		RGB(255, 0, 255));
 }
 
 void CMob03DeadState::Exit()
@@ -79,10 +85,13 @@ void CMob03DeadState::Enter()
 	dwCurrentStateElapsedTime = GetTickCount();
 }
 
+void CMob03DeadState::Update_AnimFrame()
+{
+	CState::Update_AnimFrame();
+}
+
 void CMob03DeadState::On_End_Animation()
 {
-	bCanMoveAnim = false;
-
 }
 
 int CMob03DeadState::Dir_AnimRow(Direction eDir)

@@ -1,10 +1,11 @@
 #pragma once
 #include "CMobState.h"
-class CMob03DeadState :   public CMobState
+
+class CMob05DeadState : public CMobState
 {
 public:
-	CMob03DeadState(CObject* pObj, CStateMachine* pStateMachine);
-	~CMob03DeadState() override {};
+	CMob05DeadState(CObject* pObj, CStateMachine* pStateMachine);
+	~CMob05DeadState() override {};
 
 public:
 	void Initialize() override;
@@ -14,7 +15,6 @@ public:
 public:
 	void Exit() override;
 	void Enter() override;
-	void Update_AnimFrame() override;
 	void On_End_Animation() override;
 
 private:

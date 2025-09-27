@@ -1,21 +1,20 @@
 #include "pch.h"
-#include "CMob04DeadState.h"
+#include "CMob05DeadState.h"
 #include "CBmpManager.h"
 #include "CObject.h"
 #include "CRenderer.h"
 #include "CTransform.h"
 #include "CPlayer.h"
-#include "CMob04.h"
 #include "CStateMachine.h"
 
-CMob04DeadState::CMob04DeadState(CObject* pObj, CStateMachine* pStateMachine)
+CMob05DeadState::CMob05DeadState(CObject* pObj, CStateMachine* pStateMachine)
 	: CMobState(pObj, pStateMachine)
 {
 }
 
-void CMob04DeadState::Initialize()
+void CMob05DeadState::Initialize()
 {
-	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Enemy/Monster04_DEAD.bmp", L"Monster04_DEAD");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Enemy/Monster05_DEAD.bmp", L"Monster05_DEAD");
 
 	CMobState::Initialize();
 
@@ -27,7 +26,7 @@ void CMob04DeadState::Initialize()
 	fill(animation.vTransitTime.begin(), animation.vTransitTime.end(), 100);
 }
 
-void CMob04DeadState::Update()
+void CMob05DeadState::Update()
 {
 	CMobState::Update();
 
@@ -44,15 +43,15 @@ void CMob04DeadState::Update()
 	}
 }
 
-void CMob04DeadState::Render(HDC hDC)
+void CMob05DeadState::Render(HDC hDC)
 {
-	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Monster04_DEAD");
+	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Monster05_DEAD");
 
 	CRenderer renderer = *(pObj->Get_Renderer());
 
 	int realSize = 150;
 	int renderSize = 110;
-	
+
 	if (bCanMoveAnim)
 		iDeadDir = Dir_AnimRow(eDir);
 	GdiTransparentBlt(hDC,
@@ -66,23 +65,23 @@ void CMob04DeadState::Render(HDC hDC)
 		RGB(255, 0, 255));
 }
 
-void CMob04DeadState::Exit()
+void CMob05DeadState::Exit()
 {
 }
 
-void CMob04DeadState::Enter()
+void CMob05DeadState::Enter()
 {
 	bCanMoveAnim = true;
 	pObj->Get_Transform()->Direction({ 0.f, 0.f });
 	dwCurrentStateElapsedTime = GetTickCount();
 }
 
-void CMob04DeadState::On_End_Animation()
+void CMob05DeadState::On_End_Animation()
 {
 	bCanMoveAnim = false;
 }
 
-int CMob04DeadState::Dir_AnimRow(Direction eDir)
+int CMob05DeadState::Dir_AnimRow(Direction eDir)
 {
 	if (vDirToPlayer.X() >= 0) return 0;
 	else return 1;

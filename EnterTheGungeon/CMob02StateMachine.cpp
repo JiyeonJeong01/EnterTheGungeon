@@ -61,4 +61,8 @@ void CMob02StateMachine::Change_State(int iStateKey)
 void CMob02StateMachine::Release()
 {
 	CRelease<CMob02IdleState*>::Release(idle);
+	CRelease<CMob02WalkState*>::Release(walk);
+	CRelease<CMob02KnockbackState*>::Release(knockback);
+	CRelease<CMob02DeadState*>::Release(dead);
+	mMobStates.clear();
 }
