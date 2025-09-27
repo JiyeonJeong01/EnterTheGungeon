@@ -226,6 +226,9 @@
     <Filter Include="03. Manager\11. StageManager">
       <UniqueIdentifier>{e278a938-c0eb-4fae-9a41-f27970dc3f18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="23. Item\04. Chest">
+      <UniqueIdentifier>{9e732148-daab-4b78-a523-a512b9e191b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -561,6 +564,12 @@
     <ClInclude Include="CMob05WalkState.h">
       <Filter>21. Enemy\05. Mob05</Filter>
     </ClInclude>
+    <ClInclude Include="CStageManager.h">
+      <Filter>03. Manager\11. StageManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CChest.h">
+      <Filter>23. Item\04. Chest</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -883,6 +892,12 @@
     </ClCompile>
     <ClCompile Include="CMob05WalkState.cpp">
       <Filter>21. Enemy\05. Mob05</Filter>
+    </ClCompile>
+    <ClCompile Include="CStageManager.cpp">
+      <Filter>03. Manager\11. StageManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CChest.cpp">
+      <Filter>23. Item\04. Chest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

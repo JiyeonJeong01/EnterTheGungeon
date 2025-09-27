@@ -1,26 +1,25 @@
 #pragma region INCLUDE
 #include "pch.h"
 #include "CStage02.h"
-#include "pch.h"
-#include "CStage01.h"
+
 #include "CManager.h"
 #include "CObjectManager.h"
-#include "CObjectFactory.h"
-#include "CPlayer.h"
 #include "CCameraManager.h"
-#include "CMap.h"
 #include "CCollisionManager.h"
+#include "CMapManager.h"
+#include "CBmpManager.h"
+#include "CStageManager.h"
+#include "CObjectFactory.h"
+
+#include "CPlayer.h"
+
+#include "CMap.h"
+
 #include "CTransform.h"
 #include "CRenderer.h"
 #include "CCollider.h"
-#include "CButton.h"
-#include "CMapManager.h"
-#include "CBmpManager.h"
+
 #include "CTableObject.h"
-#include "CCartridge.h"
-#include "CCoin.h"
-#include "CBomb.h"
-#include "CBoss.h"
 #include "CTeleport.h"
 #pragma endregion
 
@@ -38,48 +37,25 @@ void CStage02::Initialize()
 {
 	eScene = SC_STAGE02;
 	POINT pPlayerPos = { 630, 482 };
-	pPlayer = dynamic_cast<CPlayer*>(CObjectFactory<CPlayer>::Create(O_PLAYER, pPlayerPos.x, pPlayerPos.y));
+
+	if (pPlayer == nullptr)
+	{
+		if (MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER)->empty())
+		{
+			pPlayer = dynamic_cast<CPlayer*>(CObjectFactory<CPlayer>::Create(O_PLAYER, pPlayerPos.x, pPlayerPos.y));
+		}
+		else
+		{
+			pPlayer = dynamic_cast<CPlayer*>(MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER)->front());
+		}
+	}
+
 
 	MANAGER(CEnvironmentManager*, M_MAP)->Initialize();
 	MANAGER(CCameraManager*, M_CAMERA)->Set_LookAt({ (float)pPlayerPos.x, (float)pPlayerPos.y });
 	MANAGER(CCameraManager*, M_CAMERA)->Set_Target(pPlayer);
 
-
-	// 테스트용 테이블 생성 
-	//CTableObject* pTable1 = dynamic_cast<CTableObject*>(
-	//	CObjectFactory<CTableObject>::Create(O_INTERACTABLE, pBossPos.x + 150, pBossPos.y - 200));
-	//MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList()->push_back(pTable1);
-
-	//CTableObject* pTable2 = dynamic_cast<CTableObject*>(
-	//	CObjectFactory<CTableObject>::Create(O_INTERACTABLE, pBossPos.x - 220, pBossPos.y + 100));
-	//MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList()->push_back(pTable2);
-
-	//CTableObject* pTable3 = dynamic_cast<CTableObject*>(
-	//	CObjectFactory<CTableObject>::Create(O_INTERACTABLE, pBossPos.x + 300, pBossPos.y + 180));
-	//MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList()->push_back(pTable3);
-
-	CTeleport* pTeleport = dynamic_cast<CTeleport*>(
-		CObjectFactory<CTeleport>::Create(O_INTERACTABLE, 6250, 2100));
-	MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList()->push_back(pTeleport);
-
-	//// 테스트용 아이템 생성w
-	//CCartridge* pItem1 = dynamic_cast<CCartridge*>(CObjectFactory<CCartridge>::Create(O_ITEM, 900, 900));
-	//pItem1->Drop_Item({ 900, 900 });
-
-	//CCoin* pItem2 = dynamic_cast<CCoin*>(CObjectFactory<CCoin>::Create(O_ITEM, 800, 900));
-	//pItem2->Drop_Item({ 800, 900 });
-
-	//CBomb* pItem3 = dynamic_cast<CBomb*>(CObjectFactory<CBomb>::Create(O_ITEM, 1000, 900));
-	//pItem3->Drop_Item({ 1000, 900 });
-
-	//CCartridge* pItem4 = dynamic_cast<CCartridge*>(CObjectFactory<CCartridge>::Create(O_ITEM, 920, 880));
-	//pItem4->Drop_Item({ 920, 880 });
-
-	//CCoin* pItem5 = dynamic_cast<CCoin*>(CObjectFactory<CCoin>::Create(O_ITEM, 820, 880));
-	//pItem5->Drop_Item({ 820, 880 });
-
-	//CBomb* pItem6 = dynamic_cast<CBomb*>(CObjectFactory<CBomb>::Create(O_ITEM, 1020, 880));
-	//pItem6->Drop_Item({ 1020, 880 });
+	MANAGER(CStageManager*, M_STAGE)->Initialize_Stage02();
 
 }
 
@@ -93,13 +69,33 @@ void CStage02::Update()
 		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
 		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER));
 
+	// Map ground <-> Enemy
+	CCollisionManager::Detect_MapCollision(
+		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
+		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENEMY));
+
 	// Map ground <-> Player Bullet
 	CCollisionManager::Detect_MapCollision(
 		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
 		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLBULLET));
 
+	// Map object <-> Enemy Bullet
+	CCollisionManager::Detect_MapCollision(
+		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
+		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENBULLET));
+
+	// Player <-> Enemy Bullet
+	CCollisionManager::Detect_RectCollision(
+		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER),
+		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENBULLET));
+
+	// Enemy <-> Player Bullet
+	CCollisionManager::Detect_RectCollision(
+		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENEMY),
+		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLBULLET));
+
 	MANAGER(CCameraManager*, M_CAMERA)->Update();
-	MANAGER(CUIManager*, M_UI)->Update();
+	MANAGER(CStageManager*, M_STAGE)->Logic_Stage02();
 }
 
 void CStage02::Late_Update()
@@ -117,7 +113,13 @@ void CStage02::Render(HDC _hDC)
 	MANAGER(CEnvironmentManager*, M_MAP)->Render(_hDC);
 
 	MANAGER(CUIManager*, M_UI)->Render(_hDC);
+
+#pragma region DEBUG
+	MANAGER(CStageManager*, M_STAGE)->Render(_hDC);
+#pragma endregion
+
 }
+
 
 void CStage02::Release()
 {

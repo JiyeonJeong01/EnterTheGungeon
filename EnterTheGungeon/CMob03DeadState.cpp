@@ -7,6 +7,7 @@
 #include "CPlayer.h"
 #include "CMob03.h"
 #include "CStateMachine.h"
+#include "CStageManager.h"
 
 CMob03DeadState::CMob03DeadState(CObject* pObj, CStateMachine* pStateMachine)
 	: CMobState(pObj, pStateMachine)
@@ -83,6 +84,7 @@ void CMob03DeadState::Enter()
 	bCanMoveAnim = true;
 	pObj->Get_Transform()->Direction({ 0.f, 0.f });
 	dwCurrentStateElapsedTime = GetTickCount();
+	MANAGER(CStageManager*, M_STAGE)->OnKilled_Enemy(static_cast<CMob*>(pObj));
 }
 
 void CMob03DeadState::Update_AnimFrame()

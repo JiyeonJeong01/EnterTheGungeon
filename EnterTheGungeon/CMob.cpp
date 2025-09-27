@@ -6,6 +6,7 @@
 #include "CCollider.h"
 #include "CMobStateMachine.h"
 #include "CMob01StateMachine.h"
+#include "CStageManager.h"
 #include "CRelease.h"
 
 CMob::CMob()
@@ -78,8 +79,11 @@ void CMob::OnCollision(CObject* pObj, Vector2 vDiff)
 			bInvincible = true;
 			bKnockback = true;
 			dwInvincibleTime = GetTickCount();
-			iHP = (iHP - 1 <= 0 ? 0 : iHP - 1);
-			
+			iHP--;
+			if (iHP <= 0)
+			{
+				iHP = 0;
+			}
 			printf("몬스터 현재 체력 : %d\n", iHP);
 
 		}

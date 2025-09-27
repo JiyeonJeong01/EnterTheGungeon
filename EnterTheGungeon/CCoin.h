@@ -4,7 +4,7 @@ class CCoin :  public CItem
 {
 public :
 	int Update() override;
-	void OnDetect_Player() override;
+	void OnDetect_PlayerIn() override;
 	void Late_Initialize() override;
 	void Get_Item() override;
 	void Apply_ItemEffect() override;

@@ -16,11 +16,14 @@ public :
 
 public :
 	void Detect_Player();
-	virtual void OnDetect_Player();
 	virtual void Late_Initialize();
 	virtual void Drop_Item(Vector2 vDropPos);
 	virtual void Get_Item();
 	virtual void Apply_ItemEffect();
+
+public :
+	virtual void OnDetect_PlayerIn();
+	virtual void OnDetect_PlayerOut();
 
 public : 
 	bool Get_CanUse() { return bCanUse;  }
@@ -39,6 +42,10 @@ protected:
 	int iAnimCol;
 	int iAnimSizeX;
 	int iAnimSizeY;
+
+	int iRealSizeX;
+	int iRealSizeY;
+	bool bRealSize;
 
 	const TCHAR* spriteKey;
 };

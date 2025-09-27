@@ -35,7 +35,7 @@ void CMob02::Initialize()
 
     fSpeed = 2.3f;
 
-    iMaxHP = 4;
+    iMaxHP = 1;
     iHP = iMaxHP;
 }
 

@@ -7,6 +7,7 @@
 #include "CPlayer.h"
 #include "CMob01.h"
 #include "CStateMachine.h"
+#include "CStageManager.h"
 
 CMob01DeadState::CMob01DeadState(CObject* pObj, CStateMachine* pStateMachine)
 	: CMobState(pObj, pStateMachine)
@@ -77,6 +78,7 @@ void CMob01DeadState::Enter()
 void CMob01DeadState::On_End_Animation()
 {
 	bCanMoveAnim = false;
+	MANAGER(CStageManager*, M_STAGE)->OnKilled_Enemy(static_cast<CMob*>(pObj));
 }
 
 int CMob01DeadState::Dir_AnimRow(Direction eDir)

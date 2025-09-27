@@ -8,6 +8,7 @@
 #include "CMapManager.h"
 #include "CUIManager.h"
 #include "CSoundManager.h"
+#include "CStageManager.h"
 
 CManager* CManager::g_pManagers[MGREND] = { nullptr, };
 
@@ -40,6 +41,9 @@ CManager* CManager::Get_Manager(ManagerType eManager)
 			break;
 		case ManagerType::M_SOUND:
 			g_pManagers[eManager] = new CSoundManager();
+			break;
+		case ManagerType::M_STAGE:
+			g_pManagers[eManager] = new CStageManager();
 			break;
 		}
 	}

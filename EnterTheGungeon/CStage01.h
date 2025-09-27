@@ -16,9 +16,6 @@ public:
 	void Render(HDC _hDC) override;
 	void Release() override;
 
-private :
-	void Check_TransitStage();
-
 public:
 	CPlayer* pPlayer;
 	list<CMap*> mapObjList;

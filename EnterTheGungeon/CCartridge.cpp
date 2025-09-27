@@ -20,6 +20,8 @@ void CCartridge::Late_Initialize()
 	pCollider->Size({ 40, 40 });
 	pRenderer->Size({ 40, 40 });
 
+	iRealSizeX = iRealSizeY = 40;
+
 	iAnimSizeX = iAnimSizeY = (int)pRenderer->Size().X();
 	spriteKey = L"Cartridge";
 

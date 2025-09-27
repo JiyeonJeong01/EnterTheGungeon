@@ -17,7 +17,7 @@ int CCoin::Update()
 	return 0;
 }
 
-void CCoin::OnDetect_Player()
+void CCoin::OnDetect_PlayerIn()
 {
 	bChase = true;
 }
@@ -30,6 +30,7 @@ void CCoin::Late_Initialize()
 	pTransform->Size({ 40, 40 });
 	pCollider->Size({ 40, 40 });
 	pRenderer->Size({ 40, 40 });
+	iRealSizeX = iRealSizeY = 40;
 
 	iAnimSizeX = iAnimSizeY = (int)pRenderer->Size().X();
 	spriteKey = L"Coin";
@@ -37,7 +38,7 @@ void CCoin::Late_Initialize()
 	rDetectBound = { -150, -150, 150, 150 };
 
 	bChase = false;
-	fSpeed = 6.f;
+	fSpeed = 8.f;
 }
 
 

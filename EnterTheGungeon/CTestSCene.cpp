@@ -102,7 +102,7 @@ void CTestSCene::Update()
 		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(), 
 		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER));
 
-	// Map ground <-> Player
+	// Map ground <-> Enemy
 	CCollisionManager::Detect_MapCollision(
 		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
 		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENEMY));

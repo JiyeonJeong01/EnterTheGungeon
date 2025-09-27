@@ -17,6 +17,7 @@ void CItem::Load_Resource()
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Objects/Bomb.bmp", L"Bomb");
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/Coin_UI.bmp", L"Coin_UI");
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/Cartridge_UI.bmp", L"Cartridge_UI");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Objects/Chest.bmp", L"Chest");
 }
 
 void CItem::Initialize()
@@ -41,8 +42,6 @@ int CItem::Update()
 	if (bObtained) return 0;
 	Detect_Player();
 
-
-
 	return 0;
 }
 
@@ -61,9 +60,8 @@ void CItem::Render(HDC hDC)
 		pRenderer->Right(), pRenderer->Top(),
 		(int)pRenderer->Size().X(), (int)pRenderer->Size().Y(),
 		hMemDC, 
-		(int)iAnimCol* pRenderer->Size().X(), 0,
-		(int)pRenderer->Size().X(),
-		(int)pRenderer->Size().Y(),
+		(int)iAnimCol* iRealSizeX, 0,
+		iRealSizeX, iRealSizeY,
 		RGB(38, 38, 38));
 }
 
@@ -87,16 +85,17 @@ void CItem::Detect_Player()
 		bCanInteract = true;
 		iAnimCol = 1;
 		
-		OnDetect_Player();
+		OnDetect_PlayerIn();
 	}
 	else
 	{
-		iAnimCol = 0;
+		OnDetect_PlayerOut();
 	}
 }
 
-void CItem::OnDetect_Player()
+void CItem::OnDetect_PlayerIn()
 {
+
 	if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown('E'))
 	{
 		Get_Item();
@@ -125,4 +124,10 @@ void CItem::Get_Item()
 
 void CItem::Apply_ItemEffect()
 {
+}
+
+
+void CItem::OnDetect_PlayerOut()
+{
+	iAnimCol = 0;
 }

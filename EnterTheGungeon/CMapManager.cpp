@@ -28,6 +28,8 @@
 void CEnvironmentManager::Initialize()
 {
 	bEdit = false;
+	Release();
+
 	Load_Data();
 #pragma region Debugging
 	pStartEditButton = dynamic_cast<CButton*>(CObjectFactory<CButton>::Create(O_UI, WINCX - 50, 11));
@@ -118,12 +120,21 @@ void CEnvironmentManager::Render(HDC _hDC)
 
 void CEnvironmentManager::Release()
 {
-	for_each(pCurGroundCollider.begin(), pCurGroundCollider.end(), [&](CMap* pMap) -> void
-	{
-		if(pMap->Get_ObjType() == O_MAP) 
-			CRelease<CMap*>::Release(pMap);
-	});
+	pCurGroundCollider.erase(
+		remove_if(pCurGroundCollider.begin(), pCurGroundCollider.end(),
+			[&](CMap* pMap)
+			{
+				if (pMap->Get_ObjType() == O_MAP)
+				{
+					CRelease<CMap*>::Release(pMap);
+					return true; // 컨테이너에서 제거
+				}
+				return false;
+			}),
+		pCurGroundCollider.end()
+	);
 }
+
 
 void CEnvironmentManager::Save_Data()
 {
@@ -245,15 +256,11 @@ void CEnvironmentManager::OnClickSaveButton()
 			pMap->Get_Collider()->Bottom(realPos.Y() + colSize.Y() * 0.5f);
 
 			pMap->Get_Renderer()->Size({ (float)(r.right - r.left), (float)(r.bottom - r.top) });
-			//static_cast<CObject*>(pMap)->Update_Renderer();
 
 			pCurGroundCollider.push_back(pMap);
-			// _tprintf(_T("excuted\t:\t:%f, %f\n"), pPlayer->Get_Transform()->Position().X(), pPlayer->Get_Transform()->Position().Y());
 		}
 		tempRectList.clear();
 	}
-	//else if (curMode == Object)
-		//for (auto& r : tempRectList) curObjectRectList.push_back(r);
 
 	Save_Data();
 }

@@ -10,6 +10,7 @@
 #include "CObjectFactory.h"
 #include "CCameraManager.h"
 #include "CSoundManager.h"
+#include "CStageManager.h"
 #include "CRelease.h"
 
 #include "CResourceLoader.h"
@@ -48,6 +49,7 @@ void CMainGame::Initialize()
 	MANAGER(CObjectManager*, M_OBJECT)->Initialize();
 	MANAGER(CSceneManager*, M_SCENE)->Initialize();
 	MANAGER(CSoundManager*, M_SOUND)->Initialize();
+	MANAGER(CStageManager*, M_STAGE)->Initialize();
 
 	CObjectFactory<CMouse>::Create(O_UI);
 

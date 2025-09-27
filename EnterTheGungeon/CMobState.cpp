@@ -16,9 +16,9 @@ void CMobState::Initialize()
 	if (pPlayer == nullptr)
 	{
 		pPlayer = static_cast<CPlayer*>(MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER)->front());
-		fMinDistToPlayer = 100.f;
-		fMaxStopDist = 250.f;
-		fMinStopDist = 130.f;
+		fMinDistToPlayer = 70.f;
+		fMaxStopDist = 150.f;
+		fMinStopDist = 100.f;
 
 		bShouldAttack = false;
 

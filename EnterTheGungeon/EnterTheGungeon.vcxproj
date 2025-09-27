@@ -150,6 +150,7 @@
     <ClInclude Include="CButton.h" />
     <ClInclude Include="CCameraManager.h" />
     <ClInclude Include="CCartridge.h" />
+    <ClInclude Include="CChest.h" />
     <ClInclude Include="CCoin.h" />
     <ClInclude Include="CCollider.h" />
     <ClInclude Include="CCollisionManager.h" />
@@ -222,6 +223,7 @@
     <ClInclude Include="CSoundManager.h" />
     <ClInclude Include="CStage01.h" />
     <ClInclude Include="CStage02.h" />
+    <ClInclude Include="CStageManager.h" />
     <ClInclude Include="CStat.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CStateMachine.h" />
@@ -263,6 +265,7 @@
     <ClCompile Include="CButton.cpp" />
     <ClCompile Include="CCameraManager.cpp" />
     <ClCompile Include="CCartridge.cpp" />
+    <ClCompile Include="CChest.cpp" />
     <ClCompile Include="CCoin.cpp" />
     <ClCompile Include="CCollider.cpp" />
     <ClCompile Include="CCollisionManager.cpp" />
@@ -335,6 +338,7 @@
     <ClCompile Include="CSoundManager.cpp" />
     <ClCompile Include="CStage01.cpp" />
     <ClCompile Include="CStage02.cpp" />
+    <ClCompile Include="CStageManager.cpp" />
     <ClCompile Include="CStat.cpp" />
     <ClCompile Include="CState.cpp" />
     <ClCompile Include="CStateMachine.cpp" />
