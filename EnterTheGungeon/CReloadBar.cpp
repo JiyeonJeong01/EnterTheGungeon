@@ -35,7 +35,7 @@ void CReloadBar::Initialize()
 	bActive = false;
 	fReloadTime = 1.5f;
 	iCurMoveDist = 0;
-	iMoveDistPerFrame = 1;
+	iMoveDistPerFrame = 2;
 }
 
 int CReloadBar::Update()

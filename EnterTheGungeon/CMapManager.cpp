@@ -120,19 +120,27 @@ void CEnvironmentManager::Render(HDC _hDC)
 
 void CEnvironmentManager::Release()
 {
-	pCurGroundCollider.erase(
-		remove_if(pCurGroundCollider.begin(), pCurGroundCollider.end(),
-			[&](CMap* pMap)
-			{
-				if (pMap->Get_ObjType() == O_MAP)
-				{
-					CRelease<CMap*>::Release(pMap);
-					return true; // 컨테이너에서 제거
-				}
-				return false;
-			}),
-		pCurGroundCollider.end()
-	);
+	for (auto& pMap : pCurGroundCollider)
+	{
+		CRelease<CMap*>::Release(pMap); 
+	}
+	pCurGroundCollider.clear();
+	
+	MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_INTERACTABLE)->clear();
+
+	//pCurGroundCollider.erase(
+	//	remove_if(pCurGroundCollider.begin(), pCurGroundCollider.end(),
+	//		[&](CMap* pMap)
+	//		{
+	//			if (pMap->Get_ObjType() == O_MAP)
+	//			{
+	//				CRelease<CMap*>::Release(pMap);
+	//				return true;
+	//			}
+	//			return false;
+	//		}),
+	//	pCurGroundCollider.end()
+	//);
 }
 
 

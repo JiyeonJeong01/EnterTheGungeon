@@ -11,6 +11,7 @@
 #include "CStage01.h"
 #include "CStage02.h"
 #include "CMainScene.h"
+#include"CStoreScene.h"
 #include "CTestSCene.h"
 
 
@@ -75,6 +76,9 @@ void CSceneManager::Change_Scene(SceneType sType)
 		break;
 	case SC_MAIN :
 		//pCurrentScene = new CMainScene;
+		break;
+	case SC_STORE:
+		pCurrentScene = new CStoreScene;
 		break;
 	case SC_TEST:
 		pCurrentScene = new CTestSCene;

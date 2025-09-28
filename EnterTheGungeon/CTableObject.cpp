@@ -220,6 +220,31 @@ void CTableObject::Table_Interact()
 
 	// 범위 내 충돌 감지
 	Vector2 vDiff = Check_DetectBound();
+	RECT playerCollider = *pPlayer->Get_Collider()->Get_PCollider();
+	RECT tableCollider = *pCollider->Get_PCollider();
+
+	if (vDiff.X() > vDiff.Y()) // 상하
+	{
+		if (playerCollider.bottom <= tableCollider.top) // 플레이어가 위
+		{
+			interactDir = D_UP;
+		}
+		else if (playerCollider.bottom >= tableCollider.top)
+		{
+			interactDir = D_DOWN;
+		}
+	}
+	else // 좌우
+	{
+		if (playerCollider.right < tableCollider.left) // 플레이어가 왼쪽
+		{
+			interactDir = D_LEFT;
+		}
+		else if (playerCollider.right > tableCollider.left)
+		{
+			interactDir = D_RIGHT;
+		}
+	}
 
 	if (vDiff.X() != 0.f && vDiff.Y() != 0.f)
 	{

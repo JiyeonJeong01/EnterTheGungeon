@@ -21,6 +21,9 @@ public :
 	void Change_SceneEffect();
 
 public :
+	CScene* Get_Scene() { return pCurrentScene;  }
+
+public :
 	SceneType Get_CurrentScene() { return eCurrentScene; }
 
 private :

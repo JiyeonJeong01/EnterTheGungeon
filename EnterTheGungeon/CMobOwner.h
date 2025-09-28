@@ -1,13 +1,11 @@
 #pragma once
 #include "CMob.h"
-class CMob03StateMachine;
-class CMob03 : public CMob
+class CMobOwnerStateMachine;
+class CMobOwner : public CMob
 {
-public :
-	enum Mob03Type { Big, Small };
 public:
-	CMob03();
-	~CMob03() override;
+	CMobOwner();
+	~CMobOwner() override;
 
 public: // Core
 	void Initialize() override;
@@ -20,13 +18,11 @@ public: // Core
 
 public:
 	void Set_CurrentState(MobState eState, CState* pState) { eCurrentState = eState; pCurrentState = pState; }
-	void Set_Mob03Type(Mob03Type type) { eMob03Type = type; }
 public:
 	float Get_AttackTimeRange() { return fAttackTimeRange; }
 private:
-	CMob03StateMachine* pStateMachine;
+	CMobOwnerStateMachine* pStateMachine;
 	CState* pCurrentState;
-	Mob03Type eMob03Type;
 
 private:
 	float fAttackTimeRange;

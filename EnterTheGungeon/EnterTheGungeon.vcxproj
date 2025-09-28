@@ -198,6 +198,12 @@
     <ClInclude Include="CMob05WalkState.h" />
     <ClInclude Include="CMobBullet.h" />
     <ClInclude Include="CMob01KnockbackState.h" />
+    <ClInclude Include="CMobOwner.h" />
+    <ClInclude Include="CMobOwnerDeadState.h" />
+    <ClInclude Include="CMobOwnerIdleState.h" />
+    <ClInclude Include="CMobOwnerKnockbackState.h" />
+    <ClInclude Include="CMobOwnerStateMachine.h" />
+    <ClInclude Include="CMobOwnerWalkState.h" />
     <ClInclude Include="CMobState.h" />
     <ClInclude Include="CMobStateMachine.h" />
     <ClInclude Include="CMouse.h" />
@@ -227,6 +233,7 @@
     <ClInclude Include="CStat.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CStateMachine.h" />
+    <ClInclude Include="CStoreScene.h" />
     <ClInclude Include="CTableObject.h" />
     <ClInclude Include="CTeleport.h" />
     <ClInclude Include="CTestSCene.h" />
@@ -313,6 +320,12 @@
     <ClCompile Include="CMob05WalkState.cpp" />
     <ClCompile Include="CMobBullet.cpp" />
     <ClCompile Include="CMob01KnockbackState.cpp" />
+    <ClCompile Include="CMobOwner.cpp" />
+    <ClCompile Include="CMobOwnerDeadState.cpp" />
+    <ClCompile Include="CMobOwnerIdleState.cpp" />
+    <ClCompile Include="CMobOwnerKnockbackState.cpp" />
+    <ClCompile Include="CMobOwnerStateMachine.cpp" />
+    <ClCompile Include="CMobOwnerWalkState.cpp" />
     <ClCompile Include="CMobState.cpp" />
     <ClCompile Include="CMobStateMachine.cpp" />
     <ClCompile Include="CMouse.cpp" />
@@ -342,6 +355,7 @@
     <ClCompile Include="CStat.cpp" />
     <ClCompile Include="CState.cpp" />
     <ClCompile Include="CStateMachine.cpp" />
+    <ClCompile Include="CStoreScene.cpp" />
     <ClCompile Include="CTableObject.cpp" />
     <ClCompile Include="CTeleport.cpp" />
     <ClCompile Include="CTestSCene.cpp" />

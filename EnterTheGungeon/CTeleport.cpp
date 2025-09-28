@@ -31,8 +31,10 @@ void CTeleport::Initialize()
 	pCollider->Size({ 350, 350 });
 	pRenderer->Size({ 350, 350 });
 
+	
+
 	eType = O_INTERACTABLE;
-	pRenderer->rType = RND__GAMEBOJECT;
+	pRenderer->rType = RND_BACKGROUND;
 
 	pPlayer = dynamic_cast<CPlayer*>(MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER)->front());
 	if (pPlayer == nullptr) printf("error! - can't find player!\n");
@@ -71,11 +73,14 @@ void CTeleport::Render(HDC hDC)
 
 	HDC tableDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Teleport_Opened");
 
+	int iRenderSize = 200;
+
 	GdiTransparentBlt(hDC,
 		pRenderer->Left(),
 		pRenderer->Top(),
-		(int)pRenderer->Size().X(),
-		(int)pRenderer->Size().Y(),
+		200, 200,
+		//(int)pRenderer->Size().X(),
+		//(int)pRenderer->Size().Y(),
 		tableDC,
 		iAnimCol * pRenderer->Size().X(), 0,
 		(int)pRenderer->Size().X(),
@@ -106,8 +111,8 @@ void CTeleport::OnCollision(CObject* pObj, Vector2 vDiff)
 
 void CTeleport::OnCollision_Entity(CObject* pObj, Vector2 vDiff)
 {
-	if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown(VK_RETURN))
-		MANAGER(CSceneManager*, M_SCENE)->Change_Scene(
-			(SceneType)(MANAGER(CSceneManager*, M_SCENE)->Get_CurrentScene()+1)
-		);
+	//if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown(VK_RETURN))
+	//	MANAGER(CSceneManager*, M_SCENE)->Change_Scene(
+	//		(SceneType)(MANAGER(CSceneManager*, M_SCENE)->Get_CurrentScene()+1)
+	//	);
 }

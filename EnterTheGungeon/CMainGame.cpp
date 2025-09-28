@@ -49,7 +49,7 @@ void CMainGame::Initialize()
 	MANAGER(CObjectManager*, M_OBJECT)->Initialize();
 	MANAGER(CSceneManager*, M_SCENE)->Initialize();
 	MANAGER(CSoundManager*, M_SOUND)->Initialize();
-	MANAGER(CStageManager*, M_STAGE)->Initialize();
+	//MANAGER(CStageManager*, M_STAGE)->Initialize();
 
 	CObjectFactory<CMouse>::Create(O_UI);
 

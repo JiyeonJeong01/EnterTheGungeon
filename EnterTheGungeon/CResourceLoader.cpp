@@ -18,10 +18,13 @@ void CResourceLoader::Load_Resource()
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Map/Stage01.bmp", L"Stage01");
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Map/Stage02.bmp", L"Stage02");
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Map/Stage03.bmp", L"Stage03");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Map/Store.bmp", L"Store");
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/Boss_HPBar.bmp", L"Boss_HPBar");
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/Boss_HP_Effect.bmp", L"Boss_HP_Effect");
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Objects/Teleport_Opened.bmp", L"Teleport_Opened");
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Objects/Teleport_Active.bmp", L"Teleport_Active");
+	
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/EKey.bmp", L"EKey");
 
 	CWeapon::Load_Resource();
 	CBullet::Load_Resource();

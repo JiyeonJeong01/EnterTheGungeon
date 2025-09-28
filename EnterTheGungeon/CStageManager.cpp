@@ -4,7 +4,10 @@
 #include "CObjectFactory.h"
 #include "CCameraManager.h"
 #include "CMapManager.h"
+#include "CInputManager.h"
 
+#include "CStage01.h"
+#include "CStage02.h"
 #include "CPlayer.h"
 
 #include "CMob.h"
@@ -19,6 +22,7 @@
 #include "CCartridge.h"
 #include "CBomb.h"
 #include "CChest.h"
+#include "CTeleport.h"
 
 #include "CTransform.h"
 #include "CCollider.h"
@@ -139,10 +143,11 @@ void CStageManager::Logic_Stage01()
 	}
 	else if (bPreparedTransit && bCanTransitNextStage && bPlayerInBound)
 	{
-		Transit_Stage02();
+		if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown(VK_RETURN))
+		{
+			Transit_Stage02();
+		}
 	}
-
-
 }
 
 void CStageManager::Logic_Stage02()
@@ -155,7 +160,7 @@ void CStageManager::Logic_Stage02()
 	{
 		bShouldSpawn = true;
 	}
-	else if (bShouldSpawn && eCurStageState == Entered)
+	if (bShouldSpawn && eCurStageState == Entered)
 	{
 		Spawn02_01();
 	}
@@ -188,13 +193,13 @@ void CStageManager::Prepare_Stage02()
 	pItem->Drop_Item({ pPos.X(), pPos.Y() + 30.f });
 
 	bPreparedTransit = true;
+	static_cast<CStage01*>(MANAGER(CSceneManager*, M_SCENE)->Get_Scene())->Set_TeleportOn();
 }
 
 void CStageManager::Prepare_BossStage()
 {
-
-
-
+	bPreparedTransit = true;
+	static_cast<CStage02*>(MANAGER(CSceneManager*, M_SCENE)->Get_Scene())->Set_TeleportOn();
 }
 
 void CStageManager::Transit_Stage02()
@@ -559,6 +564,7 @@ void CStageManager::Spawn02_04()
 			break;
 		case 2:
 			CObjectFactory<CMob03>::Create(O_ENEMY, vSpawnPos02_04[2].X(), vSpawnPos02_04[2].Y());
+			eCurStageState = Spawned04;
 			Change_State();
 			break;
 		}

@@ -62,6 +62,8 @@ private :
 	int iCurrentKillCount;
 	bool bCanTransitNextStage;
 	bool bPreparedTransit;
+	
+	bool bDrawTeleport;
 
 private :
 	DWORD dwSpawnElapsedTime;
@@ -87,16 +89,16 @@ private :
 	bool bPlayerInBound;
 
 	RECT rTransitBound01 ={ 4700, 3700, 5100, 3800 };
-	RECT rTransitBound02 = { 4700, 3700, 5100, 3800 };
+	RECT rTransitBound02 = { 6010, 2310, 6200, 2470 };
 
 	//							stage _ num
 	RECT rSpawnTrigger01_01; // for npc
-	RECT rSpawnTrigger01_02 = { 4700, 2500, 5000, 2780 };	 // 첫번째 스폰 - mob01 4마리 + mob02 1마리
+	RECT rSpawnTrigger01_02 = { 4000, 2500, 5000, 2550 };	 // 첫번째 스폰 - mob01 4마리 + mob02 1마리
 
-	RECT rSpawnTrigger02_01 = { 520, 528, 780, 700 }; 
+	RECT rSpawnTrigger02_01 = { 520, 528, 700, 600 }; 
 	RECT rSpawnTrigger02_02 = { 1410, 2040, 1610, 2300 }; 
-	RECT rSpawnTrigger02_03 = { 2700, 1740, 3100, 2100 }; 
-	RECT rSpawnTrigger02_04 = { 5100, 2230, 5400, 2340 };
+	RECT rSpawnTrigger02_03 = { 2700, 1740, 3200, 2100 }; 
+	RECT rSpawnTrigger02_04 = { 5100, 2230, 5150, 2340 };
 
 	Vector2 vSpawnPos01_01;
 	Vector2 vSpawnPos01_02[4] = { {4350, 2680}, { 4620, 2930 }, { 5125, 2930 }, { 5450, 2610 } };

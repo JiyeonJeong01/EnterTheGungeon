@@ -229,6 +229,9 @@
     <Filter Include="23. Item\04. Chest">
       <UniqueIdentifier>{9e732148-daab-4b78-a523-a512b9e191b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="21. Enemy\06. MobOwner">
+      <UniqueIdentifier>{3f246667-fdc0-4618-bbd7-5a2a70fd7231}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -570,6 +573,27 @@
     <ClInclude Include="CChest.h">
       <Filter>23. Item\04. Chest</Filter>
     </ClInclude>
+    <ClInclude Include="CStoreScene.h">
+      <Filter>04. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="CMobOwner.h">
+      <Filter>21. Enemy\06. MobOwner</Filter>
+    </ClInclude>
+    <ClInclude Include="CMobOwnerDeadState.h">
+      <Filter>21. Enemy\06. MobOwner</Filter>
+    </ClInclude>
+    <ClInclude Include="CMobOwnerIdleState.h">
+      <Filter>21. Enemy\06. MobOwner</Filter>
+    </ClInclude>
+    <ClInclude Include="CMobOwnerWalkState.h">
+      <Filter>21. Enemy\06. MobOwner</Filter>
+    </ClInclude>
+    <ClInclude Include="CMobOwnerStateMachine.h">
+      <Filter>21. Enemy\06. MobOwner</Filter>
+    </ClInclude>
+    <ClInclude Include="CMobOwnerKnockbackState.h">
+      <Filter>21. Enemy\06. MobOwner</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -898,6 +922,27 @@
     </ClCompile>
     <ClCompile Include="CChest.cpp">
       <Filter>23. Item\04. Chest</Filter>
+    </ClCompile>
+    <ClCompile Include="CStoreScene.cpp">
+      <Filter>04. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CMobOwner.cpp">
+      <Filter>21. Enemy\06. MobOwner</Filter>
+    </ClCompile>
+    <ClCompile Include="CMobOwnerDeadState.cpp">
+      <Filter>21. Enemy\06. MobOwner</Filter>
+    </ClCompile>
+    <ClCompile Include="CMobOwnerIdleState.cpp">
+      <Filter>21. Enemy\06. MobOwner</Filter>
+    </ClCompile>
+    <ClCompile Include="CMobOwnerWalkState.cpp">
+      <Filter>21. Enemy\06. MobOwner</Filter>
+    </ClCompile>
+    <ClCompile Include="CMobOwnerStateMachine.cpp">
+      <Filter>21. Enemy\06. MobOwner</Filter>
+    </ClCompile>
+    <ClCompile Include="CMobOwnerKnockbackState.cpp">
+      <Filter>21. Enemy\06. MobOwner</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

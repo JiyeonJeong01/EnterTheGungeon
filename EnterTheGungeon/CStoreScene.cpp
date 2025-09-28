@@ -1,7 +1,6 @@
 #pragma region INCLUDE
 #include "pch.h"
-#include "CStage01.h"
-
+#include "CStoreScene.h"
 #include "CObjectManager.h"
 #include "CCameraManager.h"
 #include "CCollisionManager.h"
@@ -14,7 +13,8 @@
 
 #include "CMap.h"
 #include "CPlayer.h"
-#include "CBoss.h"
+#include "CMobOwner.h"
+
 
 #include "CButton.h"
 #include "CCoin.h"
@@ -27,24 +27,30 @@
 #include "CTransform.h"
 #include "CRenderer.h"
 #include "CCollider.h"
-#include "CStage02.h"
 #pragma endregion
 
-CStage01::CStage01()
+CStoreScene::CStoreScene()
 {
 	pPlayer = nullptr;
+
 }
 
-CStage01::~CStage01()
+CStoreScene::~CStoreScene()
 {
 	Release();
 }
 
-void CStage01::Initialize()
+void CStoreScene::Initialize()
 {
-	eScene = SC_STAGE01;
-	POINT pPlayerPos = { 4918, 810 };
+	eScene = SC_STORE;
+//	POINT pPlayerPos = { 1630, 1650 };
+	POINT pPlayerPos = { 1630, 1150 };
+
+	POINT pOwnerPos = { 1100, 1062 };
 	pPlayer = dynamic_cast<CPlayer*>(CObjectFactory<CPlayer>::Create(O_PLAYER, pPlayerPos.x, pPlayerPos.y));
+
+	CObjectFactory<CMobOwner>::Create(O_ENEMY, pOwnerPos.x, pOwnerPos.y);
+
 
 	MANAGER(CEnvironmentManager*, M_MAP)->Initialize();
 	MANAGER(CCameraManager*, M_CAMERA)->Set_LookAt({ (float)pPlayerPos.x, (float)pPlayerPos.y });
@@ -53,12 +59,12 @@ void CStage01::Initialize()
 	bDrawTeleport = false;
 
 	//  테이블 생성 
-	Place_Objects();
+	// Place_Objects();
 
-	MANAGER(CStageManager*, M_STAGE)->Initialize_Stage01();
+	//MANAGER(CStageManager*, M_STAGE)->Initialize_Store();
 }
 
-void CStage01::Update()
+void CStoreScene::Update()
 {
 	MANAGER(CObjectManager*, M_OBJECT)->Update();
 	MANAGER(CEnvironmentManager*, M_MAP)->Update();
@@ -66,23 +72,21 @@ void CStage01::Update()
 	Detect_Collision();
 
 	MANAGER(CCameraManager*, M_CAMERA)->Update();
-	MANAGER(CStageManager*, M_STAGE)->Logic_Stage01();
+	// MANAGER(CStageManager*, M_STAGE)->Logic_Store();
 }
 
-void CStage01::Late_Update()
+void CStoreScene::Late_Update()
 {
 	MANAGER(CObjectManager*, M_OBJECT)->Late_Update();
 }
 
-void CStage01::Render(HDC _hDC)
+void CStoreScene::Render(HDC _hDC)
 {
 	Vector2 vRenderPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RenderPos({ 0.f, 0.f });
-	HDC hBackground = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Stage01");
+	HDC hBackground = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Store");
 
 	BitBlt(_hDC, 0, 0, WINCX, WINCY, hBackground, -vRenderPos.X(), -vRenderPos.Y(), SRCCOPY);
-	
-	if (bDrawTeleport)
-		Draw_Teleport(_hDC);
+	Draw_Teleport(_hDC);
 
 	MANAGER(CObjectManager*, M_OBJECT)->Render(_hDC);
 	MANAGER(CEnvironmentManager*, M_MAP)->Render(_hDC);
@@ -92,44 +96,36 @@ void CStage01::Render(HDC _hDC)
 #pragma region DEBUG
 	MANAGER(CStageManager*, M_STAGE)->Render(_hDC);
 #pragma endregion
-
 }
 
-void CStage01::Release() { }
+void CStoreScene::Release(){ }
 
-void CStage01::Set_TeleportOn()
-{
-	dwAnimElapsedTime = GetTickCount();
-	bDrawTeleport = true;
-	iAnimCol = 0;
-}
-
-void CStage01::Detect_Collision()
+void CStoreScene::Detect_Collision()
 {
 	// Map ground <-> Player
-	CCollisionManager::Detect_MapCollision(
-		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
-		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER));
+	//CCollisionManager::Detect_MapCollision(
+	//	*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
+	//	*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER));
 
-	// Map ground <-> Enemy
-	CCollisionManager::Detect_MapCollision(
-		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
-		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENEMY));
+	//// Map ground <-> Enemy
+	//CCollisionManager::Detect_MapCollision(
+	//	*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
+	//	*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENEMY));
 
-	// Map ground <-> Player Bullet
-	CCollisionManager::Detect_MapCollision(
-		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
-		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLBULLET));
+	//// Map ground <-> Player Bullet
+	//CCollisionManager::Detect_MapCollision(
+	//	*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
+	//	*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLBULLET));
 
-	// Map object <-> Enemy Bullet
-	CCollisionManager::Detect_MapCollision(
-		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
-		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENBULLET));
+	//// Map object <-> Enemy Bullet
+	//CCollisionManager::Detect_MapCollision(
+	//	*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
+	//	*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENBULLET));
 
-	// Player <-> Enemy Bullet
-	CCollisionManager::Detect_RectCollision(
-		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER),
-		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENBULLET));
+	//// Player <-> Enemy Bullet
+	//CCollisionManager::Detect_RectCollision(
+	//	*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER),
+	//	*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENBULLET));
 
 	// Enemy <-> Player Bullet
 	CCollisionManager::Detect_RectCollision(
@@ -138,7 +134,7 @@ void CStage01::Detect_Collision()
 
 }
 
-void CStage01::Place_Objects()
+void CStoreScene::Place_Objects()
 {
 	for (Vector2 vPos : vTablePos01)
 	{
@@ -146,16 +142,9 @@ void CStage01::Place_Objects()
 			CObjectFactory<CTableObject>::Create(O_INTERACTABLE, vPos.X(), vPos.Y()));
 		MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList()->push_back(pTable);
 	}
-
-	for (Vector2 vPos : vTablePos02)
-	{
-		CTableObject* pTable = static_cast<CTableObject*>(
-			CObjectFactory<CTableObject>::Create(O_INTERACTABLE, vPos.X(), vPos.Y()));
-		MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList()->push_back(pTable);
-	}
 }
 
-void CStage01::Draw_Teleport(HDC hDC)
+void CStoreScene::Draw_Teleport(HDC hDC)
 {
 	if (dwAnimElapsedTime + 200 < GetTickCount())
 	{
@@ -169,5 +158,5 @@ void CStage01::Draw_Teleport(HDC hDC)
 	int iRenderSize = 200;
 	Vector2 vRenderPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RenderPos(vRealPos);
 
-	GdiTransparentBlt(hDC, 	vRenderPos.X(), vRenderPos.Y(), 	200, 200, 	tableDC, 	iAnimCol * iRealSize, 0, 	iRealSize, iRealSize, RGB(55, 55, 55));
+	GdiTransparentBlt(hDC, vRenderPos.X(), vRenderPos.Y(), 200, 200, tableDC, iAnimCol * iRealSize, 0, iRealSize, iRealSize, RGB(55, 55, 55));
 }
