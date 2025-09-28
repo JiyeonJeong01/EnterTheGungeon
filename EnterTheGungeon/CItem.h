@@ -22,6 +22,7 @@ public :
 	virtual void Apply_ItemEffect();
 
 public :
+	virtual void Display_ItemInfo(HDC hDC) {};
 	virtual void OnDetect_PlayerIn();
 	virtual void OnDetect_PlayerOut();
 
@@ -30,10 +31,26 @@ public :
 	const RECT& Get_DetectBound() { return rDetectBound; }
 
 	const TCHAR* Get_ItemKey() { return spriteKey;  }
+	void Set_ForSell(bool bSell) { bForSell = bSell; }
+
+	void Show_EKey(HDC hDC);
+	void Show_Guide_Success(HDC hDC);
+	void Show_Guide_Fail(HDC hDC);
 
 protected:
 	CPlayer* pPlayer;
 	RECT rDetectBound;
+
+	bool bForSell;
+	bool bDisplayInfo;
+	int iPrice;
+	bool bDisplayPopup;
+	bool bDisplaySuccessPopup;
+	bool bDisplayFailPopup;
+	bool bDisplayPressE;
+
+	DWORD dwPressKeyElapsedTime;
+	int iPressKeyAnimCol;
 
 	bool bCanUse;
 	bool bCanInteract;
@@ -48,5 +65,14 @@ protected:
 	bool bRealSize;
 
 	const TCHAR* spriteKey;
+	const int iInfoRealSizeX = 242, iInfoRealSizeY = 150;
+	const int iPopupRealSizeX = 660, iPopupRealSizeY = 200;
+
+public :
+	static void Set_ItemFree() { bFree = true; }
+protected:
+	static DWORD dwLastPurchasedTime;
+	static bool bFree;
+
 };
 

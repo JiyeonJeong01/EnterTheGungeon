@@ -316,6 +316,9 @@ void CStageManager::OnKilled_Enemy(CMob* pMob)
 	CItem* pItem2 = static_cast<CItem*>(	CObjectFactory<CCoin>::Create(O_ITEM, vItemPos.X(), vItemPos.Y()));
 	pItem2->Drop_Item({ vItemPos.X() + 10.f, vItemPos.Y() + 10.f });
 
+	CItem* pItem = static_cast<CCartridge*>(CObjectFactory<CCartridge>::Create(O_ITEM));
+	pItem->Drop_Item({ vItemPos.X(), vItemPos.Y() + 30.f });
+
 	if (eCurStage == SC_STAGE01)
 	{
 		if (eCurStageState == Spawned02 && iCurrentKillCount == 4)

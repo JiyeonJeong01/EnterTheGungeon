@@ -23,6 +23,7 @@
 #include "CTeleport.h"
 #include "CTableObject.h"
 #include "CCartridge.h"
+#include "CMedkit.h"
 
 #include "CTransform.h"
 #include "CRenderer.h"
@@ -46,10 +47,25 @@ void CStoreScene::Initialize()
 //	POINT pPlayerPos = { 1630, 1650 };
 	POINT pPlayerPos = { 1630, 1150 };
 
-	POINT pOwnerPos = { 1100, 1062 };
+	POINT pOwnerPos = { 1100, 1059 };
 	pPlayer = dynamic_cast<CPlayer*>(CObjectFactory<CPlayer>::Create(O_PLAYER, pPlayerPos.x, pPlayerPos.y));
 
 	CObjectFactory<CMobOwner>::Create(O_ENEMY, pOwnerPos.x, pOwnerPos.y);
+
+	// 아이템 배치 
+	CCartridge* pCartridge = static_cast<CCartridge*>(CObjectFactory<CCartridge>::Create(O_ITEM, pOwnerPos.x + 100, pOwnerPos.y + 100));
+	pCartridge->Set_ForSell(true);
+	pCartridge->Drop_Item({ (float) pOwnerPos.x + 100, (float)pOwnerPos.y + 100 });
+
+	CBomb* pBomb = static_cast<CBomb*>(CObjectFactory<CBomb>::Create(O_ITEM, pOwnerPos.x + 100, pOwnerPos.y + 100));
+	pBomb->Set_ForSell(true);
+	pBomb->Drop_Item({ (float)pOwnerPos.x - 160, (float)pOwnerPos.y + 100 });
+
+	CMedkit* pKit = static_cast<CMedkit*>(CObjectFactory<CMedkit>::Create(O_ITEM, pOwnerPos.x + 100, pOwnerPos.y + 100));
+	pKit->Set_ForSell(true);
+	pKit->Drop_Item({ (float)pOwnerPos.x - 250, (float)pOwnerPos.y + 110 });
+
+	// ==========================
 
 
 	MANAGER(CEnvironmentManager*, M_MAP)->Initialize();

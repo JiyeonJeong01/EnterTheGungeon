@@ -1,5 +1,8 @@
 #include "pch.h"
-#include "CBomb.h"
+#include "CMedkit.h"
+#include "CTransform.h"
+#include "CRenderer.h"
+#include"CCollider.h"
 
 #include "CBmpManager.h"
 #include "CObjectManager.h"
@@ -8,14 +11,10 @@
 #include "CInputManager.h"
 #include "CRelease.h"
 
-#include "CTransform.h"
-#include "CRenderer.h"
-#include"CCollider.h"
-
 #include "CInventory.h"
+#include "CPlayer.h"
 
-
-void CBomb::Late_Initialize()
+void CMedkit::Late_Initialize()
 {
 	pTransform->Size({ 40, 40 });
 	pCollider->Size({ 40, 40 });
@@ -24,34 +23,34 @@ void CBomb::Late_Initialize()
 	iRealSizeX = iRealSizeY = 40;
 
 	iAnimSizeX = iAnimSizeY = (int)pRenderer->Size().X();
-	spriteKey = L"Bomb";
+	spriteKey = L"Medkit";
 
 	rDetectBound = { -30, -40, 30, 40 };
 
-	iPrice = 300;
-
+	iPrice = 100;
 }
 
-void CBomb::Get_Item()
+void CMedkit::Get_Item()
 {
 	CItem::Get_Item();
+
 	bForSell = false;
 	bDisplayPressE = false;
 
 	Vector2 vPos = pTransform->Position();
-	CBomb* pBomb = static_cast<CBomb*>(CObjectFactory<CBomb>::Create(O_ITEM));
-	pBomb->Set_ForSell(true);
-	pBomb->Drop_Item({ vPos.X() , vPos.Y() });
+	CMedkit* pMedkit = static_cast<CMedkit*>(CObjectFactory<CMedkit>::Create(O_ITEM));
+	pMedkit->Set_ForSell(true);
+	pMedkit->Drop_Item({ vPos.X() , vPos.Y() });
 
 	dwLastPurchasedTime = GetTickCount();
 }
 
-void CBomb::Apply_ItemEffect()
+void CMedkit::Apply_ItemEffect()
 {
-	printf("used\n");
+	pPlayer->iHP = (pPlayer->iHP+1 > pPlayer->iMaxHP ? pPlayer->iMaxHP : pPlayer->iHP + 1);
 }
 
-void CBomb::Display_ItemInfo(HDC hDC)
+void CMedkit::Display_ItemInfo(HDC hDC)
 {
 	if (!bDisplayInfo) return;
 
@@ -63,7 +62,7 @@ void CBomb::Display_ItemInfo(HDC hDC)
 
 	GdiTransparentBlt(hDC,
 		posX, posY,
-		160, 90,
+		130, 90,
 		hInfoDC,
 		0, 0,
 		iInfoRealSizeX, iInfoRealSizeY,
@@ -78,9 +77,9 @@ void CBomb::Display_ItemInfo(HDC hDC)
 	TCHAR buffer1[64];
 	TCHAR buffer2[64];
 	TCHAR buffer3[64];
-	swprintf_s(buffer1, 64, L"폭탄");
-	swprintf_s(buffer2, 64, L"300 코인");
-	swprintf_s(buffer3, 64, L"적에게 강한 데미지!!");
+	swprintf_s(buffer1, 64, L"구급상자");
+	swprintf_s(buffer2, 64, L"100 코인");
+	swprintf_s(buffer3, 64, L"체력 즉시 회복!!");
 	SetTextColor(hDC, RGB(255, 255, 255));
 	SetBkMode(hDC, TRANSPARENT);
 	TextOut(hDC, posX + 25, posY + 23, buffer1, lstrlen(buffer1));
@@ -91,7 +90,7 @@ void CBomb::Display_ItemInfo(HDC hDC)
 	DeleteObject(hFont);
 }
 
-void CBomb::OnDetect_PlayerIn()
+void CMedkit::OnDetect_PlayerIn()
 {
 	if (bForSell)
 	{
@@ -132,10 +131,9 @@ void CBomb::OnDetect_PlayerIn()
 			Get_Item();
 		}
 	}
-
 }
 
-void CBomb::OnDetect_PlayerOut()
+void CMedkit::OnDetect_PlayerOut()
 {
 	if (bForSell)
 	{
@@ -143,5 +141,4 @@ void CBomb::OnDetect_PlayerOut()
 		bDisplayPressE = false;
 	}
 	iAnimCol = 0;
-
 }

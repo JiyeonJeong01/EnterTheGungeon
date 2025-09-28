@@ -25,6 +25,8 @@ void CResourceLoader::Load_Resource()
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Objects/Teleport_Active.bmp", L"Teleport_Active");
 	
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/EKey.bmp", L"EKey");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/Info.bmp", L"Info");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/Popup.bmp", L"Popup");
 
 	CWeapon::Load_Resource();
 	CBullet::Load_Resource();

@@ -14,6 +14,8 @@ CInventory::~CInventory()
 void CInventory::Initialize()
 {
 	iCartridge = iCoin = iKey = iBomb = 0;
+	// for test
+	iCoin = 500;
 }
 
 // CPlayer에서 호출하여 실행한다 

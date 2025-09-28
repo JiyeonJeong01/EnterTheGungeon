@@ -232,6 +232,9 @@
     <Filter Include="21. Enemy\06. MobOwner">
       <UniqueIdentifier>{3f246667-fdc0-4618-bbd7-5a2a70fd7231}</UniqueIdentifier>
     </Filter>
+    <Filter Include="23. Item\05. Medkit">
+      <UniqueIdentifier>{3ec08dde-9b29-43d7-87eb-d8f00be3f47e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -594,6 +597,9 @@
     <ClInclude Include="CMobOwnerKnockbackState.h">
       <Filter>21. Enemy\06. MobOwner</Filter>
     </ClInclude>
+    <ClInclude Include="CMedkit.h">
+      <Filter>23. Item\05. Medkit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -943,6 +949,9 @@
     </ClCompile>
     <ClCompile Include="CMobOwnerKnockbackState.cpp">
       <Filter>21. Enemy\06. MobOwner</Filter>
+    </ClCompile>
+    <ClCompile Include="CMedkit.cpp">
+      <Filter>23. Item\05. Medkit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

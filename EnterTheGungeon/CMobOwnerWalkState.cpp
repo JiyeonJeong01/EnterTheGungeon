@@ -27,11 +27,10 @@ void CMobOwnerWalkState::Initialize()
 	dwLastAttackTime = GetTickCount();
 	dwCurrentStateElapsedTime = GetTickCount();
 	eState = CMob::Idle;
-	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Enemy/Monster03_ATTACK.bmp", L"Monster03_ATTACK");
 
-	animation.Initialize(0, 7, (int)D_DOWN);
-	fill(animation.vTransitTime.begin(), animation.vTransitTime.end(), 70);
-
+	animation.Initialize(0, 4, (int)D_DOWN);
+	fill(animation.vTransitTime.begin(), animation.vTransitTime.end(), 120);
+	iAnimRow = 3;
 	Pre_Calculate();
 }
 
@@ -57,20 +56,20 @@ void CMobOwnerWalkState::Late_Update()
 
 void CMobOwnerWalkState::Render(HDC hDC)
 {
-	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Monster03_ATTACK");
+	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Owner");
 
 	CRenderer renderer = *(pObj->Get_Renderer());
-	int realSize = 230;
-	int iRenderSize = 230;
+	int realSize = 200;
+	int iRenderSize = 200;
 	GdiTransparentBlt(hDC,
 		renderer.Left(),
 		renderer.Top(),
 		iRenderSize, iRenderSize,
 		hMemDC,
 		animation.iCurrIndex * realSize,
-		0,
+		iAnimRow * realSize,
 		realSize, realSize,
-		RGB(255, 0, 255));
+		RGB(53, 53, 53));
 }
 
 void CMobOwnerWalkState::Release()
@@ -85,7 +84,8 @@ void CMobOwnerWalkState::Exit()
 void CMobOwnerWalkState::Enter()
 {
 	dwCurrentStateElapsedTime = GetTickCount();
-	bAttackTimer = true;
+	fAttackTimeRange = 2.f;
+	bAttackTimer = false;
 	dwLastAttackTime = GetTickCount();
 	iCurrentAttackCount = 0;
 
@@ -102,6 +102,13 @@ void CMobOwnerWalkState::Stop_Animation()
 
 void CMobOwnerWalkState::On_End_Animation()
 {
+	if (iAnimRow == 3)
+	{
+		iAnimRow = 4;
+		fill(animation.vTransitTime.begin(), animation.vTransitTime.end(), 100);
+		animation.Initialize(0, 5, (int)D_DOWN);
+		bAttackTimer = true;
+	}
 }
 
 int CMobOwnerWalkState::Dir_AnimRow(Direction eDir)
@@ -137,22 +144,31 @@ void CMobOwnerWalkState::Do_KnockBack()
 
 void CMobOwnerWalkState::Attack01()
 {
-	int iDist = 30;
+	int bulletCount = 40;
+	float angleRange = 90.f;
+	float angleStep = angleRange / (bulletCount - 1);
+	vDirToPlayer.Normalize();
+	Vector2 vBaseDir = vDirToPlayer;
 
-	for (auto vDir : vNormalizedDir01)
+	float startAngle = -angleRange / 2.f;
+	for (int i = 0; i < bulletCount; i++)
 	{
-		float fX = vDir.X() * iDist;
-		float fY = vDir.Y() * iDist;
+		float angleDeg = startAngle + i * angleStep;
+		float angleRad = angleDeg * (PI / 180.f);
+		float cosA = cosf(angleRad);
+		float sinA = sinf(angleRad);
+
+		Vector2 vRotatedDir(vBaseDir.X() * cosA - vBaseDir.Y() * sinA, vBaseDir.X() * sinA + vBaseDir.Y() * cosA);
 
 		CMobBullet* pBullet = static_cast<CMobBullet*>(CObjectFactory<CMobBullet>::Create(
-			O_ENBULLET, pObj->Get_Transform()->Position().X() + fX, pObj->Get_Transform()->Position().Y() + fY));
-
+			O_ENBULLET, pObj->Get_Transform()->Position().X() + vRotatedDir.X() * 5.f, pObj->Get_Transform()->Position().Y() + vRotatedDir.Y() * 5.f));
+		
 		pBullet->Set_BulletType(CBullet::B02);
 		pBullet->Set_EffectType(CBullet::E04);
 		pBullet->Apply_BulletSprite();
 		pBullet->Apply_EffectAnim();
-		pBullet->Set_Direction(vDir);
-		pBullet->Set_Speed(6.f);
+		pBullet->Set_Direction(vRotatedDir);
+		pBullet->Set_Speed(5.f);
 	}
 }
 

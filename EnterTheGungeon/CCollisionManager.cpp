@@ -17,7 +17,6 @@ void CCollisionManager::Detect_RectCollision(list<CObject*> dstList, list<CObjec
             {
                 dst->OnCollision(src, overlapped);
                 src->OnCollision(dst, overlapped);
-
             }
         }
     }

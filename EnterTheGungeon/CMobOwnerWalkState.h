@@ -45,6 +45,8 @@ private:
 	bool bAttackTimer;
 	int iCurrentAttackCount;
 
+	int iAnimRow;
+
 private:
 	list<Vector2> vNormalizedDir01;
 };

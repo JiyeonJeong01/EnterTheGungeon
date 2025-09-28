@@ -144,7 +144,7 @@ int CMobOwnerIdleState::Dir_AnimRow(Direction eDir)
 
 void CMobOwnerIdleState::Check_Dialogue()
 {
-	if (fCurDistToPlayer <= 250.f)
+	if (fCurDistToPlayer <= 170.f)
 	{
 		bCanDialogue = true;
 		iAnimRow = 1;
@@ -156,6 +156,7 @@ void CMobOwnerIdleState::Check_Dialogue()
 	}
 	else
 	{
+		bCanDialogue = false;
 		iAnimRow = 0;
 	}
 }

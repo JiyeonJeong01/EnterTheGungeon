@@ -166,6 +166,7 @@
     <ClInclude Include="CMapObject.h" />
     <ClInclude Include="CMap.h" />
     <ClInclude Include="CMapManager.h" />
+    <ClInclude Include="CMedkit.h" />
     <ClInclude Include="CMob.h" />
     <ClInclude Include="CMob01.h" />
     <ClInclude Include="CMob01DeadState.h" />
@@ -288,6 +289,7 @@
     <ClCompile Include="CMapObject.cpp" />
     <ClCompile Include="CMap.cpp" />
     <ClCompile Include="CMapManager.cpp" />
+    <ClCompile Include="CMedkit.cpp" />
     <ClCompile Include="CMob.cpp" />
     <ClCompile Include="CMob01.cpp" />
     <ClCompile Include="CMob01DeadState.cpp" />

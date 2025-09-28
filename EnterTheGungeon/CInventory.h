@@ -25,6 +25,7 @@ public :
 
 	int Get_Coin() const { return iCoin; }
 	void Set_Coin(int count) { iCoin = count; }
+	void Minus_Coin(int iValue) { iCoin = (iCoin - iValue >= 0) ? iCoin - iValue : 0; }
 
 	int Get_Key() const { return iKey; }
 	void Set_Key(int count) { iKey = count; }

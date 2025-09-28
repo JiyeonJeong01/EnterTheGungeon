@@ -40,7 +40,7 @@ void CMobOwner::Initialize()
 
     fSpeed = 0.01f;
 
-    iMaxHP = 15;
+    iMaxHP = 5;
     iHP = iMaxHP;
 }
 
@@ -50,10 +50,10 @@ int CMobOwner::Update()
 
     CObject::Update_Collider();
 
-    if (bKnockback && eCurrentState != CMob::Dead)
+    if (bKnockback && eCurrentState != CMob::Dead && eCurrentState != CMob::Walk)
     {
         bKnockback = false;
-        pStateMachine->Change_State(CMob::Damaged);
+        pStateMachine->Change_State(CMob::Walk);
     }
 
     if (iHP <= 0 && eCurrentState != CMob::MobState::Dead)

@@ -10,6 +10,9 @@
 #include "CInventory.h"
 #include "CBossState.h"
 
+DWORD CItem::dwLastPurchasedTime = 0;
+bool CItem::bFree = false;
+
 void CItem::Load_Resource()
 {
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Objects/Coin.bmp", L"Coin");
@@ -18,6 +21,7 @@ void CItem::Load_Resource()
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/Coin_UI.bmp", L"Coin_UI");
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/Cartridge_UI.bmp", L"Cartridge_UI");
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Objects/Chest.bmp", L"Chest");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/Medkit.bmp", L"Medkit");
 }
 
 void CItem::Initialize()
@@ -29,12 +33,17 @@ void CItem::Initialize()
 	bObtained = false;
 	iAnimCol = 0;
 
+	bForSell = bDisplayInfo = false;
+	bDisplayPopup = bDisplaySuccessPopup = bDisplayFailPopup = false;
+
 	eType = O_ITEM;
 	pRenderer->rType = RND__GAMEBOJECT;
 
 	Late_Initialize();
 	
 	pPlayer = nullptr;
+	bDisplayPressE = false;
+	iPressKeyAnimCol = 0;
 }
 
 int CItem::Update()
@@ -53,7 +62,32 @@ void CItem::Late_Update()
 
 void CItem::Render(HDC hDC)
 {
-	if (bObtained) return;
+
+	if (bForSell)
+	{
+		Display_ItemInfo(hDC);
+	}
+
+	if (bDisplaySuccessPopup)
+	{
+		Show_Guide_Success(hDC);
+		if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown('M'))
+			bDisplaySuccessPopup = false;
+	}
+
+	if (bDisplayFailPopup)
+	{
+		Show_Guide_Fail(hDC);
+		if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown('M'))
+			bDisplayFailPopup = false;
+	}
+
+	// 팔렸으면 그리면 안 되는 부분 
+	if (!bForSell && bObtained) return;
+	if (bDisplayPressE)
+	{
+		Show_EKey(hDC);
+	}
 	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(spriteKey);
 
 	GdiTransparentBlt(hDC,
@@ -95,7 +129,6 @@ void CItem::Detect_Player()
 
 void CItem::OnDetect_PlayerIn()
 {
-
 	if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown('E'))
 	{
 		Get_Item();
@@ -130,4 +163,80 @@ void CItem::Apply_ItemEffect()
 void CItem::OnDetect_PlayerOut()
 {
 	iAnimCol = 0;
+}
+
+void CItem::Show_EKey(HDC hDC)
+{
+	if (dwPressKeyElapsedTime + 200 < GetTickCount())
+	{
+		dwPressKeyElapsedTime = GetTickCount();
+		iPressKeyAnimCol = ++iPressKeyAnimCol % 2;
+	}
+	int iRealSizeX = 32, iRealSizeY = 32;
+	int iRenderSizeX = 40, iRenderSizeY = 40;
+
+	HDC hKeyDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"EKey");
+
+	GdiTransparentBlt(hDC, pRenderer->Left() + 75, pRenderer->Top() - 95, iRenderSizeX, iRenderSizeY,
+		hKeyDC, iPressKeyAnimCol * iRealSizeX, 0, iRealSizeX, iRealSizeY, RGB(0, 0, 0));
+}
+
+void CItem::Show_Guide_Success(HDC hDC)
+{
+	HDC hInfoDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Dialogue");
+
+	int iRenderSizeX = 450, iRenderSizeY = 100;
+	int posX = (WINCX >> 1) - (iRenderSizeX) / 2 + 70, posY = WINCY - 100;
+	GdiTransparentBlt(hDC,
+		posX, posY,
+		iRenderSizeX, iRenderSizeY,
+		hInfoDC,
+		0, 0,
+		iPopupRealSizeX, iPopupRealSizeY,
+		RGB(53, 53, 53));
+
+	HFONT hFont = CreateFont(22, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, HANGUL_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+		DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, _T("Galmuri9 Regular")
+	);
+
+	HFONT hOldFont = (HFONT)SelectObject(hDC, hFont);
+
+	TCHAR buffer1[64];
+	swprintf_s(buffer1, 64, L"아이템을 구매했습니다");
+	SetTextColor(hDC, RGB(0, 0, 0));
+	SetBkMode(hDC, TRANSPARENT);
+	TextOut(hDC, posX + 45, posY + 19, buffer1, lstrlen(buffer1));
+
+	SelectObject(hDC, hOldFont);
+	DeleteObject(hFont);
+}
+
+void CItem::Show_Guide_Fail(HDC hDC)
+{
+	HDC hInfoDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Dialogue");
+
+	int iRenderSizeX = 450, iRenderSizeY = 100;
+	int posX = (WINCX >> 1) - (iRenderSizeX) / 2 + 70, posY = WINCY - 100;
+	GdiTransparentBlt(hDC,
+		posX, posY,
+		iRenderSizeX, iRenderSizeY,
+		hInfoDC,
+		0, 0,
+		iPopupRealSizeX, iPopupRealSizeY,
+		RGB(53, 53, 53));
+
+	HFONT hFont = CreateFont(22, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, HANGUL_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+		DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, _T("Galmuri9 Regular")
+	);
+
+	HFONT hOldFont = (HFONT)SelectObject(hDC, hFont);
+
+	TCHAR buffer1[64];
+	swprintf_s(buffer1, 64, L"코인이 부족합니다");
+	SetTextColor(hDC, RGB(0, 0, 0));
+	SetBkMode(hDC, TRANSPARENT);
+	TextOut(hDC, posX + 65, posY + 19, buffer1, lstrlen(buffer1));
+
+	SelectObject(hDC, hOldFont);
+	DeleteObject(hFont);
 }
