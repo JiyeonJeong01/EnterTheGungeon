@@ -6,7 +6,7 @@ class CObject;
 class CCameraManager :  public CManager
 {
 public :
-	enum CameraMode { Chase_Player, Transit_NewTarget, Shake, Edit };
+	enum CameraMode { Chase_Player, Transit_NewTarget, Shake, Shake2, Edit };
 public:
 	CCameraManager();
 	~CCameraManager(); 
@@ -18,6 +18,7 @@ public:
 public :
 	void Set_CamerMode(CameraMode eMode, CObject* pNewTarget = nullptr);
 	void Transit_Target();
+	void Shake_Camera_2();
 	void Shake_Camera();
 	void Edit_Collider();
 
@@ -55,6 +56,7 @@ private :
 	CameraMode eMode;
 
 	int iShake;
+	int iShake2;
 	int iCurShake;
 
 	float fTransitTime;

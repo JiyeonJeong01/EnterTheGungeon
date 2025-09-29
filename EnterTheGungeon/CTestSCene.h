@@ -22,6 +22,10 @@ public :
 	CBoss* pBoss;
 	list<CMap*> mapObjList;
 	list<CMapGround*> mapList;
+
+private :
+	POINT pPlayerPos = { 3000, 3050 };
+	POINT pBossPos = { pPlayerPos.x + 1500, pPlayerPos.y - 200 };
 	
 };
 

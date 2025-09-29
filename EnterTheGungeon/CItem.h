@@ -29,6 +29,7 @@ public :
 public : 
 	bool Get_CanUse() { return bCanUse;  }
 	const RECT& Get_DetectBound() { return rDetectBound; }
+	bool Get_Obtained() { return bObtained; }
 
 	const TCHAR* Get_ItemKey() { return spriteKey;  }
 	void Set_ForSell(bool bSell) { bForSell = bSell; }

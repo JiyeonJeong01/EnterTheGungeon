@@ -19,6 +19,7 @@
 #include "CInventory.h"
 #include "CReloadBar.h"
 #include "CPlayerInfo.h"
+#include "CPlayerState.h"
 #pragma endregion
 
 CPlayer::CPlayer()
@@ -64,7 +65,8 @@ void CPlayer::Initialize()
     iHP = iMaxHP;
 
     Initialize_PlayerComponents();
-
+    bCanShotBomb = false;
+    bCanShotGun = true;
     MANAGER(CUIManager*, M_UI)->bDrawPlayer = true;
 }
 
@@ -128,6 +130,21 @@ void CPlayer::OnCollision(CObject* pObj, Vector2 vDiff)
 void CPlayer::OnCollision_EnBullet(CObject* pObj, Vector2 vDiff)
 {
     iHP = (iHP - 1 <= 0 ? 0 : iHP - 1);
+}
+
+void CPlayer::Set_ShotMode(PlayerAttack attack)
+{
+    if (attack == PlayerAttack::Gun)
+    {
+        bCanShotGun = true;
+        bCanShotBomb = false;
+    }
+    else if (attack == PlayerAttack::Bomb)
+    {
+        bCanShotGun = false;
+        bCanShotBomb = true;
+    }
+
 }
 
 void CPlayer::Initialize_PlayerComponents()

@@ -6,6 +6,7 @@
 #include "CObjectFactory.h"
 #include "CCameraManager.h"
 #include "CInputManager.h"
+#include "CUIManager.h"
 #include "CRelease.h"
 
 #include "CTransform.h"
@@ -13,7 +14,7 @@
 #include"CCollider.h"
 
 #include "CInventory.h"
-
+#include "CMouse.h"
 
 void CBomb::Late_Initialize()
 {
@@ -35,19 +36,26 @@ void CBomb::Late_Initialize()
 void CBomb::Get_Item()
 {
 	CItem::Get_Item();
-	bForSell = false;
-	bDisplayPressE = false;
 
-	Vector2 vPos = pTransform->Position();
-	CBomb* pBomb = static_cast<CBomb*>(CObjectFactory<CBomb>::Create(O_ITEM));
-	pBomb->Set_ForSell(true);
-	pBomb->Drop_Item({ vPos.X() , vPos.Y() });
+	if (bForSell)
+	{
+		bForSell = false;
+		bDisplayPressE = false;
 
-	dwLastPurchasedTime = GetTickCount();
+		Vector2 vPos = pTransform->Position();
+		CBomb* pBomb = static_cast<CBomb*>(CObjectFactory<CBomb>::Create(O_ITEM));
+		pBomb->Set_ForSell(true);
+		pBomb->Drop_Item({ vPos.X() , vPos.Y() });
+
+		dwLastPurchasedTime = GetTickCount();
+	}
 }
 
 void CBomb::Apply_ItemEffect()
 {
+	MANAGER(CUIManager*, M_UI)->Get_Mouse()->Set_CursorMode(CMouse::Bomb);
+
+	pPlayer->Set_ShotMode(CPlayer::PlayerAttack::Bomb);
 	printf("used\n");
 }
 
@@ -93,6 +101,8 @@ void CBomb::Display_ItemInfo(HDC hDC)
 
 void CBomb::OnDetect_PlayerIn()
 {
+	bCanInteract = true;
+	iAnimCol = 1;
 	if (bForSell)
 	{
 		bDisplayInfo = true;

@@ -14,7 +14,7 @@
 
 #include "CMap.h"
 #include "CPlayer.h"
-#include "CBoss.h"
+#include "CGuide.h"
 
 #include "CButton.h"
 #include "CCoin.h"
@@ -45,6 +45,7 @@ void CStage01::Initialize()
 	eScene = SC_STAGE01;
 	POINT pPlayerPos = { 4918, 810 };
 	pPlayer = dynamic_cast<CPlayer*>(CObjectFactory<CPlayer>::Create(O_PLAYER, pPlayerPos.x, pPlayerPos.y));
+	CObjectFactory<CGuide>::Create(O_ENEMY, pPlayerPos.x + 100, pPlayerPos.y + 500);
 
 	MANAGER(CEnvironmentManager*, M_MAP)->Initialize();
 	MANAGER(CCameraManager*, M_CAMERA)->Set_LookAt({ (float)pPlayerPos.x, (float)pPlayerPos.y });
@@ -153,6 +154,20 @@ void CStage01::Place_Objects()
 			CObjectFactory<CTableObject>::Create(O_INTERACTABLE, vPos.X(), vPos.Y()));
 		MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList()->push_back(pTable);
 	}
+
+
+	// 테스트용 아이템 생성 
+	POINT pPlayerPos = { 4918, 810 };
+	CItem* pItem1 = static_cast<CItem*>(CObjectFactory<CBomb>::Create(O_ITEM));
+	pItem1->Drop_Item({ (float)pPlayerPos.x, (float)pPlayerPos.y });
+	CItem* pItem2 = static_cast<CItem*>(CObjectFactory<CBomb>::Create(O_ITEM));
+	pItem2->Drop_Item({ (float)pPlayerPos.x -100, (float)pPlayerPos.y -100 });
+	CItem* pItem3 = static_cast<CItem*>(CObjectFactory<CCartridge>::Create(O_ITEM));
+	pItem3->Drop_Item({ (float)pPlayerPos.x -200, (float)pPlayerPos.y });
+	CItem* pItem4 = static_cast<CItem*>(CObjectFactory<CCartridge>::Create(O_ITEM));
+	pItem4->Drop_Item({ (float)pPlayerPos.x - 50, (float)pPlayerPos.y - 70 });
+
+	
 }
 
 void CStage01::Draw_Teleport(HDC hDC)

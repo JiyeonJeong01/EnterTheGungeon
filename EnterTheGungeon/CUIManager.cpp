@@ -13,6 +13,8 @@
 #include "CItem.h"
 #include "CBoss.h"
 
+#include "CMouse.h"
+
 CUIManager::CUIManager()
 {
 	pInventory = nullptr;
@@ -80,7 +82,10 @@ void CUIManager::Release()
 void CUIManager::Add_Object(CObject* pObj)
 {
 	if (pObj == nullptr) return;
-
+	if (dynamic_cast<CMouse*>(pObj) != nullptr)
+	{
+		pMouse = static_cast<CMouse*>(pObj);
+	}
 	uiObjects.push_back(pObj);
 }
 

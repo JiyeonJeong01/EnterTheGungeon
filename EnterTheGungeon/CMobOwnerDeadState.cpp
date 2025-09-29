@@ -71,7 +71,7 @@ void CMobOwnerDeadState::Render(HDC hDC)
 		int iRenderSizeX = 220, iRenderSizeY = 67;
 		HDC hDialogueDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Dialogue");
 
-		GdiTransparentBlt(hDC, renderer.Left(), renderer.Top() + 20, iRenderSizeX, iRenderSizeY,
+		GdiTransparentBlt(hDC, renderer.Left(), renderer.Top() + 50, iRenderSizeX, iRenderSizeY,
 			hDialogueDC, 0, iRealSizeY * 2, iRealSizeX, iRealSizeY, RGB(53, 53, 53));
 
 		// Text
@@ -85,7 +85,7 @@ void CMobOwnerDeadState::Render(HDC hDC)
 		swprintf_s(buffer, 64, szScript[iScripteIndex]);
 		SetTextColor(hDC, RGB(0, 0, 0));
 		SetBkMode(hDC, TRANSPARENT);
-		TextOut(hDC, renderer.Left() + 17, renderer.Top() + 28, buffer, lstrlen(szTmp));
+		TextOut(hDC, renderer.Left() + 17, renderer.Top() + 65, buffer, lstrlen(szTmp));
 
 		SelectObject(hDC, hOldFont);
 		DeleteObject(hFont);

@@ -8,6 +8,7 @@
 
 #include "CStage01.h"
 #include "CStage02.h"
+#include "CStoreScene.h"
 #include "CPlayer.h"
 
 #include "CMob.h"
@@ -110,6 +111,26 @@ void CStageManager::Initialize_Stage02()
 	Change_State();
 }
 
+void CStageManager::Initialize_Store()
+{
+	bCanTransitNextStage = true;
+	bPreparedTransit = false;
+	bShouldSpawn = false;
+	bShouldCheckBound = true;
+	bSpawnTimerOn = false;
+
+	if (pPlayer == nullptr)
+	{
+		pPlayer = static_cast<CPlayer*>(MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER)->front());
+	}
+
+	eCurStage = MANAGER(CSceneManager*, M_SCENE)->Get_CurrentScene();
+	eCurStageState = Entered;
+	Change_State();
+
+	rCurCheckBound = rTransitBound03;
+}
+
 void CStageManager::Render_SpawnEffect(HDC hDC, int iX, int iY)
 {
 }
@@ -178,12 +199,33 @@ void CStageManager::Logic_Stage02()
 	}
 	else if (bPreparedTransit == false && eCurStage == SC_STAGE02 && bCanTransitNextStage)
 	{
+		Prepare_Store();
+	}
+	else if (bPreparedTransit && bCanTransitNextStage && bPlayerInBound)
+	{
+		if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown(VK_RETURN))
+		{
+			Transit_Store();
+		}
+	}
+}
+
+void CStageManager::Logic_Store()
+{
+	if (bShouldCheckBound) Check_PlayerInRect();
+
+	if (bPreparedTransit == false && eCurStage == SC_STORE && bCanTransitNextStage)
+	{
 		Prepare_BossStage();
 	}
 	else if (bPreparedTransit && bCanTransitNextStage && bPlayerInBound)
 	{
-		Transit_BossStage();
+		if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown(VK_RETURN))
+		{
+			Transit_BossStage();
+		}
 	}
+
 }
 
 void CStageManager::Prepare_Stage02()
@@ -196,15 +238,27 @@ void CStageManager::Prepare_Stage02()
 	static_cast<CStage01*>(MANAGER(CSceneManager*, M_SCENE)->Get_Scene())->Set_TeleportOn();
 }
 
-void CStageManager::Prepare_BossStage()
+void CStageManager::Prepare_Store()
 {
 	bPreparedTransit = true;
 	static_cast<CStage02*>(MANAGER(CSceneManager*, M_SCENE)->Get_Scene())->Set_TeleportOn();
 }
 
+void CStageManager::Prepare_BossStage()
+{
+	bPreparedTransit = true;
+}
+
 void CStageManager::Transit_Stage02()
 {
 	MANAGER(CSceneManager*, M_SCENE)->Change_Scene(SC_STAGE02);
+	MANAGER(CEnvironmentManager*, M_MAP)->Release();
+	MANAGER(CEnvironmentManager*, M_MAP)->Load_Data();
+}
+
+void CStageManager::Transit_Store()
+{
+	MANAGER(CSceneManager*, M_SCENE)->Change_Scene(SC_STORE);
 	MANAGER(CEnvironmentManager*, M_MAP)->Release();
 	MANAGER(CEnvironmentManager*, M_MAP)->Load_Data();
 }
@@ -310,14 +364,14 @@ void CStageManager::OnKilled_Enemy(CMob* pMob)
 
 	Vector2 vItemPos = pMob->Get_Transform()->Position();
 
-	// 코인 두 개 고정
-	CItem* pItem1 = static_cast<CItem*>(	CObjectFactory<CCoin>::Create(O_ITEM, vItemPos.X(), vItemPos.Y()));
-	pItem1->Drop_Item({ vItemPos.X() - 20.f, vItemPos.Y() - 10.f });
-	CItem* pItem2 = static_cast<CItem*>(	CObjectFactory<CCoin>::Create(O_ITEM, vItemPos.X(), vItemPos.Y()));
-	pItem2->Drop_Item({ vItemPos.X() + 10.f, vItemPos.Y() + 10.f });
-
-	CItem* pItem = static_cast<CCartridge*>(CObjectFactory<CCartridge>::Create(O_ITEM));
-	pItem->Drop_Item({ vItemPos.X(), vItemPos.Y() + 30.f });
+	if (eCurStage != SC_STORE)
+	{
+		// 코인 두 개 고정
+		CItem* pItem1 = static_cast<CItem*>(CObjectFactory<CCoin>::Create(O_ITEM, vItemPos.X(), vItemPos.Y()));
+		pItem1->Drop_Item({ vItemPos.X() - 20.f, vItemPos.Y() - 10.f });
+		CItem* pItem2 = static_cast<CItem*>(CObjectFactory<CCoin>::Create(O_ITEM, vItemPos.X(), vItemPos.Y()));
+		pItem2->Drop_Item({ vItemPos.X() + 10.f, vItemPos.Y() + 10.f });
+	}
 
 	if (eCurStage == SC_STAGE01)
 	{
@@ -346,7 +400,7 @@ void CStageManager::OnKilled_Enemy(CMob* pMob)
 			iCurSpawnCount = 0;
 		}
 	}
-	else
+	else if (eCurStage == SC_STAGE02)
 	{
 		if (eCurStageState == Spawned01 && iCurrentKillCount == 2)
 		{

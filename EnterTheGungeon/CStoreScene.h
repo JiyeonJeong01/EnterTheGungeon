@@ -37,9 +37,13 @@ private:
 	int iAnimCol;
 	int iRealSize = 350;
 	DWORD dwAnimElapsedTime;
-	Vector2 vRealPos = { 4780, 3640 };
+	Vector2 vRealPos = { 1525, 1435 };
 
 private:
 	vector<Vector2> vTablePos01 = { {4460, 1100}, { 4460, 1380 }, { 5420, 1100 }, { 5420, 1380 } };
+
+	POINT pPlayerPos = { 1630, 1540 };
+	// POINT pPlayerPos = { 1630, 1150 };
+	POINT pOwnerPos = { 1100, 1059 };
 };
 

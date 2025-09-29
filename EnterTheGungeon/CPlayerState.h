@@ -26,10 +26,13 @@ public:
 public :
 	void Get_WeaponDir();
 
+public :
+	void Attack_Bomb();
+
 protected:
 	CPlayer::PlayerState eState;
 
-protected :
+public :
 	Vector2 vInputDir;
 	Direction eDir;
 	POINT pInputCursor;
@@ -38,7 +41,8 @@ protected :
 
 	float fSpeed;
 	bool bDodgePlaying;
-	bool bCanShot;
+	bool bCanShotGun;
+	bool bCanShotBomb;
 	bool bReloading = false;
 
 	int iWeaponColIndex;

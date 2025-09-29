@@ -20,6 +20,8 @@ int CCoin::Update()
 void CCoin::OnDetect_PlayerIn()
 {
 	bChase = true;
+	bCanInteract = true;
+	iAnimCol = 1;
 }
 
 /// <summary>

@@ -28,6 +28,8 @@
 #include "CTransform.h"
 #include "CRenderer.h"
 #include "CCollider.h"
+
+#include "CChest.h"
 #pragma endregion
 
 CStoreScene::CStoreScene()
@@ -44,40 +46,31 @@ CStoreScene::~CStoreScene()
 void CStoreScene::Initialize()
 {
 	eScene = SC_STORE;
-//	POINT pPlayerPos = { 1630, 1650 };
-	POINT pPlayerPos = { 1630, 1150 };
 
-	POINT pOwnerPos = { 1100, 1059 };
-	pPlayer = dynamic_cast<CPlayer*>(CObjectFactory<CPlayer>::Create(O_PLAYER, pPlayerPos.x, pPlayerPos.y));
+	if (pPlayer == nullptr)
+	{
+		if (MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER)->empty())
+		{
+			pPlayer = dynamic_cast<CPlayer*>(CObjectFactory<CPlayer>::Create(O_PLAYER, pPlayerPos.x, pPlayerPos.y));
+		}
+		else
+		{
+			pPlayer = dynamic_cast<CPlayer*>(MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER)->front());
+			pPlayer->Get_Transform()->Position({ (float)pPlayerPos.x , (float)pPlayerPos.y });
+		}
+	}
 
 	CObjectFactory<CMobOwner>::Create(O_ENEMY, pOwnerPos.x, pOwnerPos.y);
 
-	// 아이템 배치 
-	CCartridge* pCartridge = static_cast<CCartridge*>(CObjectFactory<CCartridge>::Create(O_ITEM, pOwnerPos.x + 100, pOwnerPos.y + 100));
-	pCartridge->Set_ForSell(true);
-	pCartridge->Drop_Item({ (float) pOwnerPos.x + 100, (float)pOwnerPos.y + 100 });
-
-	CBomb* pBomb = static_cast<CBomb*>(CObjectFactory<CBomb>::Create(O_ITEM, pOwnerPos.x + 100, pOwnerPos.y + 100));
-	pBomb->Set_ForSell(true);
-	pBomb->Drop_Item({ (float)pOwnerPos.x - 160, (float)pOwnerPos.y + 100 });
-
-	CMedkit* pKit = static_cast<CMedkit*>(CObjectFactory<CMedkit>::Create(O_ITEM, pOwnerPos.x + 100, pOwnerPos.y + 100));
-	pKit->Set_ForSell(true);
-	pKit->Drop_Item({ (float)pOwnerPos.x - 250, (float)pOwnerPos.y + 110 });
-
-	// ==========================
-
+	Place_Objects();
 
 	MANAGER(CEnvironmentManager*, M_MAP)->Initialize();
 	MANAGER(CCameraManager*, M_CAMERA)->Set_LookAt({ (float)pPlayerPos.x, (float)pPlayerPos.y });
 	MANAGER(CCameraManager*, M_CAMERA)->Set_Target(pPlayer);
 
-	bDrawTeleport = false;
+	Set_TeleportOn();
 
-	//  테이블 생성 
-	// Place_Objects();
-
-	//MANAGER(CStageManager*, M_STAGE)->Initialize_Store();
+	MANAGER(CStageManager*, M_STAGE)->Initialize_Store();
 }
 
 void CStoreScene::Update()
@@ -88,7 +81,7 @@ void CStoreScene::Update()
 	Detect_Collision();
 
 	MANAGER(CCameraManager*, M_CAMERA)->Update();
-	// MANAGER(CStageManager*, M_STAGE)->Logic_Store();
+	MANAGER(CStageManager*, M_STAGE)->Logic_Store();
 }
 
 void CStoreScene::Late_Update()
@@ -158,6 +151,30 @@ void CStoreScene::Place_Objects()
 			CObjectFactory<CTableObject>::Create(O_INTERACTABLE, vPos.X(), vPos.Y()));
 		MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList()->push_back(pTable);
 	}
+
+	CCartridge* pCartridge = static_cast<CCartridge*>(CObjectFactory<CCartridge>::Create(O_ITEM, pOwnerPos.x + 100, pOwnerPos.y + 100));
+	pCartridge->Set_ForSell(true);
+	pCartridge->Drop_Item({ (float)pOwnerPos.x + 100, (float)pOwnerPos.y + 100 });
+
+	CBomb* pBomb = static_cast<CBomb*>(CObjectFactory<CBomb>::Create(O_ITEM, pOwnerPos.x + 100, pOwnerPos.y + 100));
+	pBomb->Set_ForSell(true);
+	pBomb->Drop_Item({ (float)pOwnerPos.x - 160, (float)pOwnerPos.y + 100 });
+
+	CMedkit* pKit = static_cast<CMedkit*>(CObjectFactory<CMedkit>::Create(O_ITEM, pOwnerPos.x + 100, pOwnerPos.y + 100));
+	pKit->Set_ForSell(true);
+	pKit->Drop_Item({ (float)pOwnerPos.x - 250, (float)pOwnerPos.y + 110 });
+
+	CChest* pChestt = static_cast<CChest*>(CObjectFactory<CChest>::Create(O_ITEM, pOwnerPos.x + 100, pOwnerPos.y + 100));
+	pChestt->Set_ForSell(true);
+	pChestt->Drop_Item({ (float)pOwnerPos.x , (float)pOwnerPos.y + 310 });
+
+}
+
+void CStoreScene::Set_TeleportOn()
+{
+	dwAnimElapsedTime = GetTickCount();
+	bDrawTeleport = true;
+	iAnimCol = 0;
 }
 
 void CStoreScene::Draw_Teleport(HDC hDC)

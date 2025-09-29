@@ -41,16 +41,22 @@ CTestSCene::~CTestSCene()
 void CTestSCene::Initialize()
 {
 	eScene = SC_TEST;
-	POINT pPlayerPos = { 3000, 3050 };
-	POINT pBossPos = { pPlayerPos.x + 1500, pPlayerPos.y - 200 };
 
-	pPlayer = dynamic_cast<CPlayer*>(CObjectFactory<CPlayer>::Create(O_PLAYER, pPlayerPos.x, pPlayerPos.y));
-	// pBoss = dynamic_cast<CBoss*>(CObjectFactory<CBoss>::Create(O_ENEMY, pBossPos.x, pBossPos.y));
-	CObjectFactory<CMob01>::Create(O_ENEMY, pBossPos.x, pBossPos.y);
-	CObjectFactory<CMob02>::Create(O_ENEMY, pBossPos.x + 200, pBossPos.y + 200);
-	CObjectFactory<CMob03>::Create(O_ENEMY, pBossPos.x - 200, pBossPos.y - 200);
-	CObjectFactory<CMob04>::Create(O_ENEMY, pBossPos.x + 200, pBossPos.y - 200);
-	CObjectFactory<CMob05>::Create(O_ENEMY, pBossPos.x, pBossPos.y - 200);
+	if (pPlayer == nullptr)
+	{
+		if (MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER)->empty())
+		{
+			pPlayer = dynamic_cast<CPlayer*>(CObjectFactory<CPlayer>::Create(O_PLAYER, pPlayerPos.x, pPlayerPos.y));
+		}
+		else
+		{
+			pPlayer = dynamic_cast<CPlayer*>(MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER)->front());
+			pPlayer->Get_Transform()->Position({ (float)pPlayerPos.x , (float)pPlayerPos.y });
+		}
+	}
+
+	 pBoss = dynamic_cast<CBoss*>(CObjectFactory<CBoss>::Create(O_ENEMY, pBossPos.x, pBossPos.y));
+
 	MANAGER(CEnvironmentManager*, M_MAP)->Initialize();
 	MANAGER(CCameraManager*, M_CAMERA)->Set_LookAt({ (float)pPlayerPos.x, (float)pPlayerPos.y });
 	MANAGER(CCameraManager*, M_CAMERA)->Set_Target(pPlayer);

@@ -98,3 +98,17 @@ void CMob::Check_Invincible()
 		bInvincible = false;
 	}
 }
+
+void CMob::Change_KnockbackState()
+{
+	bKnockback = true;
+	iHP--;
+	if (iHP <= 0)
+	{
+		iHP = 0;
+	}
+	printf("몬스터 현재 체력 : %d\n", iHP);
+	this;
+	pStateMachine;
+	pStateMachine->Change_State(MobState::Damaged);
+}

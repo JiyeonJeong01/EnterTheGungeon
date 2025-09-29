@@ -42,15 +42,15 @@ void CCartridge::Get_Item()
 	// TODO : pplayer의 인벤토리 받아오기!!!! 
 	CItem::Get_Item();
 
-	bForSell = false;
-	bDisplayPressE = false;
-
-	Vector2 vPos = pTransform->Position();
-	CCartridge* pCartridge = static_cast<CCartridge*>(CObjectFactory<CCartridge>::Create(O_ITEM));
-	pCartridge->Set_ForSell(true);
-	pCartridge->Drop_Item({vPos.X() , vPos.Y()});
-
-	dwLastPurchasedTime = GetTickCount();
+	if (bForSell) {
+		bForSell = false;
+		bDisplayPressE = false;
+		Vector2 vPos = pTransform->Position();
+		CCartridge* pCartridge = static_cast<CCartridge*>(CObjectFactory<CCartridge>::Create(O_ITEM));
+		pCartridge->Set_ForSell(true);
+		pCartridge->Drop_Item({ vPos.X() , vPos.Y() });
+		dwLastPurchasedTime = GetTickCount();
+	}
 }
 
 void CCartridge::Apply_ItemEffect()
@@ -109,6 +109,8 @@ void CCartridge::Display_ItemInfo(HDC hDC)
 
 void CCartridge::OnDetect_PlayerIn()
 {
+	bCanInteract = true;
+    iAnimCol = 1;
 	if (bForSell)
 	{
 		bDisplayInfo = true;

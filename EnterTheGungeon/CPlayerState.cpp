@@ -8,6 +8,8 @@
 #include "CInputManager.h"
 #include "CCameraManager.h"
 #include "CPlayerWeapon.h"
+#include "CMouse.h"
+#include "CMob.h"
 #pragma endregion
 
 
@@ -23,10 +25,13 @@ void CPlayerState::Update()
 	bDodgePlaying = static_cast<CPlayer*>(pObj)->bDodgePlaying;
 	bReloading = static_cast<CPlayer*>(pObj)->bReloading;
 
+	bCanShotGun = static_cast<CPlayer*>(pObj)->bCanShotGun;
+	bCanShotBomb = static_cast<CPlayer*>(pObj)->bCanShotBomb;
+
 	Dir_ByCursor();
 
 	if (dwLastFireTime + fLimitFireTime * 1000 < GetTickCount())
-		bCanShot = true;
+		bCanShotGun = true;
 
 	if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown(VK_LBUTTON))
 	{
@@ -84,6 +89,29 @@ void CPlayerState::Get_WeaponDir()
 	}
 }
 
+void CPlayerState::Attack_Bomb()
+{
+	POINT p = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
+	Vector2 vRealPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RealPos({(float)p.x, (float)p.y});
+	static_cast<CPlayer*>(pObj)->Set_ShotMode(CPlayer::Gun);
+	MANAGER(CUIManager*, M_UI)->Get_Mouse()->Set_CursorMode(CMouse::Normal);
+	MANAGER(CCameraManager*, M_CAMERA)->Set_CamerMode(CCameraManager::Shake2);
+
+	int iExplosionSize = 300;
+	RECT rBombBound = { vRealPos.X() - iExplosionSize, vRealPos.Y() - iExplosionSize, vRealPos.X() + iExplosionSize, vRealPos.Y() + iExplosionSize };
+
+	list<CObject*> pEnemies = *MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENEMY);
+	for (auto& p : pEnemies)
+	{
+		Vector2 v = p->Get_Transform()->Position();
+		if (v.X() >= rBombBound.left && v.X() <= rBombBound.right	&& v.Y() >= rBombBound.top && v.Y() <= rBombBound.bottom)
+		{
+			static_cast<CMob*>(p)->bKnockback = true;
+			static_cast<CMob*>(p)->Modify_HP(-1);
+		}
+	}
+}
+
 void CPlayerState::Dir_ByCursor()
 {
 	POINT pCursor = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
@@ -123,8 +151,13 @@ void CPlayerState::Dir_ByCursor()
 
 void CPlayerState::Shot_Bullet()
 {
+	if (!bCanShotGun && bCanShotBomb && !bDodgePlaying)
+	{
+		Attack_Bomb();
+	}
 
-	if (!bCanShot || bDodgePlaying || bReloading)
+	if (!bCanShotGun || bDodgePlaying || bReloading)
 		return;
+
 	static_cast<CPlayer*>(pObj)->pWeapon->Attack();
 }

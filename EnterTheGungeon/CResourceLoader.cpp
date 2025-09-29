@@ -24,9 +24,22 @@ void CResourceLoader::Load_Resource()
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Objects/Teleport_Opened.bmp", L"Teleport_Opened");
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Objects/Teleport_Active.bmp", L"Teleport_Active");
 	
-	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/EKey.bmp", L"EKey");
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/Info.bmp", L"Info");
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/Popup.bmp", L"Popup");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/Dialogue.bmp", L"Dialogue");
+
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/EKey.bmp", L"EKey");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/WKey.bmp", L"WKey");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/AKey.bmp", L"AKey");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/SKey.bmp", L"SKey");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/DKey.bmp", L"DKey");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/QKey.bmp", L"QKey");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/RKey.bmp", L"RKey");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/CtrlKey.bmp", L"CtrlKey");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/SpaceKey.bmp", L"SpaceKey");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/LeftClick.bmp", L"LeftClick");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/RightClick.bmp", L"RightClick");
+
 
 	CWeapon::Load_Resource();
 	CBullet::Load_Resource();

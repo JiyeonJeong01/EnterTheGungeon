@@ -3,6 +3,7 @@
 class CObject;
 class CBoss;
 class CInventory;
+class CMouse;
 class CUIManager :  public CManager
 {
 public :
@@ -24,6 +25,7 @@ public:
 public :
 	void Draw_Inventory(HDC hDC);
 	void Draw_BossStat(HDC hDC);
+	CMouse* Get_Mouse() { return pMouse;  }
 
 public :
 	list<CObject*> uiObjects;
@@ -42,5 +44,7 @@ public :
 	bool bBossDraw;
 	DWORD dwEffecctTime;
 	int iEffectIndex;
+private:
+	CMouse* pMouse;
 };
 

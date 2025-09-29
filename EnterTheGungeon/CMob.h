@@ -32,11 +32,16 @@ public :
 	void Check_ShouldAtack();
 	void Check_Invincible();
 
+	void Change_KnockbackState();
+
 public :
 	float Get_Speed() { return fSpeed;  }
 	void Set_Speed(float fSpeed) { this->fSpeed = fSpeed; }
 
 	int Get_HP() { return iHP; }
+	void Modify_HP(int _iHP) {
+		this->iHP = (iHP + _iHP >= 0) ? iHP + _iHP : 0;
+	}
 	
 	void Set_Dead() { bAlive = false; }
 
@@ -49,12 +54,7 @@ protected :
 	int iMaxHP;
 	int iHP;
 
-protected:
-	CMobStateMachine* pStateMachine;
-	CState* pCurrentState;
-	MobState eCurrentState;
-
-protected :
+public:
 	float fAttackTimeRange;
 	float fSpeed;
 
@@ -62,5 +62,12 @@ protected :
 	DWORD dwInvincibleTime;
 	bool bInvincible;
 	bool bKnockback;
+
+protected:
+	CMobStateMachine* pStateMachine;
+	CState* pCurrentState;
+	MobState eCurrentState;
+
+
 };
 

@@ -19,6 +19,7 @@ void CMouse::Initialize()
 {
 	CObject::Initialize();
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/Cursor.bmp", L"Cursor");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/CursorBomb.bmp", L"CursorBomb");
 
 	pTransform->Size({ 32.f, 32.f });
 	pCollider->Size({ 32.f, 32.f });
@@ -28,6 +29,8 @@ void CMouse::Initialize()
 	pRenderer->rType = RND__UI;
 
 	ShowCursor(FALSE);
+
+	Set_CursorMode(Normal);
 }
 
 int CMouse::Update()
@@ -44,22 +47,41 @@ void CMouse::Late_Update()
 
 void CMouse::Render(HDC _hDC)
 {
-	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Cursor");
+	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(spriteKey);
 
 	GdiTransparentBlt(_hDC,
 		pTransform->Position().X() - (int)pRenderer->Size().X() * 0.5f,
 		pTransform->Position().Y() - (int)pRenderer->Size().Y() * 0.5f,
-		(int)pRenderer->Size().X(),
-		(int)pRenderer->Size().Y(),
+		iRenderSpriteX, iRenderSpriteY,
 		hMemDC,
 		0, 0,
-		(int)pRenderer->Size().X(),
-		(int)pRenderer->Size().Y(),
-		RGB(255, 0, 255));
+		iRealSpriteX, iRealSpriteY,
+		RGB(iRidColor, 0, iRidColor));
 }
 
 void CMouse::Update_Transform()
 {
 	POINT p = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
 	pTransform->Position({ (float)p.x, (float)p.y });
+}
+
+void CMouse::Set_CursorMode(CursorType type)
+{
+	switch (type)
+	{
+	case CMouse::Normal:
+		spriteKey = L"Cursor";
+		iRealSpriteX = iRealSpriteY = 32;
+		iRenderSpriteX = iRenderSpriteY = 32;
+		iRidColor = 255;
+		break;
+	case CMouse::Bomb:
+		spriteKey = L"CursorBomb";
+		iRealSpriteX = iRealSpriteY = 40;
+		iRenderSpriteX = iRenderSpriteY = 40;
+		iRidColor = 0;
+		break;
+	default:
+		break;
+	}
 }

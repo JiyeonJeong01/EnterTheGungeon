@@ -13,6 +13,7 @@ class CPlayer : public CObject
 {
 public :
 	enum PlayerState { PS_IDLE, PS_WALK, PS_ATTACK, PS_HIT, PS_DODGE, PS_FALL, PS_DEAD, PS_END};
+	enum PlayerAttack { Gun, Bomb };
 public:
 	CPlayer();
 	virtual ~CPlayer();
@@ -39,16 +40,21 @@ public :
 
 public :
 	void Set_CurrentState(PlayerState eState, CState* pState) { eCurrentState = eState; pCurrentState = pState; }
+	void Set_ShotMode(PlayerAttack attack);
 
 public:
 	Vector2 vInputDir;
 	POINT pInputCursor;
+
 	DWORD dwLastFireTime;
 	float fLimitFireTime;
 	float fSpeed;
 	bool bDodgePlaying;
 	Direction eDir;
 	bool bReloading;
+
+	bool bCanShotGun;
+	bool bCanShotBomb;
 
 public :
 	int iHP;

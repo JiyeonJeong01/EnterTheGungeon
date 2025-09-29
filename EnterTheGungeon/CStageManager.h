@@ -20,16 +20,21 @@ public :
 public:
 	void Initialize_Stage01();
 	void Initialize_Stage02();
+	void Initialize_Store();
 	void Render_SpawnEffect(HDC hDC, int iX, int iY);
 
 public :
 	void Logic_Stage01();
 	void Logic_Stage02();
+	void Logic_Store();
 
 private :
 	void Prepare_Stage02();
+	void Prepare_Store();
 	void Prepare_BossStage();
+
 	void Transit_Stage02();
+	void Transit_Store();
 	void Transit_BossStage();
 
 public :
@@ -88,8 +93,9 @@ private :
 	bool bShouldCheckBound;
 	bool bPlayerInBound;
 
-	RECT rTransitBound01 ={ 4700, 3700, 5100, 3800 };
+	RECT rTransitBound01 ={ 4800, 3700, 5000, 3800 };
 	RECT rTransitBound02 = { 6010, 2310, 6200, 2470 };
+	RECT rTransitBound03 = { 1550, 1450,1700, 1650 };
 
 	//							stage _ num
 	RECT rSpawnTrigger01_01; // for npc

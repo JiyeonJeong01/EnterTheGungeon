@@ -48,6 +48,7 @@ void CItem::Initialize()
 
 int CItem::Update()
 {
+
 	if (bObtained) return 0;
 	Detect_Player();
 
@@ -115,10 +116,7 @@ void CItem::Detect_Player()
 	RECT rCollisionArea{};
 
 	if (IntersectRect(&rCollisionArea, &rDetectBound, pPlayer->Get_Collider()->Get_PCollider()))
-	{
-		bCanInteract = true;
-		iAnimCol = 1;
-		
+	{				
 		OnDetect_PlayerIn();
 	}
 	else

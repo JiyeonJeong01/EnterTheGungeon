@@ -235,6 +235,12 @@
     <Filter Include="23. Item\05. Medkit">
       <UniqueIdentifier>{3ec08dde-9b29-43d7-87eb-d8f00be3f47e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06. NPC">
+      <UniqueIdentifier>{755b82f0-9631-4c57-8728-0a17e028381b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. NPC\00. TutorialGuide">
+      <UniqueIdentifier>{ea2a36ea-ac37-4a22-8116-3d5ec912bd29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -600,6 +606,9 @@
     <ClInclude Include="CMedkit.h">
       <Filter>23. Item\05. Medkit</Filter>
     </ClInclude>
+    <ClInclude Include="CGuide.h">
+      <Filter>06. NPC\00. TutorialGuide</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -952,6 +961,9 @@
     </ClCompile>
     <ClCompile Include="CMedkit.cpp">
       <Filter>23. Item\05. Medkit</Filter>
+    </ClCompile>
+    <ClCompile Include="CGuide.cpp">
+      <Filter>06. NPC\00. TutorialGuide</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

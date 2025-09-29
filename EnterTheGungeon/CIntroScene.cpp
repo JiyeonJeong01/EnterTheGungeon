@@ -31,7 +31,7 @@ void CIntroScene::Update()
     if ( MANAGER(CInputManager*, M_INPUT)->Get_KeyDown(VK_RETURN) ||
         MCIWndGetLength(hVideo) <= MCIWndGetPosition(hVideo))
     {
-        MANAGER(CSceneManager*, M_SCENE)->Change_Scene(SC_STORE);
+        MANAGER(CSceneManager*, M_SCENE)->Change_Scene(SC_STAGE01);
     }
 }
 

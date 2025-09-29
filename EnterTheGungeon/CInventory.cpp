@@ -69,12 +69,13 @@ bool CInventory::Try_UseItem(const TCHAR* itemKey)
 	}
 	else
 	{
-		if ((int)iter->second->size() == 0) return false;
+		if ((int)iter->second->size() == 0) 
+			return false;
 		auto& item = iter->second->front();
 		item-> Apply_ItemEffect();
 		const TCHAR* itemKey = item->Get_ItemKey();
 		iter->second->remove(item);
-		if (iter->second->empty() &&( itemKey == L"Bomb"))
+		if (iter->second->empty() &&( itemKey == L"Bomb") && (itemKey == L"Medkit"))
 		{
 			curActiveItem = nullptr;
 		}

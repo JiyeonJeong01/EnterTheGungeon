@@ -15,7 +15,26 @@
 
 void CChest::Render(HDC hDC)
 {
+	Vector2 vPos = pTransform->Position();
+	if (vPos.Y() < vDroppedPos.Y())
+	{
+		pTransform->Position({ vPos.X(), vPos.Y() + 7 });
+	}
+
+
 	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Chest");
+
+	if ((iAnimRow == 1 && iAnimCol < 2) && (dwDisplayElapsedTime + 100 < GetTickCount()))
+	{
+		dwDisplayElapsedTime = GetTickCount();
+		iAnimCol++;
+	}
+	if (iAnimRow == 1 && iAnimCol == 2 && !bShowShotgun )
+	{
+		bShowShotgun = true;
+		iAnimCol = 0;
+		iAnimRow = 2;
+	}
 
 	GdiTransparentBlt(hDC,
 		pRenderer->Right(), pRenderer->Top(),
@@ -52,23 +71,36 @@ void CChest::Get_Item()
 {
 	dwDisplayElapsedTime = GetTickCount();
 	iOffsetY = - 20;
-	bShowShotgun = true;
+	iAnimRow = 1;
+	iAnimCol = 0;
 }
 
 void CChest::Apply_ItemEffect()
 {
 }
 
+void CChest::Drop_Item(Vector2 vDropPos)
+{
+	bDropEffect = true;
+	vDroppedPos = { vDropPos.X(), vDropPos.Y() };
+	pTransform->Position({ vDropPos.X(), vDropPos.Y() - 70.f});
+
+	rDetectBound = { (int)vDropPos.X() + rDetectBound.left,(int)vDropPos.Y() + rDetectBound.top,
+								(int)vDropPos.X() + rDetectBound.right, (int)vDropPos.Y() + rDetectBound.bottom };
+}
+
 void CChest::OnDetect_PlayerIn()
 {
 	CItem::OnDetect_PlayerIn();
 
-	if (iAnimRow == 0) iAnimCol = 1;
+	if (iAnimRow == 0) 
+		iAnimCol = 1;
 }
 
 void CChest::OnDetect_PlayerOut()
 {
-	if (iAnimRow == 0) iAnimCol = 0;
+	if (iAnimRow == 0) 
+		iAnimCol = 0;
 }
 
 void CChest::Display_Shotgun(HDC hDC)

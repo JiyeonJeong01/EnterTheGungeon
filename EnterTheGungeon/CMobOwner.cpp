@@ -27,7 +27,7 @@ void CMobOwner::Initialize()
     CMob::Initialize();
 
     MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Enemy/Owner.bmp", L"Owner");
-    MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/Dialogue.bmp", L"Dialogue");
+
 
 
     pTransform->Position({ WINCX >> 1, WINCY >> 1 });

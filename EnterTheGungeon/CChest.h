@@ -8,6 +8,7 @@ public :
 	void Late_Initialize() override;
 	void Get_Item() override;
 	void Apply_ItemEffect() override;
+	void Drop_Item(Vector2 vDropPos) override;
 
 public :
 	void OnDetect_PlayerIn() override;
@@ -21,5 +22,8 @@ private :
 	bool bShowShotgun;
 	DWORD dwDisplayElapsedTime;
 	int iOffsetY;
+
+	bool bDropEffect;
+	Vector2 vDroppedPos;
 };
 

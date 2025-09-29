@@ -3,6 +3,8 @@
 class CMouse : public CObject
 {
 public :
+	enum CursorType { Normal, Bomb };
+public :
 	CMouse();
 	~CMouse() override;
 
@@ -14,5 +16,14 @@ public :
 	void Release() {};
 
 	void Update_Transform() override;
+
+public :
+	void Set_CursorMode(CursorType type);
+
+private :
+	const TCHAR* spriteKey = L"";
+	int iRealSpriteX, iRealSpriteY;
+	int iRenderSpriteX, iRenderSpriteY;
+	int iRidColor;
 };
 

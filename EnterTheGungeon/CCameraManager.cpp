@@ -14,6 +14,7 @@ CCameraManager::CCameraManager()
 	eMode = Chase_Player;
 
 	iShake = 3;
+	iShake2 = 8;
 	iCurShake = 0;
 
 	fTransitTime = 2.f;
@@ -48,6 +49,10 @@ void CCameraManager::Update()
 	else if (eMode == CameraMode::Shake)
 	{
 		Shake_Camera();
+	}
+	else if (eMode == CameraMode::Shake2)
+	{
+		Shake_Camera_2();
 	}
 	else if (eMode == CameraMode::Transit_NewTarget)
 	{
@@ -90,7 +95,7 @@ void CCameraManager::Set_CamerMode(CameraMode eMode, CObject* pNewTarget)
 		bBack = false;
 	}
 	break;
-	case CCameraManager::Shake:
+	case CCameraManager::Shake: case CCameraManager::Shake2:
 	{
 		iCurShake = 0;
 	}
@@ -138,6 +143,29 @@ void CCameraManager::Transit_Target()
 		{
 			eMode = Chase_Player;
 		}
+	}
+}
+
+void CCameraManager::Shake_Camera_2()
+{
+	static const float offsets[20] = {
+		50.f, -40.f, 35.f, -30.f,
+		25.f, -22.f, 18.f, -15.f,
+		12.f, -10.f, 8.f, -6.f,
+		5.f, -4.f, 3.f, -2.f,
+		1.5f, -1.f, 0.5f, -0.2f
+	};
+
+	if (iCurShake < 20)
+	{
+		float offset = offsets[iCurShake];
+		vCurLookAt = { vLookAt.X() + offset, vLookAt.Y() - offset };
+		iCurShake++;
+	}
+	else
+	{
+		eMode = Chase_Player;
+		iCurShake = 0;
 	}
 }
 

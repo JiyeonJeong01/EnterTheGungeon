@@ -28,6 +28,6 @@ private :
 	int iShotgunCurBullet;
 	float fShotgunLimitFireTime;
 
-	bool bCanShot;
+	bool bCanShotGun;
 };
 
