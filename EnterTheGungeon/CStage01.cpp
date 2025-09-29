@@ -23,6 +23,7 @@
 #include "CTeleport.h"
 #include "CTableObject.h"
 #include "CCartridge.h"
+#include "CElavator.h"
 
 #include "CTransform.h"
 #include "CRenderer.h"
@@ -43,9 +44,13 @@ CStage01::~CStage01()
 void CStage01::Initialize()
 {
 	eScene = SC_STAGE01;
-	POINT pPlayerPos = { 4918, 810 };
+	POINT pPlayerPos = { 4918, 1050 };
 	pPlayer = dynamic_cast<CPlayer*>(CObjectFactory<CPlayer>::Create(O_PLAYER, pPlayerPos.x, pPlayerPos.y));
-	CObjectFactory<CGuide>::Create(O_ENEMY, pPlayerPos.x + 100, pPlayerPos.y + 500);
+	
+	// 가이드!!
+	CObjectFactory<CGuide>::Create(O_ENEMY, pPlayerPos.x + 100, pPlayerPos.y + 300);
+
+
 
 	MANAGER(CEnvironmentManager*, M_MAP)->Initialize();
 	MANAGER(CCameraManager*, M_CAMERA)->Set_LookAt({ (float)pPlayerPos.x, (float)pPlayerPos.y });
@@ -57,6 +62,10 @@ void CStage01::Initialize()
 	Place_Objects();
 
 	MANAGER(CStageManager*, M_STAGE)->Initialize_Stage01();
+
+	// 엘레베이터 배치!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	CObjectFactory<CElavator>::Create(O_INTERACTABLE, pPlayerPos.x-200, pPlayerPos.y-250);
+
 }
 
 void CStage01::Update()

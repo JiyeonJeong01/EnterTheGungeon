@@ -241,6 +241,9 @@
     <Filter Include="06. NPC\00. TutorialGuide">
       <UniqueIdentifier>{ea2a36ea-ac37-4a22-8116-3d5ec912bd29}</UniqueIdentifier>
     </Filter>
+    <Filter Include="25. Map\04. Elavator">
+      <UniqueIdentifier>{faba37d4-7c92-4e26-9299-03a0ee6babbe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -609,6 +612,9 @@
     <ClInclude Include="CGuide.h">
       <Filter>06. NPC\00. TutorialGuide</Filter>
     </ClInclude>
+    <ClInclude Include="CElavator.h">
+      <Filter>25. Map\04. Elavator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -964,6 +970,9 @@
     </ClCompile>
     <ClCompile Include="CGuide.cpp">
       <Filter>06. NPC\00. TutorialGuide</Filter>
+    </ClCompile>
+    <ClCompile Include="CElavator.cpp">
+      <Filter>25. Map\04. Elavator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

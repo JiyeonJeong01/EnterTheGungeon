@@ -61,6 +61,7 @@ void CGuide::Initialize()
 
 	iAnimRange = 300;
 	iBombFallCount = 0;
+	bUsedItem = false;
 }
 
 int CGuide::Update()
@@ -204,7 +205,7 @@ void CGuide::Render(HDC hDC)
 				hKeyDC, iPressKeyAnimCol * iRealSizeX, 0, iRealSizeX, iRealSizeY, RGB(0, 0, 0));
 
 		}
-		else if (iCurScriptIndex == 9)
+		else if (iCurScriptIndex == 11)
 		{
 			if (dwPressKeyAnimElapsedTime + iAnimRange < GetTickCount())
 			{
@@ -218,7 +219,7 @@ void CGuide::Render(HDC hDC)
 			GdiTransparentBlt(hDC, rBound.left + iPanelOffsetX, rBound.top + iPanelOffsetY - 40, iRenderSizeX, iRenderSizeY,
 				hKeyDC, iPressKeyAnimCol * iRealSizeX, 0, iRealSizeX, iRealSizeY, RGB(0, 0, 0));
 		}
-		else if (iCurScriptIndex == 11)
+		else if (iCurScriptIndex == 9)
 		{
 			if (dwPressKeyAnimElapsedTime + iAnimRange < GetTickCount())
 			{
@@ -228,7 +229,7 @@ void CGuide::Render(HDC hDC)
 			int iRealSizeX = 64, iRealSizeY = 40;
 			int iRenderSizeX = 64, iRenderSizeY = 40;
 
-			HDC hKeyDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"SPaceKey");
+			HDC hKeyDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"SpaceKey");
 			GdiTransparentBlt(hDC, rBound.left + iPanelOffsetX, rBound.top + iPanelOffsetY - 40, iRenderSizeX, iRenderSizeY,
 				hKeyDC, iPressKeyAnimCol * iRealSizeX, 0, iRealSizeX, iRealSizeY, RGB(0, 0, 0));
 		}
@@ -289,7 +290,7 @@ void CGuide::Update_Dialogue()
 			bCanNextDialogue = false;
 			iAnimRow = 3;
 			iMaxAnimCol = 1;
-			fFrameRange = 250;
+			fFrameRange = 0.25;
 			iAnimCol = 0;
 		}
 	}
@@ -323,18 +324,6 @@ void CGuide::Update_Dialogue()
 			iTotalLength = lstrlen(szScript[iCurScriptIndex]);
 			dwDialogueElaspedTime = GetTickCount();
 			fill(begin(szTmp), end(szTmp), 0);
-		}
-		if (iCurScriptIndex > iTotalScriptIndex)
-		{
-			// 모든 대화 끝
-			bCompleteDialogue = true;
-			bPlayDialogue = false;
-			bCanDialogue = false;
-			bPressKey = false;
-			bCanNextDialogue = false;
-			iAnimRow = 3;
-			iMaxAnimCol = 1;
-			fFrameRange = 250;
 		}
 	}
 }
@@ -460,7 +449,6 @@ void CGuide::Guide_Cartridge()
 		}
 	}
 
-
 }
 
 void CGuide::Guide_SwapWeapon()
@@ -481,6 +469,10 @@ void CGuide::Guide_ItemUse()
 		if (iCount >= iMaxCount)
 			bItemUseCompleted = true;
 	}
+	if (!bUsedItem)
+	{
+		bUsedItem = MANAGER(CInputManager*, M_INPUT)->Get_KeyDown(VK_LBUTTON);
+	}
 }
 
 void CGuide::Guide_Interact()
@@ -492,9 +484,10 @@ void CGuide::Guide_Interact()
 		if (iCount >= iMaxCount)
 			bInteractCompleted = true;
 	}
-	if (iBombFallCount++ < 20)
+	if (iBombFallCount++ < 15)
 	{
-		pBomb->Get_Transform()->Position({ pBomb->Get_Transform()->Position().X(), pBomb->Get_Transform()->Position().Y() + 3.f});
+		pBomb->Get_Transform()->Position({ pBomb->Get_Transform()->Position().X(), pBomb->Get_Transform()->Position().Y() + 5.f});
+		pCartridge->Get_Transform()->Position({ pCartridge->Get_Transform()->Position().X(), pCartridge->Get_Transform()->Position().Y() + 5.f });
 	}
 }
 
@@ -546,45 +539,44 @@ void CGuide::Check_NextScript()
 		iCurScriptIndex = 8;
 		iCount = 0;
 		iTotalLength = lstrlen(szScript[iCurScriptIndex]);
-		eGuideStep = GuideStep::Cartridge;
+		eGuideStep = GuideStep::Interact;
 		dwAttackTime = GetTickCount();
 
+		// 아이템 생성
+		pBomb = dynamic_cast<CBomb*>(CObjectFactory<CBomb>::Create(O_ITEM));
+		pBomb->Drop_Item({ pTransform->Position().X() + 20.f, pTransform->Position().Y() + 30.f });
+		pCartridge = dynamic_cast<CCartridge*>(CObjectFactory<CCartridge>::Create(O_ITEM));
+		pCartridge->Drop_Item({ pTransform->Position().X() - 50.f, pTransform->Position().Y() + 50.f });
 	}
-	else if (eGuideStep == GuideStep::Cartridge && bCanNextDialogue && bCartridgeCompleted)
+	else if (eGuideStep == GuideStep::Interact && bCanNextDialogue && bInteractCompleted
+		&& pBomb->Get_Obtained() && pCartridge->Get_Obtained())
 	{
-		spriteKey = L"CtrlKey";
+		spriteKey = L"SpaceKey";
 		iCurLetterIndex = 0;
 		iCurScriptIndex = 9;
 		iCount = 0;
 		iTotalLength = lstrlen(szScript[iCurScriptIndex]);
-		eGuideStep = GuideStep::SwapWeapon;
+		eGuideStep = GuideStep::ItemUse;
 	}
-	else if (eGuideStep == GuideStep::SwapWeapon && bCanNextDialogue && bSwapWeaponCompleted)
+	else if (eGuideStep == GuideStep::ItemUse && bCanNextDialogue && bItemUseCompleted && bUsedItem)
 	{
 		spriteKey = L"EKey";
 		iCurLetterIndex = 0;
 		iCurScriptIndex = 10;
 		iCount = 0;
 		iTotalLength = lstrlen(szScript[iCurScriptIndex]);
-		eGuideStep = GuideStep::Interact;
-
-		pBomb = dynamic_cast<CBomb*>(CObjectFactory<CBomb>::Create(O_ITEM));
-		pBomb->Drop_Item({ pTransform->Position().X() - 20.f, pTransform->Position().Y() + 20.f });
-		pCartridge = dynamic_cast<CCartridge*>(CObjectFactory<CCartridge>::Create(O_ITEM));
-		pCartridge->Drop_Item({ pTransform->Position().X() - 40.f, pTransform->Position().Y() + 30.f });
-
+		eGuideStep = GuideStep::Cartridge;
 	}
-	else if (eGuideStep == GuideStep::Interact && bCanNextDialogue && bInteractCompleted 
-		&& pBomb->Get_Obtained() && pCartridge->Get_Obtained())
+	else if (eGuideStep == GuideStep::Cartridge && bCanNextDialogue && bCartridgeCompleted)
 	{
-		spriteKey = L"SpaceKey";
+		spriteKey = L"CtrlKey";
 		iCurLetterIndex = 0;
 		iCurScriptIndex = 11;
 		iCount = 0;
 		iTotalLength = lstrlen(szScript[iCurScriptIndex]);
-		eGuideStep = GuideStep::ItemUse;
+		eGuideStep = GuideStep::SwapWeapon;
 	}
-	else if (eGuideStep == GuideStep::ItemUse && bCanNextDialogue && bItemUseCompleted)
+	else if (eGuideStep == GuideStep::SwapWeapon && bCanNextDialogue && bSwapWeaponCompleted)
 	{
 		spriteKey = L"EKey";
 		iCurLetterIndex = 0;

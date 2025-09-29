@@ -7,7 +7,7 @@ class CGuide :  public CObject
 {
 public :
 	enum GuideState { Appear = 0, Left, Right, Smile };
-	enum GuideStep { Move, Dodge, Shot, Reshot, Cartridge, SwapWeapon, Interact, ItemUse,  End};
+	enum GuideStep { Move, Dodge, Shot, Reshot, Interact, ItemUse, Cartridge, SwapWeapon, End};
 
 public :
 	CGuide();
@@ -58,12 +58,12 @@ private :
 		L"좋아, 이제 우클릭으로\n구르기를 해봐!!", // 5
 		L"훌륭해!! 좌클릭으로\n총알을 발사해볼래?", // 6
 		L"총알이 부족할 땐,\nR 키로 재장전할 수 있어", // 7
-		L"Q 키로는 발사된 모든 총알을\n삭제할 수 있어",//8
-		L"Ctrl  키로 무기를 교체할 수 있는데\n이후에 시도해봐!",//9
-		L"E키를 눌러 아이템이나 테이블 같은\n물체와 상호작용 할 수 있어", //10
-		L"Space 키로 아이템을 사용해봐!!", //11
+		L"E키를 눌러 아이템이나 테이블 같은\n물체와 상호작용 할 수 있어", //8
+		L"Space 키로 아이템을 사용해봐!!", // 9
+		L"Q 키로는 모든 총알을 삭제하는\n 카트리지를 사용할 수 있어",// 10
+		L"Ctrl  키로 무기를 교체할 수 있는데\n이후에 시도해봐!",// 11
 		L"좋아 이제 다 알려준 거 같은데...", //12
-		L"너의 모험이\n성공적으로 끝나길 바랄게!!"
+		L"너의 모험이\n성공적으로 끝나길 바랄게!!" // 13
 	};
 
 	TCHAR szTmp[64] = { 0 };
@@ -108,7 +108,7 @@ private :
 
 private :
 	bool bMoveCompleted, bDodgeCompleted, bShotCompleted, bReshotCompleted, bCartridgeCompleted, bSwapWeaponCompleted, bInteractCompleted, bItemUseCompleted;
-	bool bCreateItem,  bCreateBullet;
+	bool bCreateItem,  bCreateBullet, bUsedItem;
 
 private:
 	DWORD dwAttackTime;

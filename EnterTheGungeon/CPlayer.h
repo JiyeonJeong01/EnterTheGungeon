@@ -41,6 +41,7 @@ public :
 public :
 	void Set_CurrentState(PlayerState eState, CState* pState) { eCurrentState = eState; pCurrentState = pState; }
 	void Set_ShotMode(PlayerAttack attack);
+	void Set_CanRender(bool bRend) { bCanRend = bRend; }
 
 public:
 	Vector2 vInputDir;
@@ -55,6 +56,8 @@ public:
 
 	bool bCanShotGun;
 	bool bCanShotBomb;
+
+	bool bCanRend;
 
 public :
 	int iHP;

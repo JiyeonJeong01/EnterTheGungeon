@@ -68,6 +68,8 @@ void CPlayer::Initialize()
     bCanShotBomb = false;
     bCanShotGun = true;
     MANAGER(CUIManager*, M_UI)->bDrawPlayer = true;
+
+    bCanRend = true;
 }
 
 int CPlayer::Update()
@@ -90,6 +92,7 @@ void CPlayer::Late_Update()
 
 void CPlayer::Render(HDC _hDC)
 {
+    if (!bCanRend) return;
     // Render for debug
     CObject::Render(_hDC);
 

@@ -155,6 +155,7 @@
     <ClInclude Include="CCollider.h" />
     <ClInclude Include="CCollisionManager.h" />
     <ClInclude Include="CComponent.h" />
+    <ClInclude Include="CElavator.h" />
     <ClInclude Include="CGuide.h" />
     <ClInclude Include="CInputKeyInfo.h" />
     <ClInclude Include="CInputManager.h" />
@@ -279,6 +280,7 @@
     <ClCompile Include="CCollider.cpp" />
     <ClCompile Include="CCollisionManager.cpp" />
     <ClCompile Include="CComponent.cpp" />
+    <ClCompile Include="CElavator.cpp" />
     <ClCompile Include="CGuide.cpp" />
     <ClCompile Include="CInputKeyInfo.cpp" />
     <ClCompile Include="CInputManager.cpp" />
