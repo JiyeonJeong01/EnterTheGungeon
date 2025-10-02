@@ -65,6 +65,8 @@ void CCartridge::Apply_ItemEffect()
 		static_cast<CBossBullet*>(obj)->OnCollision_MapGround();
 	}
 
+	MANAGER(CUIManager*, M_UI)->Start_CartridgeEffect();
+
 }
 
 void CCartridge::Display_ItemInfo(HDC hDC)
@@ -124,7 +126,7 @@ void CCartridge::OnDetect_PlayerIn()
 
 	if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown('E'))
 	{
-		if (dwLastPurchasedTime + 800 >= GetTickCount()) return;
+		if (dwLastPurchasedTime + 300 >= GetTickCount()) return;
 		if (bForSell)
 		{
 			bDisplayPopup = true;

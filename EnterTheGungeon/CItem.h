@@ -4,6 +4,9 @@
 #include "CInventory.h"
 class CItem : public CObject
 {
+public :
+	CItem() {}
+	~CItem() override;
 public:
 	static void Load_Resource();
 
@@ -38,6 +41,9 @@ public :
 	void Show_Guide_Success(HDC hDC);
 	void Show_Guide_Fail(HDC hDC);
 
+public :
+	void Set_Dead() { bAlive = false; }
+
 protected:
 	CPlayer* pPlayer;
 	RECT rDetectBound;
@@ -57,6 +63,7 @@ protected:
 	bool bCanInteract;
 	bool bObtained;
 
+	int iAnimRow;
 	int iAnimCol;
 	int iAnimSizeX;
 	int iAnimSizeY;
@@ -71,6 +78,7 @@ protected:
 
 public :
 	static void Set_ItemFree() { bFree = true; }
+	static bool Get_IemFree() { return bFree;  }
 protected:
 	static DWORD dwLastPurchasedTime;
 	static bool bFree;

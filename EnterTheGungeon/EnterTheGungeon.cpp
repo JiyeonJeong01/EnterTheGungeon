@@ -2,6 +2,7 @@
 #include "framework.h"
 #include "EnterTheGungeon.h"
 #include "CMainGame.h"
+#include "CUIManager.h"
 #include <locale.h>
 FILE* debug;
 
@@ -11,11 +12,13 @@ HINSTANCE hInst;
 WCHAR szTitle[MAX_LOADSTRING];                  
 WCHAR szWindowClass[MAX_LOADSTRING];            
 HWND g_hWnd;
+int iWheelScroll = 0;
 
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -65,6 +68,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                 mainGame.Render();
 
                 dwTime = GetTickCount64();
+                iWheelScroll = 0;
             }
         }
     }
@@ -130,6 +134,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         DestroyWindow(hWnd);
         break;
 #pragma endregion 
+    case WM_MOUSEWHEEL:
+    {
+        iWheelScroll = (GET_WHEEL_DELTA_WPARAM(wParam));
+    }
+    break;
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);

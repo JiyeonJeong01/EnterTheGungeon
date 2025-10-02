@@ -21,12 +21,17 @@ public:
 	void Initialize_Stage01();
 	void Initialize_Stage02();
 	void Initialize_Store();
+	void Initialize_BossStage();
 	void Render_SpawnEffect(HDC hDC, int iX, int iY);
 
 public :
 	void Logic_Stage01();
 	void Logic_Stage02();
 	void Logic_Store();
+	void Logic_BossStage();
+
+public :
+	void On_BossDead();
 
 private :
 	void Prepare_Stage02();
@@ -62,6 +67,7 @@ private :
 
 private :
 	CPlayer* pPlayer;
+	CMob* pGuideNPC;
 
 private :
 	int iCurrentKillCount;
@@ -98,7 +104,7 @@ private :
 	RECT rTransitBound03 = { 1550, 1450,1700, 1650 };
 
 	//							stage _ num
-	RECT rSpawnTrigger01_01; // for npc
+	RECT rSpawnTrigger01_01 = { 4850, 1130, 5000, 1200 };
 	RECT rSpawnTrigger01_02 = { 4000, 2500, 5000, 2550 };	 // 첫번째 스폰 - mob01 4마리 + mob02 1마리
 
 	RECT rSpawnTrigger02_01 = { 520, 528, 700, 600 }; 
@@ -116,5 +122,26 @@ private :
 	Vector2 vSpawnPos02_03[5] = { { 3500, 1810 }, { 3500, 2222 }, { 2500, 2222 }, { 2145, 1800 }, {2430, 1500} };
 	Vector2 vSpawnPos02_04[3] = { { 5550, 2300 }, { 6080, 2300 }, { 6500, 2280 }};
 
+
+private :
+	bool bPlayAnim;
+	DWORD dwAnimElapsedTime;
+	int iCol;
+	int iMaxCol = 9;
+	int iSizeX = 151, iSizeY = 300;
+	POINT pPortalAnimPos;
+
+private :
+	bool bPlaySpawnAnim;
+	DWORD dwSpawnAnimElapsedTime;
+	int iSpawnCol;
+	int iMaxSpawnCol = 16;
+	int iSpawnSizeX = 220, iSpawnSizeY = 220;
+	POINT pSpawnAnimPos;
+	Vector2 vSpawnPos;
+
+	private :
+		bool bClearStage;
+		bool bReward;
 };
 

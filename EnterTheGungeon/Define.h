@@ -6,6 +6,7 @@
 #define PI 3.141592
 
 extern HWND g_hWnd;
+extern int iWheelScroll;
 
 #define MANAGER(objType, eType) static_cast<objType>(CManager::Get_Manager(eType))
 

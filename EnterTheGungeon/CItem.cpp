@@ -13,6 +13,11 @@
 DWORD CItem::dwLastPurchasedTime = 0;
 bool CItem::bFree = false;
 
+CItem::~CItem()
+{
+	Release();
+}
+
 void CItem::Load_Resource()
 {
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Objects/Coin.bmp", L"Coin");
@@ -22,6 +27,7 @@ void CItem::Load_Resource()
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/Cartridge_UI.bmp", L"Cartridge_UI");
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Objects/Chest.bmp", L"Chest");
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/Medkit.bmp", L"Medkit");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Objects/Boomerang.bmp", L"Boomerang");
 }
 
 void CItem::Initialize()
@@ -31,7 +37,9 @@ void CItem::Initialize()
 	bCanUse = false;		// Can be used only after the player obtains this item
 	bCanInteract = false;
 	bObtained = false;
-	iAnimCol = 0;
+	iAnimCol = iAnimRow =0;
+
+	bAlive = true;
 
 	bForSell = bDisplayInfo = false;
 	bDisplayPopup = bDisplaySuccessPopup = bDisplayFailPopup = false;
@@ -48,6 +56,7 @@ void CItem::Initialize()
 
 int CItem::Update()
 {
+	if (!bAlive) return S_DEAD;
 
 	if (bObtained) return 0;
 	Detect_Player();
@@ -95,7 +104,7 @@ void CItem::Render(HDC hDC)
 		pRenderer->Right(), pRenderer->Top(),
 		(int)pRenderer->Size().X(), (int)pRenderer->Size().Y(),
 		hMemDC, 
-		(int)iAnimCol* iRealSizeX, 0,
+		(int)iAnimCol* iRealSizeX, iAnimRow,
 		iRealSizeX, iRealSizeY,
 		RGB(38, 38, 38));
 }
@@ -143,8 +152,13 @@ void CItem::Late_Initialize()
 void CItem::Drop_Item(Vector2 vDropPos)
 {
 	pTransform->Position(move(vDropPos));
+	if (bForSell)
+	{
+		rDetectBound = { rDetectBound.left / 2, rDetectBound.top, rDetectBound.right / 2, (int)(rDetectBound.bottom * 2.5f) };
+	}
 	rDetectBound = { (int)vDropPos.X() + rDetectBound.left,(int)vDropPos.Y() + rDetectBound.top,
 								(int)vDropPos.X() + rDetectBound.right, (int)vDropPos.Y() + rDetectBound.bottom };
+
 }
 
 void CItem::Get_Item()
@@ -183,8 +197,8 @@ void CItem::Show_Guide_Success(HDC hDC)
 {
 	HDC hInfoDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Dialogue");
 
-	int iRenderSizeX = 450, iRenderSizeY = 100;
-	int posX = (WINCX >> 1) - (iRenderSizeX) / 2 + 70, posY = WINCY - 100;
+	int iRenderSizeX = 490, iRenderSizeY = 130;
+	int posX = (WINCX >> 1) - (iRenderSizeX) / 2 + 80, posY = WINCY - 125;
 	GdiTransparentBlt(hDC,
 		posX, posY,
 		iRenderSizeX, iRenderSizeY,
@@ -193,17 +207,25 @@ void CItem::Show_Guide_Success(HDC hDC)
 		iPopupRealSizeX, iPopupRealSizeY,
 		RGB(53, 53, 53));
 
-	HFONT hFont = CreateFont(22, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, HANGUL_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+	HFONT hFont = CreateFont(24, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, HANGUL_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
 		DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, _T("Galmuri9 Regular")
 	);
 
 	HFONT hOldFont = (HFONT)SelectObject(hDC, hFont);
 
 	TCHAR buffer1[64];
-	swprintf_s(buffer1, 64, L"아이템을 구매했습니다");
+	if (bFree == false)
+	{
+		swprintf_s(buffer1, 64, L"아이템을 구매했습니다!");
+	}
+	else
+	{
+		swprintf_s(buffer1, 64, L"아이템을 빼앗았습니다...");
+		posX -= 4;
+	}
 	SetTextColor(hDC, RGB(0, 0, 0));
 	SetBkMode(hDC, TRANSPARENT);
-	TextOut(hDC, posX + 45, posY + 19, buffer1, lstrlen(buffer1));
+	TextOut(hDC, posX + 47, posY + 27, buffer1, lstrlen(buffer1));
 
 	SelectObject(hDC, hOldFont);
 	DeleteObject(hFont);
@@ -213,8 +235,8 @@ void CItem::Show_Guide_Fail(HDC hDC)
 {
 	HDC hInfoDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Dialogue");
 
-	int iRenderSizeX = 450, iRenderSizeY = 100;
-	int posX = (WINCX >> 1) - (iRenderSizeX) / 2 + 70, posY = WINCY - 100;
+	int iRenderSizeX = 490, iRenderSizeY = 130;
+	int posX = (WINCX >> 1) - (iRenderSizeX) / 2 + 80, posY = WINCY - 125;
 	GdiTransparentBlt(hDC,
 		posX, posY,
 		iRenderSizeX, iRenderSizeY,
@@ -223,17 +245,17 @@ void CItem::Show_Guide_Fail(HDC hDC)
 		iPopupRealSizeX, iPopupRealSizeY,
 		RGB(53, 53, 53));
 
-	HFONT hFont = CreateFont(22, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, HANGUL_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+	HFONT hFont = CreateFont(24, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, HANGUL_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
 		DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, _T("Galmuri9 Regular")
 	);
 
 	HFONT hOldFont = (HFONT)SelectObject(hDC, hFont);
 
 	TCHAR buffer1[64];
-	swprintf_s(buffer1, 64, L"코인이 부족합니다");
+	swprintf_s(buffer1, 64, L"코인이 부족합니다.");
 	SetTextColor(hDC, RGB(0, 0, 0));
 	SetBkMode(hDC, TRANSPARENT);
-	TextOut(hDC, posX + 65, posY + 19, buffer1, lstrlen(buffer1));
+	TextOut(hDC, posX + 67, posY + 27, buffer1, lstrlen(buffer1));
 
 	SelectObject(hDC, hOldFont);
 	DeleteObject(hFont);

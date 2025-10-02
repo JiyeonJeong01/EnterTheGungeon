@@ -33,6 +33,7 @@ public :
 	void Initialize_PlayerComponents();
 	void Handle_Input();
 	void Finist_Reloading();
+	void Check_Invincible();
 
 public :
 	void OnCollision(CObject* pObj, Vector2 vDiff) override;
@@ -63,6 +64,11 @@ public :
 	int iHP;
 	int iMaxHP;
 
+	// 닷지 시 무적 상태
+	float fInvincibleTime;
+	DWORD dwInvincibleTime;
+	bool bInvincible;
+
 private :
 	CPlayerStateMachine* pStateMachine;
 	CState* pCurrentState;
@@ -74,5 +80,7 @@ public :
 	CReloadBar* pReloadBar;
 	CPlayerInfo* pPlayerInfo;
 
+public :
+	bool iCartridgeUsed;
 };
 

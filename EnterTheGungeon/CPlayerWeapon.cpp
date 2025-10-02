@@ -100,12 +100,20 @@ void CPlayerWeapon::Shotgun_Attack()
 	MANAGER(CSoundManager*, M_SOUND)->StopSound(SOUND_EFFECT);
 	MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"Player_Shot02.wav", SOUND_EFFECT, 1.f);
 
+	POINT curPos = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
+	Vector2 curRealPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RealPos({ (float)curPos.x, (float)curPos.y });
+
+	Vector2 originDir = { pOwner->Get_Transform()->Position().X() - (float)curRealPos.X(),  pOwner->Get_Transform()->Position().Y() - (float)curRealPos.Y() };
+	originDir.Normalize();
+
+	Vector2 vOffset = { originDir.X() * 20.f,  originDir.Y() };
+
 	CPlayerBullet* pBullet1 = dynamic_cast<CPlayerBullet*>(CObjectFactory<CPlayerBullet>::Create(
-		O_PLBULLET, pOwner->Get_Transform()->Position().X(), pOwner->Get_Transform()->Position().Y()));
+		O_PLBULLET, pOwner->Get_Transform()->Position().X() - originDir.X() * 50.f, pOwner->Get_Transform()->Position().Y()));
 	CPlayerBullet* pBullet2 = dynamic_cast<CPlayerBullet*>(CObjectFactory<CPlayerBullet>::Create(
-		O_PLBULLET, pOwner->Get_Transform()->Position().X(), pOwner->Get_Transform()->Position().Y()));
+		O_PLBULLET, pOwner->Get_Transform()->Position().X() - originDir.X() * 50.f, pOwner->Get_Transform()->Position().Y()));
 	CPlayerBullet* pBullet3 = dynamic_cast<CPlayerBullet*>(CObjectFactory<CPlayerBullet>::Create(
-		O_PLBULLET, pOwner->Get_Transform()->Position().X(), pOwner->Get_Transform()->Position().Y()));
+		O_PLBULLET, pOwner->Get_Transform()->Position().X() - originDir.X() * 50.f, pOwner->Get_Transform()->Position().Y()));
 
 	pBullet1->Set_BulletType(CBullet::B01);
 	pBullet1->Set_EffectType(CBullet::E05);
@@ -122,11 +130,6 @@ void CPlayerWeapon::Shotgun_Attack()
 	pBullet3->Apply_BulletSprite();
 	pBullet3->Apply_EffectAnim();
 
-	POINT curPos = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
-	Vector2 curRealPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RealPos({ (float)curPos.x, (float)curPos.y });
-
-	Vector2 originDir = { pOwner->Get_Transform()->Position().X() - (float)curRealPos.X(),  pOwner->Get_Transform()->Position().Y() - (float)curRealPos.Y() };
-	originDir.Normalize();
 	pBullet1->Set_Direction(originDir * -1.f);
 	pBullet1->Set_Speed(17.f);
 	pBullet1->Set_ObjType(O_PLBULLET);

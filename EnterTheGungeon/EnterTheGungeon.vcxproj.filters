@@ -244,6 +244,15 @@
     <Filter Include="25. Map\04. Elavator">
       <UniqueIdentifier>{faba37d4-7c92-4e26-9299-03a0ee6babbe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="23. Item\06. Boomerang">
+      <UniqueIdentifier>{35fdb118-c66c-45c8-b231-07b1ec84e1f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\12. VfxManager">
+      <UniqueIdentifier>{ab33ca38-c0f1-41e3-a00e-d38cdd75274e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. NPC\01. EndingGuide">
+      <UniqueIdentifier>{cc771a4f-4fae-4c1e-b22f-6a41a1e4f082}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -615,6 +624,21 @@
     <ClInclude Include="CElavator.h">
       <Filter>25. Map\04. Elavator</Filter>
     </ClInclude>
+    <ClInclude Include="CBoomerang.h">
+      <Filter>23. Item\06. Boomerang</Filter>
+    </ClInclude>
+    <ClInclude Include="CVfx.h">
+      <Filter>03. Manager\12. VfxManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CVfxManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CEndingGuide.h">
+      <Filter>06. NPC\00. TutorialGuide</Filter>
+    </ClInclude>
+    <ClInclude Include="CFinalChest.h">
+      <Filter>23. Item\04. Chest</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -973,6 +997,21 @@
     </ClCompile>
     <ClCompile Include="CElavator.cpp">
       <Filter>25. Map\04. Elavator</Filter>
+    </ClCompile>
+    <ClCompile Include="CBoomerang.cpp">
+      <Filter>23. Item\06. Boomerang</Filter>
+    </ClCompile>
+    <ClCompile Include="CVfx.cpp">
+      <Filter>03. Manager\12. VfxManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CVfxManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CEndingGuide.cpp">
+      <Filter>06. NPC\00. TutorialGuide</Filter>
+    </ClCompile>
+    <ClCompile Include="CFinalChest.cpp">
+      <Filter>23. Item\04. Chest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,7 @@
 void CMobBullet::Initialize()
 {
 	CBullet::Initialize();
-	eType = O_PLBULLET;
+	eType = O_ENBULLET;
 	pRenderer->rType = RND__GAMEBOJECT;
 
 	pTransform->Size({ 30.f, 30.f });

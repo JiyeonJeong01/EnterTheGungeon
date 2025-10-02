@@ -172,6 +172,14 @@ void CBullet::Apply_EffectAnim()
         effetAnimKey = L"BulletEffect05";
         effectAnim.Initialize(0, 3, 0);
         break;
+    case CBullet::E06:
+        effetAnimKey = L"BulletEffect06";
+        effectAnim.Initialize(0, 4, 0);
+        break;
+    case CBullet::E07:
+        effetAnimKey = L"BulletEffect07";
+        effectAnim.Initialize(0, 4, 0);
+        break;
     }
     fill(effectAnim.vTransitTime.begin(), effectAnim.vTransitTime.end(), 40);
 }

@@ -5,6 +5,8 @@
 #include "CRenderer.h"
 #include"CCollider.h"
 
+#include "CSoundManager.h"	
+
 int CCoin::Update()
 {
 	CItem::Update();
@@ -49,6 +51,7 @@ void CCoin::Get_Item()
 	// TODO : pplayer의 인벤토리 받아오기!!!! 
 	bObtained = true;
 	pPlayer->pInventory->Set_Coin(pPlayer->pInventory->Get_Coin() + 10);
+	MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"coin_medium_01.wav", SOUND_EFFECT, 1.f);
 }
 
 void CCoin::Apply_ItemEffect()

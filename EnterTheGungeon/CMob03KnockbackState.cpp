@@ -10,6 +10,7 @@
 #include "CStateMachine.h"
 #include "CMobBullet.h"
 #include "CObjectFactory.h"
+#include "CSoundManager.h"
 #pragma endregion
 
 CMob03KnockbackState::CMob03KnockbackState(CObject* pObj, CStateMachine* pStateMachine)
@@ -75,6 +76,8 @@ void CMob03KnockbackState::Exit()
 
 void CMob03KnockbackState::Enter()
 {
+	//MANAGER(CSoundManager*, M_SOUND)->StopSound(SOUND_EFFECT);
+	MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"beholster_hurt_01.wav", SOUND_EFFECT, 1.f);
 	dwCurrentStateElapsedTime = GetTickCount();
 	Detect_Player();
 	pObj->Get_Transform()->Direction(vDirToPlayer * -1.f);

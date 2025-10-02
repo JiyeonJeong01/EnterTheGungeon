@@ -8,7 +8,7 @@
 #include "CTransform.h"
 #include "CPlayer.h"
 #include "CStateMachine.h"
-
+#include "CPlayerWeapon.h"
 #pragma endregion
 
 void CPlayerIdleState::Initialize()
@@ -37,12 +37,16 @@ void CPlayerIdleState::Late_Update()
 
 void CPlayerIdleState::Render(HDC hDC)
 {
+	CPlayerState::Render_Player(hDC);
+	CWeapon::WeaponType wType = static_cast<CPlayer*>(pObj)->pWeapon->Get_WeaponType();
+	const TCHAR* animKey = (wType == CWeapon::PG01) ? L"Player_Weapon01" : L"Player_Weapon02";
 	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Player_IDLE");
-	HDC hWeaponDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Player_Weapon01");
+	HDC hWeaponDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(animKey);
 
 	CRenderer renderer = *(pObj->Get_Renderer());
 
 	int iGunLeftPos = (iWeaponRowIndex == 0) ? 30 : -40;
+	int iShotLeftPos = (iWeaponRowIndex == 0) ? 60 : -10;
 
 	GdiTransparentBlt(hDC,
 		renderer.Left() + iGunLeftPos,
@@ -54,6 +58,29 @@ void CPlayerIdleState::Render(HDC hDC)
 		(int)73,
 		(int)90,
 		RGB(30, 30, 30));
+
+	if (bShouldShotEffect && !bEndShotEffect)
+	{
+		HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Shot");
+
+		if (dwShotAnimElapsedTime + 200 < GetTickCount())
+		{
+			iShotCol++;
+			if (iShotCol > 2)
+			{
+				bEndShotEffect = true;
+			}
+		}
+
+		GdiTransparentBlt(hDC,
+			renderer.Left() + iGunLeftPos + iShotLeftPos,
+			renderer.Top() + Get_WeaponPos()  +iShotOffsetY,
+			iShotEffectSizeX * 0.8f, iShotEffectSizeY * 0.8f, 
+			hMemDC,
+			iShotCol * iShotEffectSizeX, 0,
+			iShotEffectSizeX, iShotEffectSizeY, 
+			RGB(32, 32, 32));
+	}
 
 	GdiTransparentBlt(hDC,
 		renderer.Left(),
@@ -98,7 +125,7 @@ int CPlayerIdleState::Dir_AnimRow(Direction eDir)
 {
 	switch (eDir)
 	{
-	case D_UP: return 0;
+	case D_UP:  return 0;
 	case D_UL: return 1;
 	case D_UR: return 2;
 	case D_DOWN: return 3;

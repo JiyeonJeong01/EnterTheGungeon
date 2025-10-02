@@ -1,6 +1,7 @@
 #pragma once
 #include "CScene.h"
 class CPlayer;
+class CMobOwner;
 class CMapGround;
 class CMap;
 class CStoreScene :public CScene
@@ -28,6 +29,7 @@ private:
 
 public:
 	CPlayer* pPlayer;
+	CMobOwner* pOwner;
 	list<CMap*> mapObjList;
 	list<CMapGround*> mapList;
 
@@ -40,10 +42,9 @@ private:
 	Vector2 vRealPos = { 1525, 1435 };
 
 private:
-	vector<Vector2> vTablePos01 = { {4460, 1100}, { 4460, 1380 }, { 5420, 1100 }, { 5420, 1380 } };
+	vector<Vector2> vTablePos01 = { {1811, 1078}, { 1811, 1380 }, { 2192, 1078 }, { 2192, 1380 } };
 
 	POINT pPlayerPos = { 1630, 1540 };
-	// POINT pPlayerPos = { 1630, 1150 };
-	POINT pOwnerPos = { 1100, 1059 };
+	POINT pOwnerPos = { 1120, 1059 };
 };
 

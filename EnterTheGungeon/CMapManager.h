@@ -36,10 +36,10 @@ public :
 	list<CMapObject*>* Get_MapObjList() { return &pCurObjCollider; }
 
 public :
-	CButton* pStartEditButton;
-	CButton* pSaveButton;
-	CButton* pClearButton;
-	CButton* pTransEditButton;
+	//CButton* pStartEditButton;
+	//CButton* pSaveButton;
+	//CButton* pClearButton;
+	//CButton* pTransEditButton;
 
 	list<RECT> tempRectList;
 	list<CMap*> pCurMapCollider;

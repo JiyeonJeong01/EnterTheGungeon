@@ -14,7 +14,7 @@ void CElavator::Initialize()
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Objects/BulletElevator.bmp", L"BulletElevator");
 
 	eType = O_INTERACTABLE;
-	pRenderer->rType = RND__UI;
+	pRenderer->rType = RND__GAMEBOJECT;
 
 	eState = Rising;
 	dwElavatorElapsedTime = GetTickCount();
@@ -82,13 +82,13 @@ void CElavator::Update_AnimFrame()
 			if (iAnimCol == 0)
 			{
 				eState = Opening;
-				iAnimRow = 3;
+				iAnimRow = 2;
 				iMaxAnimCol = 5;
 			}
 		}
 		else if (eState == Opening)
 		{
-			if ( iAnimCol <= iMaxAnimCol)
+			if ( iAnimCol < iMaxAnimCol)
 			{
 				iAnimCol++;
 			}

@@ -135,6 +135,7 @@
     <ClInclude Include="CBmp.h" />
     <ClInclude Include="CBmpManager.h" />
     <ClInclude Include="CBomb.h" />
+    <ClInclude Include="CBoomerang.h" />
     <ClInclude Include="CBoss.h" />
     <ClInclude Include="CBossBullet.h" />
     <ClInclude Include="CBossCheeseAttackState.h" />
@@ -156,6 +157,8 @@
     <ClInclude Include="CCollisionManager.h" />
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CElavator.h" />
+    <ClInclude Include="CEndingGuide.h" />
+    <ClInclude Include="CFinalChest.h" />
     <ClInclude Include="CGuide.h" />
     <ClInclude Include="CInputKeyInfo.h" />
     <ClInclude Include="CInputManager.h" />
@@ -242,6 +245,8 @@
     <ClInclude Include="CTestSCene.h" />
     <ClInclude Include="CTransform.h" />
     <ClInclude Include="CUIManager.h" />
+    <ClInclude Include="CVfx.h" />
+    <ClInclude Include="CVfxManager.h" />
     <ClInclude Include="CWeapon.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="EnterTheGungeon.h" />
@@ -260,6 +265,7 @@
     <ClCompile Include="CBmp.cpp" />
     <ClCompile Include="CBmpManager.cpp" />
     <ClCompile Include="CBomb.cpp" />
+    <ClCompile Include="CBoomerang.cpp" />
     <ClCompile Include="CBoss.cpp" />
     <ClCompile Include="CBossBullet.cpp" />
     <ClCompile Include="CBossCheeseAttackState.cpp" />
@@ -281,6 +287,8 @@
     <ClCompile Include="CCollisionManager.cpp" />
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CElavator.cpp" />
+    <ClCompile Include="CEndingGuide.cpp" />
+    <ClCompile Include="CFinalChest.cpp" />
     <ClCompile Include="CGuide.cpp" />
     <ClCompile Include="CInputKeyInfo.cpp" />
     <ClCompile Include="CInputManager.cpp" />
@@ -367,6 +375,8 @@
     <ClCompile Include="CTestSCene.cpp" />
     <ClCompile Include="CTransform.cpp" />
     <ClCompile Include="CUIManager.cpp" />
+    <ClCompile Include="CVfx.cpp" />
+    <ClCompile Include="CVfxManager.cpp" />
     <ClCompile Include="CWeapon.cpp" />
     <ClCompile Include="EnterTheGungeon.cpp" />
     <ClCompile Include="CManager.cpp" />

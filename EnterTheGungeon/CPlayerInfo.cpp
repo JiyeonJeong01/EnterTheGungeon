@@ -33,12 +33,6 @@ void CPlayerInfo::Initialize()
 
 int CPlayerInfo::Update()
 {
-	// for test, debugging
-	if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown('M'))
-	{
-		pPlayer->iHP--;
-	}
-
 	iPlayerHP = pPlayer->iHP;
 
 	return 0;

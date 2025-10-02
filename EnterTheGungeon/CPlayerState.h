@@ -47,4 +47,19 @@ public :
 
 	int iWeaponColIndex;
 	int iWeaponRowIndex;
+
+	bool bShouldBombEffect;
+	bool bEndBombEffect;
+	int iAnimColIndex, iAnimRowIndex;
+	DWORD dwBombAnimElapsedTime;
+	POINT pCursor;
+	int iBombEffectSize = 300;
+
+
+	bool bShouldShotEffect; 
+	bool bEndShotEffect;
+	DWORD dwShotAnimElapsedTime;
+	int iShotEffectSizeX = 43, iShotEffectSizeY = 40;
+	int iShotCol;
+	int iShotOffsetY;
 };

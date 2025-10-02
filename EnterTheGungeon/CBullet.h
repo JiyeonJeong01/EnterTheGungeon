@@ -5,8 +5,8 @@
 class CBullet :   public CObject
 {
 public :
-	enum BulletType { B01, B02, B03, B04, BossBullet, Boss_Cheese, Boss_Summon, Boss_Kunai, B_END};
-	enum EffectType { E01, E02, E03, E04, E05, E_END};
+	enum BulletType { B01, B02, B03, B04, B05, B06, BossBullet, Boss_Cheese, Boss_Summon, Boss_Kunai, B_END};
+	enum EffectType { E01, E02, E03, E04, E05, E06, E07, E_END};
 public:
 	CBullet();
 	~CBullet() override;

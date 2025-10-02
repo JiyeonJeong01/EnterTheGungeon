@@ -10,6 +10,7 @@
 #include "CTransform.h"
 #include "CPlayer.h"
 #include "CMobBullet.h"
+#include "CSoundManager.h"
 
 CGuide::CGuide()
 {
@@ -45,6 +46,8 @@ void CGuide::Initialize()
 
 	fSpeed = 0.f;
 
+	prevScriptIndex = 0;
+
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Player/Guide.bmp", L"GuideNPC");
 
 	iPanelOffsetX = iPanelOffsetX03;
@@ -66,7 +69,14 @@ void CGuide::Initialize()
 
 int CGuide::Update()
 {
+	if (prevScriptIndex != iCurScriptIndex)
+	{
+		MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"sfx_system_voice.mp3", SOUND_EFFECT, 1.f);
+		prevScriptIndex = iCurScriptIndex;
+	}
 
+
+	if (!bAlive) return ObjectState::S_DEAD;
 	switch (eGuideStep)
 	{
 	case CGuide::Move:
@@ -159,7 +169,7 @@ void CGuide::Render(HDC hDC)
 #pragma endregion
 
 #pragma region Press Key
-	if (bPlayDialogue && bPressKey)
+	if (bPlayDialogue && bPressKey && iCurScriptIndex != 13)
 	{
 		if (iCurScriptIndex == 4)
 		{
@@ -226,7 +236,7 @@ void CGuide::Render(HDC hDC)
 				dwPressKeyAnimElapsedTime = GetTickCount();
 				iPressKeyAnimCol = ++iPressKeyAnimCol % 2;
 			}
-			int iRealSizeX = 64, iRealSizeY = 40;
+			int iRealSizeX = 64, iRealSizeY = 32;
 			int iRenderSizeX = 64, iRenderSizeY = 40;
 
 			HDC hKeyDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"SpaceKey");
@@ -255,6 +265,7 @@ void CGuide::Render(HDC hDC)
 
 void CGuide::Release()
 {
+
 }
 
 void CGuide::Update_Transform()
@@ -281,11 +292,11 @@ void CGuide::Update_Dialogue()
 			iCurLetterIndex++;
 			bCanNextDialogue = false;
 		}
-		if (iCurLetterIndex >= iTotalLength && iCurScriptIndex == 13)
+		if (iCurLetterIndex >= iTotalLength && iCurScriptIndex == 13 && iAnimRow != 3)
 		{
 			bCompleteDialogue = true;
-			bPlayDialogue = false;
-			bCanDialogue = false;
+			// bPlayDialogue = false;
+			//bCanDialogue = false;
 			bPressKey = false;
 			bCanNextDialogue = false;
 			iAnimRow = 3;
@@ -347,7 +358,6 @@ void CGuide::Update_AnimFrame()
 		}
 	}
 }
-
 
 void CGuide::Guide_Move()
 {
@@ -504,9 +514,11 @@ void CGuide::Check_NextScript()
 		iCurScriptIndex = 0;
 		iTotalLength = lstrlen(szScript[iCurScriptIndex]);
 		dwDialogueElaspedTime = GetTickCount();
+		MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"sfx_system_voice.mp3", SOUND_EFFECT, 1.f);
 	}
 	else if (eGuideStep == GuideStep::Move && eGuideState == GuideState::Left && bCanNextDialogue && bMoveCompleted)
 	{
+		MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"sfx_system_voice.mp3", SOUND_EFFECT, 1.f);
 		spriteKey = L"MDKey";
 		iCurLetterIndex = 0;
 		iCurScriptIndex = 5;
@@ -560,7 +572,7 @@ void CGuide::Check_NextScript()
 	}
 	else if (eGuideStep == GuideStep::ItemUse && bCanNextDialogue && bItemUseCompleted && bUsedItem)
 	{
-		spriteKey = L"EKey";
+		spriteKey = L"QKey";
 		iCurLetterIndex = 0;
 		iCurScriptIndex = 10;
 		iCount = 0;

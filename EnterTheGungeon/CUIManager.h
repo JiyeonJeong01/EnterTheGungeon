@@ -4,6 +4,8 @@ class CObject;
 class CBoss;
 class CInventory;
 class CMouse;
+class CItem;
+
 class CUIManager :  public CManager
 {
 public :
@@ -23,7 +25,21 @@ public:
 	list<CObject*>* Get_Object(ObjectType eObject);
 
 public :
-	void Draw_Inventory(HDC hDC);
+	void Draw_BasicInventory(HDC hDC);
+	void Draw_ClosedInventory(HDC hDC);
+	void Draw_OpenedInventory(HDC hDC);
+
+	void Draw_CartridgeEffect(HDC hDC);
+	void Start_CartridgeEffect();
+
+private :
+	void Prepare_OpenInventory();
+
+
+public :
+	void Set_WheelScroll(int iDelta) { iScroll = iDelta; }
+
+
 	void Draw_BossStat(HDC hDC);
 	CMouse* Get_Mouse() { return pMouse;  }
 
@@ -39,6 +55,16 @@ public :
 	int iKey;
 	int iBomb;
 
+	// Open Inventory
+	bool bOpenInventory;
+	DWORD dwLastWheelElapsedTime;
+	int iWheelRange;
+	int iItemTypeCount;
+	map<const TCHAR*, list<CItem*>> displayInventory;
+	map<const TCHAR*, list<CItem*>>::iterator curDisplayIter;
+	map<const TCHAR*, list<CItem*>>::iterator baseDisplayIter;
+	bool bActivatedSlotTurn;
+
 	// boss
 	CBoss* pBoss;
 	bool bBossDraw;
@@ -46,5 +72,16 @@ public :
 	int iEffectIndex;
 private:
 	CMouse* pMouse;
+	int iScroll;
+
+
+private :
+	bool bShouldCartridgeAnim;
+	bool bEndCartridgeAnim;
+	DWORD dwCartridgeAnim;
+	int iCartridgeCol, iCartridgeRow;
+	int iCartridgeColMax = 5;
+	int iCartridgeSize = 300;
+
 };
 

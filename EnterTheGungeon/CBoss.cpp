@@ -72,7 +72,8 @@ int CBoss::Update()
     }
     if (iHP <= 0)
     {
-        pStateMachine->Change_State(BS_DEAD);
+        if (eCurrentState != BS_DEAD)
+            pStateMachine->Change_State(BS_DEAD);
     }
 
 	return 0;

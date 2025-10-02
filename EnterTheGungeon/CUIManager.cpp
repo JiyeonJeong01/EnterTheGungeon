@@ -5,6 +5,7 @@
 #include "CRelease.h"
 
 #include "CObjectManager.h"
+#include "CInputManager.h"
 #include "CBmpManager.h"
 #include "CSTLHelper.h"
 
@@ -31,6 +32,8 @@ void CUIManager::Initialize()
 	bDrawPlayer = false;
 	dwEffecctTime = GetTickCount();
 	iEffectIndex = 0;
+	bOpenInventory = false;
+	iWheelRange = 100;
 }
 
 void CUIManager::Update()
@@ -63,12 +66,33 @@ void CUIManager::Render(HDC hDC)
 	}
 	if (bDrawPlayer)
 	{
-		Draw_Inventory(hDC);
+		Draw_BasicInventory(hDC);
+
+		if (!MANAGER(CInputManager*, M_INPUT)->Get_Key(VK_LSHIFT) && bOpenInventory)
+		{
+			bOpenInventory = false;
+			if (bActivatedSlotTurn == false)
+			{
+				// 활성화된 아이템 바꿔주는 로직 !!
+				pInventory->Set_CurActiveItem(curDisplayIter->first);
+			}
+		}
+
+		if (MANAGER(CInputManager*, M_INPUT)->Get_Key(VK_LSHIFT))
+		{
+			if (bOpenInventory == false)
+				Prepare_OpenInventory(); /// 열기 전 사전 작업
+
+			Draw_OpenedInventory(hDC);
+		}
+		Draw_ClosedInventory(hDC);
 	}
 	if (bBossDraw)
 	{
 		Draw_BossStat(hDC);
 	}
+
+	Draw_CartridgeEffect(hDC);
 }
 
 void CUIManager::Release()
@@ -89,9 +113,8 @@ void CUIManager::Add_Object(CObject* pObj)
 	uiObjects.push_back(pObj);
 }
 
-void CUIManager::Draw_Inventory(HDC hDC)
+void CUIManager::Draw_BasicInventory(HDC hDC)
 {
-#pragma region Basic item info
 	int iX = 20, iY = 65;
 	int iSize = 27;
 	iCartridge = pInventory->Get_Cartridge();
@@ -103,8 +126,6 @@ void CUIManager::Draw_Inventory(HDC hDC)
 
 	GdiTransparentBlt(hDC, iX, iY, iSize, iSize, hCartridge, 0, 0, iSize, iSize, RGB(38, 38, 38));
 	GdiTransparentBlt(hDC, iX + iSize * 2, iY, iSize, iSize, hCoin, 0, 0, iSize, iSize, RGB(38, 38, 38));
-
-	// TODO : 키 꼭 구현하기 
 
 	// Text
 	HFONT hFont = CreateFont(
@@ -128,24 +149,258 @@ void CUIManager::Draw_Inventory(HDC hDC)
 
 	SelectObject(hDC, hOldFont);
 	DeleteObject(hFont);
-#pragma endregion
+}
 
-#pragma region ItemType
+void CUIManager::Draw_ClosedInventory(HDC hDC)
+{
 	int iFrameSizeX = 142, iFrameSizeY = 88;
 	int iFrmaeX = 30, iFrameY = 60 + iFrameSizeY;
-	HDC hItemFrame = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"WeaponType");
-
-	GdiTransparentBlt(hDC, iFrmaeX, WINCY - iFrameY, iFrameSizeX, iFrameSizeY, hItemFrame, 0, 0, iFrameSizeX, iFrameSizeY, RGB(0, 0, 0));
+	if (bActivatedSlotTurn)
+	{
+		int iOffset = 3;
+		HDC hItemFrame = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"WeaponType_Active");
+		GdiTransparentBlt(hDC, iFrmaeX, WINCY - iFrameY, iFrameSizeX + iOffset, iFrameSizeY + iOffset, hItemFrame, 0, 0, iFrameSizeX, iFrameSizeY, RGB(0, 0, 0));
+	}
+	else
+	{
+		HDC hItemFrame = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"WeaponType");
+		GdiTransparentBlt(hDC, iFrmaeX, WINCY - iFrameY, iFrameSizeX, iFrameSizeY, hItemFrame, 0, 0, iFrameSizeX, iFrameSizeY, RGB(0, 0, 0));
+	}
 
 	CItem* curItem = pInventory->Get_CurActiveItem();
+	int iOffset = bActivatedSlotTurn ? 2 : 0;
 	if (curItem != nullptr)
 	{
 		HDC hItemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(curItem->Get_ItemKey());
-		GdiTransparentBlt(hDC, iFrmaeX + 50, WINCY - iFrameY + 20, 40, 40, hItemDC, 40, 0, 40, 40, RGB(38, 38, 38));
+		GdiTransparentBlt(hDC, iFrmaeX + 42, WINCY - iFrameY + iOffset + 10, 60, 60, hItemDC, 40, 0, 40, 40, RGB(38, 38, 38));
+
+		auto iter = find_if(begin(pInventory->Get_ItemMap()), end(pInventory->Get_ItemMap()), [&](const pair< const TCHAR*, list<CItem*>>& p)->bool
+			{
+				return (lstrcmp(p.first, curItem->Get_ItemKey()) == 0);
+			});
+
+		int iItemCount = iter->second.size();
+
+		// 아이템 수량 텍스트
+		int textOffsetX = (iFrmaeX + 116), textOffsetY = (WINCY - iFrameY + iOffset + 52);
+		HFONT hFont = CreateFont(
+			18, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
+			HANGUL_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+			DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, _T("Galmuri9 Regular")
+		);
+
+		HFONT hOldFont = (HFONT)SelectObject(hDC, hFont);
+
+		TCHAR buffer[64];
+		swprintf_s(buffer, 64, _T("%d"), iItemCount);
+		SetTextColor(hDC, RGB(255, 255, 255));
+		SetBkMode(hDC, TRANSPARENT);
+		TextOut(hDC, textOffsetX, textOffsetY, buffer, lstrlen(buffer));
+
+		SelectObject(hDC, hOldFont);
+		DeleteObject(hFont);
+	}
+}
+
+void CUIManager::Draw_OpenedInventory(HDC hDC)
+{
+	// 스크롤 시 하이라이트된 슬롯 변경하기 위한 입력 받기
+	if (iWheelScroll > 0 && (dwLastWheelElapsedTime + iWheelRange < GetTickCount()))
+	{
+		dwLastWheelElapsedTime = GetTickCount();
+		if (displayInventory.empty())
+			return;
+		if (!bActivatedSlotTurn) // 평상시 동작
+		{
+			if (curDisplayIter == displayInventory.end())
+			{
+				bActivatedSlotTurn = true;
+			}
+			else
+			{
+				++curDisplayIter;
+				if (curDisplayIter == displayInventory.end())
+				{
+					bActivatedSlotTurn = true;
+				}
+			}
+		}
+		else
+		{
+			bActivatedSlotTurn = false;
+			if (curDisplayIter == displayInventory.end())
+				curDisplayIter = displayInventory.begin();
+		}
 	}
 
+#pragma region ui 값
+	int iFrameSizeX = 142, iFrameSizeY = 88;
+	int iFrmaeX = 30, iFrameY = 60 + iFrameSizeY;
+	int iSmallFrameSizeX = 100, iSmallFrameSizeY = 60;
+	int iSmallFrameRenderX = iFrmaeX, iSmallFrameRenderY = WINCY - iFrameY - iSmallFrameSizeY;
+	int renderIndex = 0;
 #pragma endregion
 
+	HDC hItemFrame = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"WeaponType");
+	HDC hActiveItemFrame = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"WeaponType_Active");
+
+	for (auto& pair : displayInventory)
+	{
+		const TCHAR* key = pair.first;
+		const auto& items = pair.second;
+
+		if (items.empty())
+			continue;
+
+		int iItemCount = items.size();
+
+		int frameX = iSmallFrameSizeX;
+		int frameY = iSmallFrameSizeY;
+		int renderX = iSmallFrameRenderX;
+		int renderY = iSmallFrameRenderY - 5 - (renderIndex * (iSmallFrameSizeY + 6));
+
+		HDC hFrameDC = hItemFrame; 
+
+		if (curDisplayIter != displayInventory.end())
+		{
+			if (!bActivatedSlotTurn) // 활성화된 아이템이 하이라이트되지 않은 경우
+			{
+				// 활성화된 슬롯 
+				if (wcscmp(curDisplayIter->first, key) == 0)
+				{
+					frameX = static_cast<int>(iSmallFrameSizeX * 1.2f);
+					frameY = static_cast<int>(iSmallFrameSizeY * 1.2f);
+					renderY -= (frameY - iSmallFrameSizeY) / 2;
+					hFrameDC = hActiveItemFrame;
+				}
+			}
+		}
+
+		// 프레임 그리기
+		GdiTransparentBlt(hDC,
+			renderX, renderY, frameX, frameY,
+			hFrameDC,
+			0, 0, iFrameSizeX, iFrameSizeY,
+			RGB(0, 0, 0));
+
+		HDC hItemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(key);
+
+		int itemWidth = 40, itemHeight = 40;
+		int itemOffsetX = (frameX - itemWidth) / 2, itemOffsetY = (frameY - itemHeight) / 2;
+
+		// 아이템 그리기
+		GdiTransparentBlt(hDC,
+			renderX + itemOffsetX,  renderY + itemOffsetY,
+			itemWidth, itemHeight,
+			hItemDC,
+			itemWidth, 0,
+			itemWidth, itemHeight,
+			RGB(38, 38, 38));
+
+		// 아이템 수량 텍스트
+		int textOffsetX = (itemOffsetX + 49), textOffsetY = (itemOffsetY + 25);
+		HFONT hFont = CreateFont(
+			14, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
+			HANGUL_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+			DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, _T("Galmuri9 Regular")
+		);
+
+		HFONT hOldFont = (HFONT)SelectObject(hDC, hFont);
+
+		TCHAR buffer[64];
+		swprintf_s(buffer, 64, _T("%d"), iItemCount);
+		SetTextColor(hDC, RGB(255, 255, 255));
+		SetBkMode(hDC, TRANSPARENT);
+		TextOut(hDC, renderX + textOffsetX, renderY + textOffsetY, buffer, lstrlen(buffer));
+
+		SelectObject(hDC, hOldFont);
+		DeleteObject(hFont);
+
+
+		renderIndex++;
+	}
+}
+
+void CUIManager::Draw_CartridgeEffect(HDC hDC)
+{
+	if (bShouldCartridgeAnim && !bEndCartridgeAnim)
+	{
+		if (dwCartridgeAnim + 40 < GetTickCount())
+		{
+			iCartridgeCol++;
+			dwCartridgeAnim = GetTickCount();
+
+			if (iCartridgeCol > iCartridgeColMax)
+			{
+				if (iCartridgeRow == 0)
+				{
+					iCartridgeCol = 0;
+					iCartridgeRow = 1;
+				}
+				else
+				{
+					bEndCartridgeAnim = true;
+				}
+			}
+		}
+
+		HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Cartridge_Effect");
+		this;
+
+		GdiTransparentBlt(hDC,
+			(WINCX >> 1) - iCartridgeSize,
+			(WINCY >> 1) - iCartridgeSize,
+			iCartridgeSize*2, iCartridgeSize*2,
+			hMemDC,
+			iCartridgeCol * iCartridgeSize,
+			iCartridgeRow * iCartridgeSize,
+			iCartridgeSize, iCartridgeSize,
+			RGB(32, 32, 32));
+	}
+}
+
+void CUIManager::Start_CartridgeEffect()
+{
+	bShouldCartridgeAnim = true;
+	bEndCartridgeAnim = false;
+	iCartridgeCol = iCartridgeRow = 0;
+	dwCartridgeAnim = GetTickCount();
+}
+
+void CUIManager::Prepare_OpenInventory()
+{
+	bOpenInventory = true;
+	bActivatedSlotTurn = true;
+	dwLastWheelElapsedTime = GetTickCount();
+	displayInventory.clear();
+
+	int iCurrentIndex = 0;
+	int iItemTypeCount = 3; // 테스트 !
+
+	for (auto item : pInventory->Get_ItemMap())
+	{
+		const auto& key = item.first;
+		if (key == nullptr) continue;
+
+
+		if (wcscmp(key, L"Coin") == 0 || wcscmp(key, L"Cartridge") == 0)
+			continue;
+
+		if (pInventory->Get_CurActiveItem() != nullptr && pInventory->Get_CurActiveItem()->Get_ItemKey() == key)
+			continue;
+
+		int itemCount = item.second.size();
+		if (itemCount > 0)
+		{
+			iItemTypeCount++;
+			displayInventory.insert(item);
+		}
+
+		iCurrentIndex++;
+	}
+	
+	baseDisplayIter =  displayInventory.begin();
+	curDisplayIter = displayInventory.end();
 }
 
 void CUIManager::Draw_BossStat(HDC hDC)

@@ -98,7 +98,7 @@ void CSoundManager::SetChannelVolume(CHANNELID eID, float fVolume)
 void CSoundManager::LoadSoundFile()
 {
 	_finddata_t fd;
-	intptr_t lHandle = _findfirst("../Sound/*.wav", &fd);
+	intptr_t lHandle = _findfirst("../Sound/*.*", &fd);
 	if (lHandle == -1) return;
 
 	int iResult = 0;

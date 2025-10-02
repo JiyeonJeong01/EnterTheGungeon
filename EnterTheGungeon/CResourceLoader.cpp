@@ -39,6 +39,25 @@ void CResourceLoader::Load_Resource()
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/SpaceKey.bmp", L"SpaceKey");
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/LeftClick.bmp", L"LeftClick");
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/RightClick.bmp", L"RightClick");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Objects/LastChest.bmp", L"LastChest");
+
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/UI/WeaponType_Active.bmp", L"WeaponType_Active");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Objects/Logo.bmp", L"Jusin");
+
+
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Vfx/Bomb_Effect.bmp", L"Bomb_Effect");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Vfx/Bullet_R01.bmp", L"Bullet_R01");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Vfx/Bullet_R02.bmp", L"Bullet_R02");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Vfx/BulletEffect06.bmp", L"BulletEffect06");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Vfx/BulletEffect07.bmp", L"BulletEffect07");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Vfx/Cartridge_Effect.bmp", L"Cartridge_Effect");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Vfx/Heal.bmp", L"Heal");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Vfx/Hit.bmp", L"Hit");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Vfx/Shot.bmp", L"Shot");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Vfx/Teleport.bmp", L"TeleportEffect");
+
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Enemy/Monster_Spawn.bmp", L"Monster_Spawn");
+
 
 
 	CWeapon::Load_Resource();

@@ -18,8 +18,8 @@ CWeapon::~CWeapon()
 
 void CWeapon::Load_Resource()
 {
-	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Weapon/Player_Weapon01.bmp", L"Player_Weapon01");
-
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Weapon/Player_Weapon.bmp", L"Player_Weapon01");
+	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Weapon/Player_Weapon02.bmp", L"Player_Weapon02");
 }
 
 void CWeapon::Initialize()

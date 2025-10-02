@@ -1,6 +1,9 @@
 #pragma once
 class CPlayer;
 class CItem;
+
+const int iTotalItem = 36;
+
 class CInventory
 {
 public :
@@ -17,9 +20,6 @@ public :
 	void Add_Item(const TCHAR* itemKey, CItem* pItem);
 
 public :
-	void Draw_Inventory(HDC hDC);
-
-public :
 	int Get_Cartridge() const { return iCartridge; }
 	void Set_Cartridge(int count) { iCartridge = count; }
 
@@ -31,8 +31,10 @@ public :
 	void Set_Key(int count) { iKey = count; }
 
 	CItem* Get_CurActiveItem() { return curActiveItem;  }
+	void Set_CurActiveItem(const TCHAR* itemKey);
+	int Get_CurActiveItemIndex() { return iCurActiveItemIndex; }
 
-	map<const TCHAR*, list <CItem*>*>* Get_ItemMap() { return &itemMap; }
+	array<pair<const TCHAR*, list <CItem*>>, iTotalItem>& Get_ItemMap() { return itemArray; }
 
 private :
 	CPlayer* pPlayer;
@@ -41,9 +43,15 @@ private :
 	int iCoin;
 	int iKey;
 	int iBomb;
+	int iMedkit;
 
 private :
-	map<const TCHAR*, list<CItem*>*> itemMap;
+	array<pair<const TCHAR*, list<CItem*>>, iTotalItem> itemArray = {};
+	const TCHAR* szCurItemKey;
 	CItem* curActiveItem;
+
+public :
+	int iCurActiveItemIndex;
+	int iCurItemCount;
 };
 

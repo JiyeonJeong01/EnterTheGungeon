@@ -60,9 +60,11 @@ void CPlayer::Initialize()
     eType = O_PLAYER;
 
     bReloading = false;
-
+    fInvincibleTime = 0.5f;
     iMaxHP = 6;
     iHP = iMaxHP;
+    dwInvincibleTime = GetTickCount();
+    bInvincible = false;
 
     Initialize_PlayerComponents();
     bCanShotBomb = false;
@@ -76,6 +78,13 @@ int CPlayer::Update()
 {
     Handle_Input();
     Update_Renderer();
+    Check_Invincible();
+
+    if (eCurrentState == PS_DODGE)
+    {
+        bInvincible = true;
+        printf("닷지라 무적 상태\n");
+    }
 
     pCurrentState->Update();
     pInventory->Update();
@@ -97,7 +106,7 @@ void CPlayer::Render(HDC _hDC)
     CObject::Render(_hDC);
 
     pCurrentState->Render(_hDC);
-    pInventory->Draw_Inventory(_hDC);
+   // pInventory->Draw_Inventory(_hDC);
 }
 
 void CPlayer::Release()
@@ -120,6 +129,15 @@ void CPlayer::Update_Renderer()
     CObject::Update_Renderer();
 }
 
+void CPlayer::Check_Invincible()
+{
+    if (bInvincible && dwInvincibleTime + fInvincibleTime * 1000 < GetTickCount())
+    {
+        dwInvincibleTime = GetTickCount();
+        bInvincible = false;
+    }
+}
+
 void CPlayer::OnCollision(CObject* pObj, Vector2 vDiff)
 {
     ObjectType type = pObj->Get_ObjType();
@@ -132,7 +150,19 @@ void CPlayer::OnCollision(CObject* pObj, Vector2 vDiff)
 
 void CPlayer::OnCollision_EnBullet(CObject* pObj, Vector2 vDiff)
 {
-    iHP = (iHP - 1 <= 0 ? 0 : iHP - 1);
+    if (!bInvincible)
+    {
+        bInvincible = true;
+        dwInvincibleTime = GetTickCount();
+        iHP--;
+        if (iHP <= 0)
+        {
+            iHP = 0;
+            // pStateMachine->Change_State(PS_DEAD);
+        }
+        printf("플레이어 현재 체력 : %d\n", iHP);
+
+    }
 }
 
 void CPlayer::Set_ShotMode(PlayerAttack attack)

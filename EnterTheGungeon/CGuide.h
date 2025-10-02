@@ -63,7 +63,7 @@ private :
 		L"Q 키로는 모든 총알을 삭제하는\n 카트리지를 사용할 수 있어",// 10
 		L"Ctrl  키로 무기를 교체할 수 있는데\n이후에 시도해봐!",// 11
 		L"좋아 이제 다 알려준 거 같은데...", //12
-		L"너의 모험이\n성공적으로 끝나길 바랄게!!" // 13
+		L"그대의 모험이\n성공적으로 끝나길 바라네!!" // 13
 	};
 
 	TCHAR szTmp[64] = { 0 };
@@ -123,5 +123,7 @@ private :
 	const int iMaxCount = 200;
 	const TCHAR* spriteKey;
 
+private :
+	int prevScriptIndex;
 };
 

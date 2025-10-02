@@ -46,11 +46,6 @@ void CStage01::Initialize()
 	eScene = SC_STAGE01;
 	POINT pPlayerPos = { 4918, 1050 };
 	pPlayer = dynamic_cast<CPlayer*>(CObjectFactory<CPlayer>::Create(O_PLAYER, pPlayerPos.x, pPlayerPos.y));
-	
-	// 가이드!!
-	CObjectFactory<CGuide>::Create(O_ENEMY, pPlayerPos.x + 100, pPlayerPos.y + 300);
-
-
 
 	MANAGER(CEnvironmentManager*, M_MAP)->Initialize();
 	MANAGER(CCameraManager*, M_CAMERA)->Set_LookAt({ (float)pPlayerPos.x, (float)pPlayerPos.y });
@@ -63,9 +58,7 @@ void CStage01::Initialize()
 
 	MANAGER(CStageManager*, M_STAGE)->Initialize_Stage01();
 
-	// 엘레베이터 배치!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	CObjectFactory<CElavator>::Create(O_INTERACTABLE, pPlayerPos.x-200, pPlayerPos.y-250);
-
 }
 
 void CStage01::Update()
@@ -100,7 +93,7 @@ void CStage01::Render(HDC _hDC)
 	MANAGER(CUIManager*, M_UI)->Render(_hDC);
 
 #pragma region DEBUG
-	MANAGER(CStageManager*, M_STAGE)->Render(_hDC);
+	 MANAGER(CStageManager*, M_STAGE)->Render(_hDC);
 #pragma endregion
 
 }
@@ -166,15 +159,15 @@ void CStage01::Place_Objects()
 
 
 	// 테스트용 아이템 생성 
-	POINT pPlayerPos = { 4918, 810 };
-	CItem* pItem1 = static_cast<CItem*>(CObjectFactory<CBomb>::Create(O_ITEM));
-	pItem1->Drop_Item({ (float)pPlayerPos.x, (float)pPlayerPos.y });
-	CItem* pItem2 = static_cast<CItem*>(CObjectFactory<CBomb>::Create(O_ITEM));
-	pItem2->Drop_Item({ (float)pPlayerPos.x -100, (float)pPlayerPos.y -100 });
-	CItem* pItem3 = static_cast<CItem*>(CObjectFactory<CCartridge>::Create(O_ITEM));
-	pItem3->Drop_Item({ (float)pPlayerPos.x -200, (float)pPlayerPos.y });
-	CItem* pItem4 = static_cast<CItem*>(CObjectFactory<CCartridge>::Create(O_ITEM));
-	pItem4->Drop_Item({ (float)pPlayerPos.x - 50, (float)pPlayerPos.y - 70 });
+	//POINT pPlayerPos = { 4918, 810 };
+	//CItem* pItem1 = static_cast<CItem*>(CObjectFactory<CBomb>::Create(O_ITEM));
+	//pItem1->Drop_Item({ (float)pPlayerPos.x, (float)pPlayerPos.y });
+	//CItem* pItem2 = static_cast<CItem*>(CObjectFactory<CBomb>::Create(O_ITEM));
+	//pItem2->Drop_Item({ (float)pPlayerPos.x -100, (float)pPlayerPos.y -100 });
+	//CItem* pItem3 = static_cast<CItem*>(CObjectFactory<CCartridge>::Create(O_ITEM));
+	//pItem3->Drop_Item({ (float)pPlayerPos.x -200, (float)pPlayerPos.y });
+	//CItem* pItem4 = static_cast<CItem*>(CObjectFactory<CCartridge>::Create(O_ITEM));
+	//pItem4->Drop_Item({ (float)pPlayerPos.x - 50, (float)pPlayerPos.y - 70 });
 
 	
 }

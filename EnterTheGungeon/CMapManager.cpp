@@ -31,41 +31,41 @@ void CEnvironmentManager::Initialize()
 	Release();
 
 	Load_Data();
-#pragma region Debugging
-	pStartEditButton = dynamic_cast<CButton*>(CObjectFactory<CButton>::Create(O_UI, WINCX - 50, 11));
-	pStartEditButton->Get_Transform()->Size({ 30.f, 20.f });
-	pStartEditButton->Get_Collider()->Size({ 30.f, 20.f });
-	pStartEditButton->Get_Renderer()->Size({ 30.f, 20.f });
-	pStartEditButton->Get_Renderer()->rType = RND__UI;
-
-	pSaveButton = dynamic_cast<CButton*>(CObjectFactory<CButton>::Create(O_UI, WINCX - 50, 31));
-	pSaveButton->Get_Transform()->Size({ 30.f, 20.f });
-	pSaveButton->Get_Collider()->Size({ 30.f, 20.f });
-	pSaveButton->Get_Renderer()->Size({ 30.f, 20.f });
-	pSaveButton->bActive = false;
-	pSaveButton->Get_Renderer()->rType = RND__UI;
-
-
-	pClearButton = dynamic_cast<CButton*>(CObjectFactory<CButton>::Create(O_UI, WINCX - 50, 51));
-	pClearButton->Get_Transform()->Size({ 30.f, 20.f });
-	pClearButton->Get_Collider()->Size({ 30.f, 20.f });
-	pClearButton->Get_Renderer()->Size({ 30.f, 20.f });
-	pClearButton->bActive = false;
-	pClearButton->Get_Renderer()->rType = RND__UI;
-
-
-	pTransEditButton = dynamic_cast<CButton*>(CObjectFactory<CButton>::Create(O_UI, WINCX - 50, 71));
-	pTransEditButton->Get_Transform()->Size({ 30.f, 20.f });
-	pTransEditButton->Get_Collider()->Size({ 30.f, 20.f });
-	pTransEditButton->Get_Renderer()->Size({ 30.f, 20.f });
-	pTransEditButton->bActive = false;
-	pTransEditButton->Get_Renderer()->rType = RND__UI;
-
-
-	pStartEditButton->Add_OnBeginClick([&] {this->OnClickStartButton(); });
-	pClearButton->Add_OnBeginClick([&] {this->OnClickClearButton(); });
-	pSaveButton->Add_OnBeginClick([&] {this->OnClickSaveButton(); });
-	pTransEditButton->Add_OnBeginClick([&] {this->OnClickTransModeButton(); });
+//#pragma region Debugging
+//	pStartEditButton = dynamic_cast<CButton*>(CObjectFactory<CButton>::Create(O_UI, WINCX - 50, 11));
+//	pStartEditButton->Get_Transform()->Size({ 30.f, 20.f });
+//	pStartEditButton->Get_Collider()->Size({ 30.f, 20.f });
+//	pStartEditButton->Get_Renderer()->Size({ 30.f, 20.f });
+//	pStartEditButton->Get_Renderer()->rType = RND__UI;
+//
+//	pSaveButton = dynamic_cast<CButton*>(CObjectFactory<CButton>::Create(O_UI, WINCX - 50, 31));
+//	pSaveButton->Get_Transform()->Size({ 30.f, 20.f });
+//	pSaveButton->Get_Collider()->Size({ 30.f, 20.f });
+//	pSaveButton->Get_Renderer()->Size({ 30.f, 20.f });
+//	pSaveButton->bActive = false;
+//	pSaveButton->Get_Renderer()->rType = RND__UI;
+//
+//
+//	pClearButton = dynamic_cast<CButton*>(CObjectFactory<CButton>::Create(O_UI, WINCX - 50, 51));
+//	pClearButton->Get_Transform()->Size({ 30.f, 20.f });
+//	pClearButton->Get_Collider()->Size({ 30.f, 20.f });
+//	pClearButton->Get_Renderer()->Size({ 30.f, 20.f });
+//	pClearButton->bActive = false;
+//	pClearButton->Get_Renderer()->rType = RND__UI;
+//
+//
+//	pTransEditButton = dynamic_cast<CButton*>(CObjectFactory<CButton>::Create(O_UI, WINCX - 50, 71));
+//	pTransEditButton->Get_Transform()->Size({ 30.f, 20.f });
+//	pTransEditButton->Get_Collider()->Size({ 30.f, 20.f });
+//	pTransEditButton->Get_Renderer()->Size({ 30.f, 20.f });
+//	pTransEditButton->bActive = false;
+//	pTransEditButton->Get_Renderer()->rType = RND__UI;
+//
+//
+//	pStartEditButton->Add_OnBeginClick([&] {this->OnClickStartButton(); });
+//	pClearButton->Add_OnBeginClick([&] {this->OnClickClearButton(); });
+//	pSaveButton->Add_OnBeginClick([&] {this->OnClickSaveButton(); });
+//	pTransEditButton->Add_OnBeginClick([&] {this->OnClickTransModeButton(); });
 
 #pragma endregion
 }
@@ -226,21 +226,21 @@ void CEnvironmentManager::Load_Data()
 
 void CEnvironmentManager::OnClickStartButton()
 {
-	bEdit = !bEdit;
-	pSaveButton->bActive = bEdit;
-	pClearButton->bActive = bEdit;
-	pTransEditButton->bActive = bEdit;
+	//bEdit = !bEdit;
+	//pSaveButton->bActive = bEdit;
+	//pClearButton->bActive = bEdit;
+	//pTransEditButton->bActive = bEdit;
 
-	if (!bEdit)
-	{
-		curMode = None;
-		MANAGER(CCameraManager*, M_CAMERA)->Set_CamerMode(CCameraManager::Chase_Player);
-	}
-	else
-	{
-		curMode = Ground;
-		MANAGER(CCameraManager*, M_CAMERA)->Set_CamerMode(CCameraManager::Edit);
-	}
+	//if (!bEdit)
+	//{
+	//	curMode = None;
+	//	MANAGER(CCameraManager*, M_CAMERA)->Set_CamerMode(CCameraManager::Chase_Player);
+	//}
+	//else
+	//{
+	//	curMode = Ground;
+	//	MANAGER(CCameraManager*, M_CAMERA)->Set_CamerMode(CCameraManager::Edit);
+	//}
 }
 
 void CEnvironmentManager::OnClickSaveButton()

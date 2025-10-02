@@ -138,7 +138,7 @@ void CMob01WalkState::Do_Attack()
 	pBullet->Apply_EffectAnim();
 
 	pBullet->Set_Direction(vDirToPlayer);
-	pBullet->Set_Speed(5.f);
+	pBullet->Set_Speed(1.f);
 }
 
 void CMob01WalkState::Do_KnockBack()

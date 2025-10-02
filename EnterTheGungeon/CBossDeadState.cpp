@@ -5,6 +5,7 @@
 #include "CRenderer.h"
 #include "CTransform.h"
 #include "CBossStateMachine.h"
+#include "CStageManager.h"
 void CBossDeadState::Initialize()
 {
 	CBossState::Initialize();
@@ -12,11 +13,20 @@ void CBossDeadState::Initialize()
 	MANAGER(CBmpManager*, M_BMP)->Insert_Bmp(L"../Sprites/Enemy/Boss_DEAD.bmp", L"Boss_DEAD");
 	animation.Initialize(0, 7, (int)D_DOWN);
 	fill(animation.vTransitTime.begin(), animation.vTransitTime.end(), 120);
+	bCreated = false;
+	bDontMove = false;
 }
 
 void CBossDeadState::Update()
 {
 	Update_AnimFrame();
+	pObj->Get_Transform()->Direction({ 0.f, 0.f });
+
+	if (!bCreated && (dwDeadElapsedTime + 200 < GetTickCount()))
+	{
+		bCreated = true;
+		MANAGER(CStageManager*, M_STAGE)->On_BossDead();
+	}
 }
 
 void CBossDeadState::Late_Update()
@@ -53,15 +63,22 @@ void CBossDeadState::Exit()
 void CBossDeadState::Enter()
 {
 	animation.iCurrIndex = 0;
+	pObj->Get_Transform()->Direction({ 0.f, 0.f });
 }
 
 void CBossDeadState::Update_AnimFrame()
 {
-	CState::Update_AnimFrame();
-	if (animation.iCurrIndex >= animation.iEndIndex)
+	if (!bDontMove && animation.dwLastPlayTime + animation.vTransitTime[animation.iCurrIndex] < GetTickCount())
 	{
-		animation.iCurrIndex = 0;
+		animation.iCurrIndex++;
+		animation.dwLastPlayTime = GetTickCount();
+		if (animation.iCurrIndex >= animation.iEndIndex)
+		{
+			bDontMove = true;
+			dwDeadElapsedTime = GetTickCount();
+		}
 	}
+
 }
 
 void CBossDeadState::Stop_Animation()

@@ -4,6 +4,8 @@
 class CPlayerWeapon :  public CWeapon
 {
 public :
+	enum GunType { };
+public :
 	CPlayerWeapon(CObject* pObj = nullptr) : CWeapon(pObj) {}
 	~CPlayerWeapon() override;
 public :

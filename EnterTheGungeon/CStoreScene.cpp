@@ -24,6 +24,7 @@
 #include "CTableObject.h"
 #include "CCartridge.h"
 #include "CMedkit.h"
+#include "CBoomerang.h"
 
 #include "CTransform.h"
 #include "CRenderer.h"
@@ -60,14 +61,14 @@ void CStoreScene::Initialize()
 		}
 	}
 
-	CObjectFactory<CMobOwner>::Create(O_ENEMY, pOwnerPos.x, pOwnerPos.y);
-
-	Place_Objects();
+	// 상점 주인 배치
+	pOwner = dynamic_cast<CMobOwner*>(CObjectFactory<CMobOwner>::Create(O_ENEMY, pOwnerPos.x, pOwnerPos.y));
 
 	MANAGER(CEnvironmentManager*, M_MAP)->Initialize();
 	MANAGER(CCameraManager*, M_CAMERA)->Set_LookAt({ (float)pPlayerPos.x, (float)pPlayerPos.y });
 	MANAGER(CCameraManager*, M_CAMERA)->Set_Target(pPlayer);
 
+	Place_Objects();
 	Set_TeleportOn();
 
 	MANAGER(CStageManager*, M_STAGE)->Initialize_Store();
@@ -107,34 +108,42 @@ void CStoreScene::Render(HDC _hDC)
 #pragma endregion
 }
 
-void CStoreScene::Release(){ }
+void CStoreScene::Release()
+{
+	pOwner->Set_Dead();
+
+	for_each(MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ITEM)->begin(),
+		MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ITEM)->end(),
+		[&](CObject* pObj) -> void
+		{
+			CItem* pItem = dynamic_cast<CItem*>(pObj);
+			if (pItem && !pItem->Get_Obtained())
+			{
+				pItem->Set_Dead();
+			}});
+}
 
 void CStoreScene::Detect_Collision()
 {
-	// Map ground <-> Player
-	//CCollisionManager::Detect_MapCollision(
-	//	*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
-	//	*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER));
+	 // Map ground <-> Player
+	CCollisionManager::Detect_MapCollision(
+		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
+		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER));
 
-	//// Map ground <-> Enemy
-	//CCollisionManager::Detect_MapCollision(
-	//	*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
-	//	*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENEMY));
+	// Map ground <-> Player Bullet
+	CCollisionManager::Detect_MapCollision(
+		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
+		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLBULLET));
 
-	//// Map ground <-> Player Bullet
-	//CCollisionManager::Detect_MapCollision(
-	//	*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
-	//	*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLBULLET));
+	// Map object <-> Enemy Bullet
+	CCollisionManager::Detect_MapCollision(
+		*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
+		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENBULLET));
 
-	//// Map object <-> Enemy Bullet
-	//CCollisionManager::Detect_MapCollision(
-	//	*MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList(),
-	//	*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENBULLET));
-
-	//// Player <-> Enemy Bullet
-	//CCollisionManager::Detect_RectCollision(
-	//	*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER),
-	//	*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENBULLET));
+	// Player <-> Enemy Bullet
+	CCollisionManager::Detect_RectCollision(
+		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLAYER),
+		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENBULLET));
 
 	// Enemy <-> Player Bullet
 	CCollisionManager::Detect_RectCollision(
@@ -154,19 +163,20 @@ void CStoreScene::Place_Objects()
 
 	CCartridge* pCartridge = static_cast<CCartridge*>(CObjectFactory<CCartridge>::Create(O_ITEM, pOwnerPos.x + 100, pOwnerPos.y + 100));
 	pCartridge->Set_ForSell(true);
-	pCartridge->Drop_Item({ (float)pOwnerPos.x + 100, (float)pOwnerPos.y + 100 });
+	pCartridge->Drop_Item({ (float)pOwnerPos.x + 130, (float)pOwnerPos.y + 100 });
+
+	CBoomerang* pBoom = static_cast<CBoomerang*>(CObjectFactory<CBoomerang>::Create(O_ITEM, pOwnerPos.x + 100, pOwnerPos.y + 100));
+	pBoom->Set_ForSell(true);
+	pBoom->Drop_Item({ (float)pOwnerPos.x +50 , (float)pOwnerPos.y + 100 });
 
 	CBomb* pBomb = static_cast<CBomb*>(CObjectFactory<CBomb>::Create(O_ITEM, pOwnerPos.x + 100, pOwnerPos.y + 100));
 	pBomb->Set_ForSell(true);
-	pBomb->Drop_Item({ (float)pOwnerPos.x - 160, (float)pOwnerPos.y + 100 });
+	pBomb->Drop_Item({ (float)pOwnerPos.x - 130, (float)pOwnerPos.y + 100 });
 
 	CMedkit* pKit = static_cast<CMedkit*>(CObjectFactory<CMedkit>::Create(O_ITEM, pOwnerPos.x + 100, pOwnerPos.y + 100));
 	pKit->Set_ForSell(true);
-	pKit->Drop_Item({ (float)pOwnerPos.x - 250, (float)pOwnerPos.y + 110 });
+	pKit->Drop_Item({ (float)pOwnerPos.x - 220, (float)pOwnerPos.y + 105 });
 
-	CChest* pChestt = static_cast<CChest*>(CObjectFactory<CChest>::Create(O_ITEM, pOwnerPos.x + 100, pOwnerPos.y + 100));
-	pChestt->Set_ForSell(true);
-	pChestt->Drop_Item({ (float)pOwnerPos.x , (float)pOwnerPos.y + 310 });
 
 }
 

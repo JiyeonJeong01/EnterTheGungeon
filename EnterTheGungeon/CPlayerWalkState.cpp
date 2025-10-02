@@ -8,6 +8,7 @@
 #include "CStateMachine.h"
 #include "CCameraManager.h"
 #include "CSoundManager.h"
+#include "CPlayerWeapon.h"
 
 void CPlayerWalkState::Initialize()
 {
@@ -46,12 +47,20 @@ void CPlayerWalkState::Late_Update()
 
 void CPlayerWalkState::Render(HDC hDC)
 {
+	CPlayerState::Render_Player(hDC);
+
+
+	CWeapon::WeaponType wType = static_cast<CPlayer*>(pObj)->pWeapon->Get_WeaponType();
+	const TCHAR* animKey = (wType == CWeapon::PG01) ? L"Player_Weapon01" : L"Player_Weapon02";
 	HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Player_WALK");
-	HDC hWeaponDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Player_Weapon01");
+	HDC hWeaponDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(animKey);
 
 	CRenderer renderer = *(pObj->Get_Renderer());
 
 	int iGunLeftPos = (iWeaponRowIndex == 0) ? 30 : -40;
+	int iShotLeftPos = (iWeaponRowIndex == 0) ? 60 : -10;
+	
+
 
 	GdiTransparentBlt(hDC,
 		renderer.Left() + iGunLeftPos,
@@ -63,7 +72,28 @@ void CPlayerWalkState::Render(HDC hDC)
 		(int)73,
 		(int)90,
 		RGB(30, 30, 30));
+	if (bShouldShotEffect && !bEndShotEffect)
+	{
+		HDC hMemDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Shot");
 
+		if (dwShotAnimElapsedTime + 200 < GetTickCount())
+		{
+			iShotCol++;
+			if (iShotCol > 2)
+			{
+				bEndShotEffect = true;
+			}
+		}
+
+		GdiTransparentBlt(hDC,
+			renderer.Left() + iGunLeftPos + iShotLeftPos,
+			renderer.Top() + Get_WeaponPos() + 15 + iShotOffsetY,
+			iShotEffectSizeX * 0.8f, iShotEffectSizeY * 0.8f,
+			hMemDC,
+			iShotCol * iShotEffectSizeX, 0,
+			iShotEffectSizeX, iShotEffectSizeY,
+			RGB(32, 32, 32));
+	}
 	GdiTransparentBlt(hDC,
 		renderer.Left(),
 		renderer.Top(),
@@ -95,6 +125,7 @@ void CPlayerWalkState::Update_AnimFrame()
 	if (iPrevFrame != animation.iCurrIndex)
 	{
 		iPrevFrame = animation.iCurrIndex;
+		MANAGER(CSoundManager*, M_SOUND)->StopSound(SOUND_EFFECT);
 		MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"Player_FootStep.wav", SOUND_EFFECT, 1.f);
 	}
 }

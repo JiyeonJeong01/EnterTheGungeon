@@ -146,7 +146,7 @@ void CTableObject::OnCollision(CObject* pObj, Vector2 vDiff)
 		eState = Broken;
 	}
 	break;
-	case O_PLAYER :
+	case O_PLAYER : case O_ENEMY :
 		OnCollision_Entity(pObj, vDiff);
 	}
 }

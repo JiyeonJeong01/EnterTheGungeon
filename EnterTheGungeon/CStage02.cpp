@@ -57,10 +57,9 @@ void CStage02::Initialize()
 
 	bDrawTeleport = false;
 
-	// Place_Objects();
-	//Place_Objects();
-
 	MANAGER(CStageManager*, M_STAGE)->Initialize_Stage02();
+
+	Place_Objects();
 }
 
 void CStage02::Update()
@@ -95,7 +94,7 @@ void CStage02::Render(HDC _hDC)
 	MANAGER(CUIManager*, M_UI)->Render(_hDC);
 
 #pragma region DEBUG
-	MANAGER(CStageManager*, M_STAGE)->Render(_hDC);
+MANAGER(CStageManager*, M_STAGE)->Render(_hDC);
 #pragma endregion
 
 }
@@ -147,13 +146,6 @@ void CStage02::Set_TeleportOn()
 void CStage02::Place_Objects()
 {
 	for (Vector2 vPos : vTablePos01)
-	{
-		CTableObject* pTable = static_cast<CTableObject*>(
-			CObjectFactory<CTableObject>::Create(O_INTERACTABLE, vPos.X(), vPos.Y()));
-		MANAGER(CEnvironmentManager*, M_MAP)->Get_MapGroundList()->push_back(pTable);
-	}
-
-	for (Vector2 vPos : vTablePos02)
 	{
 		CTableObject* pTable = static_cast<CTableObject*>(
 			CObjectFactory<CTableObject>::Create(O_INTERACTABLE, vPos.X(), vPos.Y()));

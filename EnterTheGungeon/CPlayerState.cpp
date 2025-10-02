@@ -10,6 +10,8 @@
 #include "CPlayerWeapon.h"
 #include "CMouse.h"
 #include "CMob.h"
+#include "CBoss.h"
+#include "CBmpManager.h"
 #pragma endregion
 
 
@@ -41,7 +43,37 @@ void CPlayerState::Update()
 
 void CPlayerState::Render_Player(HDC hDC)
 {
+	if (bShouldBombEffect && !bEndBombEffect)
+	{
+		if (dwBombAnimElapsedTime + 30 < GetTickCount())
+		{
+			dwBombAnimElapsedTime = GetTickCount();
 
+			iAnimColIndex++;
+			if (iAnimColIndex != 0 && iAnimColIndex % 4 == 0)
+			{
+				iAnimColIndex = 0;
+				iAnimRowIndex++;
+				if (iAnimRowIndex == 4)
+				{
+					bEndBombEffect = true;
+				}
+			}
+		}
+
+		HDC hBombDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"Bomb_Effect");
+
+		GdiTransparentBlt(hDC,
+			pCursor.x - iBombEffectSize,
+			pCursor.y - iBombEffectSize,
+			iBombEffectSize * 2, iBombEffectSize * 2,
+
+			hBombDC,
+			iAnimColIndex * iBombEffectSize,
+			iAnimRowIndex * iBombEffectSize,
+			iBombEffectSize, iBombEffectSize,
+			RGB(32, 32, 32));
+	}
 }
 
 void CPlayerState::Get_WeaponDir()
@@ -60,32 +92,69 @@ void CPlayerState::Get_WeaponDir()
 	if (vDiff.Y() < 0) // 위쪽
 	{
 		if ((degree >= 0.f && degree <= 15.f) || (degree >= 165.f && degree <= 180.f))
+		{
 			iWeaponColIndex = 5;
+			iShotOffsetY = 0;
+		}
 		else if ((degree > 15.f && degree <= 30.f) || (degree >= 150.f && degree < 165.f))
+		{
 			iWeaponColIndex = 4;
+			iShotOffsetY = 2;
+		}
 		else if ((degree > 30.f && degree <= 45.f) || (degree >= 135.f && degree < 150.f))
+		{
 			iWeaponColIndex = 3;
+			iShotOffsetY = -8;
+		}
 		else if ((degree > 45.f && degree <= 60.f) || (degree >= 120.f && degree < 135.f))
+		{
 			iWeaponColIndex = 2;
+			iShotOffsetY = -10;
+		}
 		else if ((degree > 60.f && degree <= 75.f) || (degree >= 105.f && degree < 120.f))
+		{
 			iWeaponColIndex = 1;
+			iShotOffsetY = -17;
+		}
 		else // (75~90) or (90~105)
+		{
 			iWeaponColIndex = 0;
+			iShotOffsetY = -20;
+		}
+
 	}
 	else // 아래쪽
 	{
 		if ((degree >= 0.f && degree <= 15.f) || (degree >= 165.f && degree <= 180.f))
+		{
 			iWeaponColIndex = 5;
+			iShotOffsetY = 20;
+		}
 		else if ((degree > 15.f && degree <= 30.f) || (degree >= 150.f && degree < 165.f))
+		{
 			iWeaponColIndex = 6;
+			iShotOffsetY = 24;
+		}
 		else if ((degree > 30.f && degree <= 45.f) || (degree >= 135.f && degree < 150.f))
+		{
 			iWeaponColIndex = 7;
+			iShotOffsetY = 27;
+		}
 		else if ((degree > 45.f && degree <= 60.f) || (degree >= 120.f && degree < 135.f))
+		{
 			iWeaponColIndex = 8;
+			iShotOffsetY = 31;
+		}
 		else if ((degree > 60.f && degree <= 75.f) || (degree >= 105.f && degree < 120.f))
+		{
 			iWeaponColIndex = 9;
+			iShotOffsetY = 34;
+		}
 		else // (75~90) or (90~105)
+		{
 			iWeaponColIndex = 9;
+			iShotOffsetY = 45;
+		}
 	}
 }
 
@@ -106,8 +175,17 @@ void CPlayerState::Attack_Bomb()
 		Vector2 v = p->Get_Transform()->Position();
 		if (v.X() >= rBombBound.left && v.X() <= rBombBound.right	&& v.Y() >= rBombBound.top && v.Y() <= rBombBound.bottom)
 		{
-			static_cast<CMob*>(p)->bKnockback = true;
-			static_cast<CMob*>(p)->Modify_HP(-1);
+			// 잡몹 
+			if (dynamic_cast<CMob*>(p) != nullptr)
+			{
+				static_cast<CMob*>(p)->bKnockback = true;
+				static_cast<CMob*>(p)->Modify_HP(-2);
+			}
+			else
+			{
+				// 보스
+				static_cast<CBoss*>(p)->iHP -= 10;
+			}
 		}
 	}
 }
@@ -154,10 +232,19 @@ void CPlayerState::Shot_Bullet()
 	if (!bCanShotGun && bCanShotBomb && !bDodgePlaying)
 	{
 		Attack_Bomb();
+		bShouldBombEffect = true;
+		bEndBombEffect = false;
+		iAnimColIndex = iAnimRowIndex = 0;
+		dwBombAnimElapsedTime = GetTickCount();
+		pCursor = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
 	}
 
 	if (!bCanShotGun || bDodgePlaying || bReloading)
 		return;
 
 	static_cast<CPlayer*>(pObj)->pWeapon->Attack();
+	bShouldShotEffect = true;
+	bEndShotEffect = false;
+	dwShotAnimElapsedTime = GetTickCount();
+	iShotCol = 0;
 }
