@@ -118,8 +118,8 @@ int CMob05WalkState::Dir_AnimRow(Direction eDir)
 
 void CMob05WalkState::Do_Attack()
 {
-	int bulletCount = 7;
-	float angleRange = 30.f;
+	int bulletCount = 15;
+	float angleRange = 50.f;
 	float angleStep = angleRange / (bulletCount - 1);
 	vDirToPlayer.Normalize();
 	Vector2 vBaseDir = vDirToPlayer;

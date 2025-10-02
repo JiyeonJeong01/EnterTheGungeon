@@ -27,7 +27,7 @@ void CMob04::Initialize()
 
     pTransform->Position({ WINCX >> 1, WINCY >> 1 });
     pTransform->Size({ 110.f, 110.f });
-    pCollider->Size({ 80.f, 80.f });
+    pCollider->Size({ 60.f, 80.f });
     pRenderer->Size({ 110.f, 110.f });
 
     pStateMachine = new CMob04StateMachine(this);
@@ -35,7 +35,7 @@ void CMob04::Initialize()
 
     fSpeed = 1.5f;
 
-    iMaxHP = 1;
+    iMaxHP = 5;
     iHP = iMaxHP;
 }
 

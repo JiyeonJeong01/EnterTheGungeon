@@ -105,7 +105,7 @@ void CMedkit::OnDetect_PlayerIn()
 
 	if (MANAGER(CInputManager*, M_INPUT)->Get_KeyDown('E'))
 	{
-		if (dwLastPurchasedTime + 800 >= GetTickCount()) return;
+		if (dwLastPurchasedTime + 300 >= GetTickCount()) return;
 		if (bForSell)
 		{
 			bDisplayPopup = true;

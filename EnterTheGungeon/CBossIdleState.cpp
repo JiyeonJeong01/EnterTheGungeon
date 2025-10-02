@@ -14,7 +14,7 @@ void CBossIdleState::Initialize()
 	animation.Initialize(0, 3, (int)D_DOWN);
 	fill(animation.vTransitTime.begin(), animation.vTransitTime.end(), 150);
 
-	fCurStateMaxTime = 1.f;
+	fCurStateMaxTime = 0.5f;
 }
 
 void CBossIdleState::Update()
@@ -37,8 +37,6 @@ void CBossIdleState::Late_Update()
 			{
 				if (iRand)
 					pStateMachine->Change_State(CBoss::BS_SUMMONATTACK);
-				else
-					pStateMachine->Change_State(CBoss::BS_KUNAIATTACK);
 			}
 			else if (static_cast<CBossStateMachine*>(pStateMachine)->Get_PrevAttack() == CBoss::BS_SUMMONATTACK)
 			{
@@ -49,12 +47,8 @@ void CBossIdleState::Late_Update()
 			}
 			else
 			{
-				if (iRand)
-					pStateMachine->Change_State(CBoss::BS_SUMMONATTACK);
-				else
 					pStateMachine->Change_State(CBoss::BS_CHEESEATTACK);
 			}
-
 		}
 	}
 	if (dwCurrentStateElapsedTime + int(fCurStateMaxTime * 1000) < GetTickCount()

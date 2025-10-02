@@ -59,6 +59,28 @@ void CSoundManager::PlaySound(const TCHAR* pSoundKey, CHANNELID eID, float fVolu
 	FMOD_System_Update(m_pSystem);
 }
 
+void CSoundManager::PlayFX(const TCHAR* pSoundKey, float fVolume)
+{
+	unordered_map<TCHAR*, FMOD_SOUND*>::iterator iter;
+
+	// iter = find_if(m_mapSound.begin(), m_mapSound.end(), CTag_Finder(pSoundKey));
+	iter = find_if(m_mapSound.begin(), m_mapSound.end(),
+		[&](auto& iter)->bool
+		{
+			return !lstrcmp(pSoundKey, iter.first);
+		});
+
+	if (iter == m_mapSound.end())
+		return;
+
+	FMOD_CHANNEL* ch = nullptr;
+	FMOD_System_PlaySound(m_pSystem, iter->second, nullptr, FALSE, &ch);
+	if (ch) {
+		FMOD_Channel_SetVolume(ch, fVolume);
+	}
+	FMOD_System_Update(m_pSystem);
+}
+
 void CSoundManager::PlayBGM(const TCHAR* pSoundKey, float fVolume)
 {
 	unordered_map<TCHAR*, FMOD_SOUND*>::iterator iter;

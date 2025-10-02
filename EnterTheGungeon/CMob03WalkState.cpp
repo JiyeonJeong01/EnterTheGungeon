@@ -153,6 +153,7 @@ void CMob03WalkState::Attack01()
 		pBullet->Set_Direction(vDir);
 		pBullet->Set_Speed(6.f);
 	}
+
 }
 
 void CMob03WalkState::Attack02()

@@ -49,7 +49,7 @@ void CBoss::Initialize()
     pRenderer->rType = RND__GAMEBOJECT;
     eType = O_ENEMY;
 
-    iMaxHP = 100;
+    iMaxHP = 200;
     iHP = iMaxHP;
     fAttackTimeRange = 5.f;
     bShouldAttack = false;
