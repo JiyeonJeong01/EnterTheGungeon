@@ -51,12 +51,19 @@ void CEndingGuide::Initialize()
 	iPanelOffsetY = iPanelOffesetY03;
 	iPanelRenderSizeX = 330;
 	iPanelRenderSizeY = 90;
+
+	prevScriptIndex = 0;
+
 }
 
 int CEndingGuide::Update()
 {
 	Should_Dialogue();
-
+	if (prevScriptIndex != iCurScriptIndex)
+	{
+		MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"sfx_system_voice.mp3", 1.f);
+		prevScriptIndex = iCurScriptIndex;
+	}
 	if (bPlayDialogue)
 		Update_Dialogue();
 

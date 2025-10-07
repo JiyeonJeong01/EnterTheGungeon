@@ -96,6 +96,7 @@ void CTestSCene::Update()
 	CCollisionManager::Detect_RectCollision(
 		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_ENEMY),
 		*MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLBULLET));
+
 	MANAGER(CStageManager*, M_STAGE)->Logic_BossStage();
 	MANAGER(CCameraManager*, M_CAMERA)->Update();
 	MANAGER(CUIManager*, M_UI)->Update();

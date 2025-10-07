@@ -16,6 +16,7 @@
 #include "CBossBullet.h"
 
 #include "CInventory.h"
+#include "CSoundManager.h"
 
 /// <summary>
 /// Derived objects must initialize rDetectBound, spriteKey, iAnimSizeX, iAnimSizeY, transform, renderer;
@@ -55,6 +56,7 @@ void CCartridge::Get_Item()
 
 void CCartridge::Apply_ItemEffect()
 {
+	MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Cartridge.wav", 1.f);
 	for (auto& obj : *MANAGER(CObjectManager*, M_OBJECT)->Get_Object(O_PLBULLET))
 	{
 		static_cast<CPlayerBullet*>(obj)->OnCollision_MapGround();

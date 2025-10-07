@@ -8,6 +8,7 @@
 #include "CRenderer.h"
 #include "CTransform.h"
 #include "CPlayer.h"
+#include "CSoundManager.h"
 
 #include "CStateMachine.h"
 #include "CMobBullet.h"
@@ -133,6 +134,8 @@ void CMobOwnerWalkState::Do_Attack()
 	{
 		Attack03();
 	}
+	MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"CombineBomb_Shot_01.wav", 1.f);
+
 	iCurrentAttackCount++;
 	bAttackTimer = false;
 	dwLastAttackTime = GetTickCount();

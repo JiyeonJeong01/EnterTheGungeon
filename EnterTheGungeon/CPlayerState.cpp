@@ -12,6 +12,7 @@
 #include "CMob.h"
 #include "CBoss.h"
 #include "CBmpManager.h"
+#include "CSoundManager.h"
 #pragma endregion
 
 
@@ -237,6 +238,7 @@ void CPlayerState::Shot_Bullet()
 		iAnimColIndex = iAnimRowIndex = 0;
 		dwBombAnimElapsedTime = GetTickCount();
 		pCursor = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
+		MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Bomb.wav", 1.f);
 	}
 
 	if (!bCanShotGun || bDodgePlaying || bReloading)

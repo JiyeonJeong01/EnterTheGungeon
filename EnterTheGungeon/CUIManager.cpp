@@ -4,6 +4,7 @@
 #include "CObject.h"
 #include "CRelease.h"
 
+#include "CSoundManager.h"
 #include "CObjectManager.h"
 #include "CInputManager.h"
 #include "CBmpManager.h"
@@ -214,10 +215,12 @@ void CUIManager::Draw_OpenedInventory(HDC hDC)
 		{
 			if (curDisplayIter == displayInventory.end())
 			{
+				MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"vending_slot.wav", 1.f);
 				bActivatedSlotTurn = true;
 			}
 			else
 			{
+				MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"vending_slot.wav", 1.f);
 				++curDisplayIter;
 				if (curDisplayIter == displayInventory.end())
 				{
@@ -227,6 +230,8 @@ void CUIManager::Draw_OpenedInventory(HDC hDC)
 		}
 		else
 		{
+			MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"vending_slot.wav", 1.f);
+
 			bActivatedSlotTurn = false;
 			if (curDisplayIter == displayInventory.end())
 				curDisplayIter = displayInventory.begin();

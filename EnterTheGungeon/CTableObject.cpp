@@ -4,6 +4,7 @@
 #include "CBmpManager.h"
 #include "CObjectManager.h"
 #include "CInputManager.h"
+#include "CSoundManager.h"
 
 #include "CTransform.h"
 #include "CCollider.h"
@@ -294,6 +295,8 @@ void CTableObject::Table_Flipping()
 
 		if (iAnimCol >= iAnimEndCol)
 		{
+			MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"table_flip_03.wav", 1.f);
+
 			eState = Flipped;
 			iAnimRow = 0;
 			iAnimCol = 0;

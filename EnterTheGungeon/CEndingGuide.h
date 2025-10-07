@@ -69,5 +69,7 @@ private:
 
 private:
 	EndingGuideState eGuideState;
+	int prevScriptIndex;
+
 };
 

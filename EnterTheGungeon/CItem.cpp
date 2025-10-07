@@ -9,6 +9,7 @@
 #include "CInputManager.h"
 #include "CInventory.h"
 #include "CBossState.h"
+#include "CSoundManager.h"
 
 DWORD CItem::dwLastPurchasedTime = 0;
 bool CItem::bFree = false;
@@ -163,6 +164,7 @@ void CItem::Drop_Item(Vector2 vDropPos)
 
 void CItem::Get_Item()
 {
+	MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"web_sfx_get-coin.mp3", 1.f);
 	bObtained = true;
 	pPlayer->pInventory->Add_Item(spriteKey, this);
 }

@@ -71,7 +71,8 @@ int CGuide::Update()
 {
 	if (prevScriptIndex != iCurScriptIndex)
 	{
-		MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"sfx_system_voice.mp3", SOUND_EFFECT, 1.f);
+		MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"sfx_system_voice.mp3", 1.f);
+		// MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"sfx_system_voice.mp3", SOUND_EFFECT, 1.f);
 		prevScriptIndex = iCurScriptIndex;
 	}
 
@@ -514,11 +515,9 @@ void CGuide::Check_NextScript()
 		iCurScriptIndex = 0;
 		iTotalLength = lstrlen(szScript[iCurScriptIndex]);
 		dwDialogueElaspedTime = GetTickCount();
-		MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"sfx_system_voice.mp3", SOUND_EFFECT, 1.f);
 	}
 	else if (eGuideStep == GuideStep::Move && eGuideState == GuideState::Left && bCanNextDialogue && bMoveCompleted)
 	{
-		MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"sfx_system_voice.mp3", SOUND_EFFECT, 1.f);
 		spriteKey = L"MDKey";
 		iCurLetterIndex = 0;
 		iCurScriptIndex = 5;

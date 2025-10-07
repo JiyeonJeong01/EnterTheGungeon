@@ -53,7 +53,7 @@ void CMainGame::Initialize()
 
 	CObjectFactory<CMouse>::Create(O_UI);
 
-	MANAGER(CSoundManager*, M_SOUND)->PlayBGM(L"BGM_Boss.wav", 0.35f);
+	MANAGER(CSoundManager*, M_SOUND)->PlayBGM(L"BGM_Game.mp3", 0.35f);
 
 	//pVignette = new Vignette;
 	//pVignette->Initialize();

@@ -9,7 +9,6 @@
 #include "CPlayer.h"
 #include "CSoundManager.h"
 
-
 CPlayerWeapon::~CPlayerWeapon()
 {
 	Release();
@@ -58,6 +57,8 @@ void CPlayerWeapon::Swap_Weapon()
 	{
 		Change_Weapon(WeaponType::PG01);
 	}
+	MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Player_WeaponSwap.wav", 1.f);
+
 }
 
 void CPlayerWeapon::Pistol_Attack()
@@ -67,8 +68,7 @@ void CPlayerWeapon::Pistol_Attack()
 		static_cast<CPlayer*>(pOwner)->bReloading = true;
 		static_cast<CPlayer*>(pOwner)->pReloadBar->Start_Reload();
 	}
-	MANAGER(CSoundManager*, M_SOUND)->StopSound(SOUND_EFFECT);
-	MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"Player_Shot01.wav", SOUND_EFFECT, 1.f);
+	MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Player_Shot01.wav", 1.f);
 
 	CPlayerBullet* pBullet = dynamic_cast<CPlayerBullet*>(CObjectFactory<CPlayerBullet>::Create(
 		O_PLBULLET, pOwner->Get_Transform()->Position().X(), pOwner->Get_Transform()->Position().Y()));
@@ -97,8 +97,9 @@ void CPlayerWeapon::Shotgun_Attack()
 		static_cast<CPlayer*>(pOwner)->pReloadBar->Start_Reload();
 	}
 	MANAGER(CCameraManager*, M_CAMERA)->Set_CamerMode(CCameraManager::Shake);
-	MANAGER(CSoundManager*, M_SOUND)->StopSound(SOUND_EFFECT);
-	MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"Player_Shot02.wav", SOUND_EFFECT, 1.f);
+
+	MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Player_Shot02.wav", 1.f);
+
 
 	POINT curPos = MANAGER(CInputManager*, M_INPUT)->Get_CursorPosition();
 	Vector2 curRealPos = MANAGER(CCameraManager*, M_CAMERA)->Get_RealPos({ (float)curPos.x, (float)curPos.y });

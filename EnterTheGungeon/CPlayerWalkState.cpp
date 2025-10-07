@@ -125,8 +125,7 @@ void CPlayerWalkState::Update_AnimFrame()
 	if (iPrevFrame != animation.iCurrIndex)
 	{
 		iPrevFrame = animation.iCurrIndex;
-		MANAGER(CSoundManager*, M_SOUND)->StopSound(SOUND_EFFECT);
-		MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"Player_FootStep.wav", SOUND_EFFECT, 1.f);
+		MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Player_FootStep.wav", 1.f);
 	}
 }
 

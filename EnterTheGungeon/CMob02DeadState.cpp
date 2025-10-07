@@ -8,6 +8,7 @@
 #include "CMob02.h"
 #include "CStateMachine.h"
 #include "CStageManager.h"
+#include "CSoundManager.h"
 
 CMob02DeadState::CMob02DeadState(CObject* pObj, CStateMachine* pStateMachine)
 	: CMobState(pObj, pStateMachine)
@@ -72,6 +73,8 @@ void CMob02DeadState::Exit()
 
 void CMob02DeadState::Enter()
 {
+	MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Enemy_Dead01.wav", 1.f);
+
 	bCanMoveAnim = true;
 	pObj->Get_Transform()->Direction({ 0.f, 0.f });
 	dwCurrentStateElapsedTime = GetTickCount();

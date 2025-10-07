@@ -10,6 +10,7 @@
 #include "CStateMachine.h"
 #include "CMobBullet.h"
 #include "CObjectFactory.h"
+#include "CSoundManager.h"
 #pragma endregion
 
 CMob05KnockbackState::CMob05KnockbackState(CObject* pObj, CStateMachine* pStateMachine)
@@ -79,6 +80,7 @@ void CMob05KnockbackState::Exit()
 
 void CMob05KnockbackState::Enter()
 {
+	MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"rubber_hurt_01.wav", 1.f);
 	dwCurrentStateElapsedTime = GetTickCount();
 	Detect_Player();
 	pObj->Get_Transform()->Direction(vDirToPlayer * -1.f);

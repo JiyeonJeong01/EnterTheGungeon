@@ -6,6 +6,8 @@
 #include "CTransform.h"
 #include "CBossStateMachine.h"
 #include "CStageManager.h"
+#include "CSoundManager.h"
+
 void CBossDeadState::Initialize()
 {
 	CBossState::Initialize();
@@ -62,6 +64,7 @@ void CBossDeadState::Exit()
 
 void CBossDeadState::Enter()
 {
+	MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"wizardred_death_02.wav", 1.f);
 	animation.iCurrIndex = 0;
 	pObj->Get_Transform()->Direction({ 0.f, 0.f });
 }

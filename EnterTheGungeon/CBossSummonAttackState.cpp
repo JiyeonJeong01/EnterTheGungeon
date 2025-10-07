@@ -89,8 +89,9 @@ void CBossSummonAttackState::Render(HDC hDC)
             RGB(255, 0, 255));
         if (iBombCurrIndex == 6)
         {
-            MANAGER(CSoundManager*, M_SOUND)->StopSound(SOUND_EFFECT);
-            MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"Boss_SummonBomb.wav", SOUND_EFFECT, 1.f);
+            MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Boss_SummonBomb.wav", 1.f);
+            // MANAGER(CSoundManager*, M_SOUND)->StopSound(SOUND_EFFECT);
+            // MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"Boss_SummonBomb.wav", SOUND_EFFECT, 1.f);
         }
     }
 }

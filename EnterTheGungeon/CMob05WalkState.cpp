@@ -10,6 +10,7 @@
 #include "CStateMachine.h"
 #include "CMobBullet.h"
 #include "CObjectFactory.h"
+#include "CSoundManager.h"
 #pragma endregion
 
 
@@ -118,6 +119,8 @@ int CMob05WalkState::Dir_AnimRow(Direction eDir)
 
 void CMob05WalkState::Do_Attack()
 {
+	MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"CombineBomb_Shot_01.wav", 1.f);
+
 	int bulletCount = 15;
 	float angleRange = 50.f;
 	float angleStep = angleRange / (bulletCount - 1);

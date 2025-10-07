@@ -13,6 +13,7 @@ public:
 
 public:
 	void PlaySound(const TCHAR* pSoundKey, CHANNELID eID, float fVolume);
+	void PlayFX(const TCHAR* pSoundKey, float fVolume);
 	void PlayBGM(const TCHAR* pSoundKey, float fVolume);
 	void StopSound(CHANNELID eID);
 	void StopAll();

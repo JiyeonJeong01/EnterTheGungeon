@@ -123,7 +123,7 @@ void CReloadBar::Start_Reload()
 	{
 		bActive = true;
 		dwTime = GetTickCount();
-		MANAGER(CSoundManager*, M_SOUND)->StopSound(SOUND_EFFECT);
-		MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"Player_Reload.wav", SOUND_EFFECT, 1.f);
+
+		MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Player_Reload.wav", 1.f);
 	}
 }

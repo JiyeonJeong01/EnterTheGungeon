@@ -33,6 +33,8 @@
 #include "CTransform.h"
 #include "CCollider.h"
 #include "CRenderer.h"
+
+#include "CSoundManager.h"
 #pragma endregion
 
 
@@ -202,7 +204,7 @@ void CStageManager::Initialize_Store()
 void CStageManager::Initialize_BossStage()
 {
 	bClearStage = false;
-	bReward = true;
+	bReward = false;
 }
 
 void CStageManager::Render_SpawnEffect(HDC hDC, int iX, int iY)
@@ -334,6 +336,7 @@ void CStageManager::On_BossDead()
 void CStageManager::Prepare_Stage02()
 {
 	bPreparedTransit = true;
+	MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"teleport_arrive_01.wav", 1.f);
 
 	static_cast<CStage01*>(MANAGER(CSceneManager*, M_SCENE)->Get_Scene())->Set_TeleportOn();
 	bPlayAnim = true;
@@ -350,6 +353,7 @@ void CStageManager::Prepare_Store()
 
 	bPreparedTransit = true;
 	static_cast<CStage01*>(MANAGER(CSceneManager*, M_SCENE)->Get_Scene())->Set_TeleportOn();
+	MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"teleport_arrive_01.wav", 1.f);
 
 	bPlayAnim = true;
 	pPortalAnimPos = { 4780, 3640 };
@@ -361,6 +365,7 @@ void CStageManager::Prepare_BossStage()
 {
 	bPreparedTransit = true;
 	static_cast<CStage02*>(MANAGER(CSceneManager*, M_SCENE)->Get_Scene())->Set_TeleportOn();
+	MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"teleport_arrive_01.wav", 1.f);
 
 	bPlayAnim = true;
 	pPortalAnimPos = { 6010, 2300 };
@@ -566,6 +571,8 @@ void CStageManager::Reward(Vector2 vPos)
 
 void CStageManager::Spawn01_01()
 {
+	MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Enemy_Appear.wav", 1.f);
+
 	POINT pSpawnPos = { 5050, 1300 };
 	pGuideNPC = static_cast<CMob*>(CObjectFactory<CGuide>::Create(O_ENEMY, pSpawnPos.x, pSpawnPos.y));
 
@@ -584,23 +591,27 @@ void CStageManager::Spawn01_02()
 		switch (iCurSpawnCount)
 		{
 		case 0:
+			MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Enemy_Appear.wav", 1.f);
 			CObjectFactory<CMob01>::Create(O_ENEMY, vSpawnPos01_02[0].X(), vSpawnPos01_02[0].Y());
 			bPlaySpawnAnim = true;
 			vSpawnPos = vSpawnPos01_02[1];
 			break;
 
 		case 1:
+			MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Enemy_Appear.wav", 1.f);
 			CObjectFactory<CMob01>::Create(O_ENEMY, vSpawnPos01_02[1].X(), vSpawnPos01_02[1].Y());
 			bPlaySpawnAnim = true;
 			vSpawnPos = vSpawnPos01_02[2];
 
 			break;
 		case 2:
+			MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Enemy_Appear.wav", 1.f);
 			CObjectFactory<CMob01>::Create(O_ENEMY, vSpawnPos01_02[2].X(), vSpawnPos01_02[2].Y());
 			bPlaySpawnAnim = true;
 			vSpawnPos = vSpawnPos01_02[3];
 			break;
 		case 3:
+			MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Enemy_Appear.wav", 1.f);
 			CObjectFactory<CMob01>::Create(O_ENEMY, vSpawnPos01_02[3].X(), vSpawnPos01_02[3].Y());
 			eCurStageState = Spawned02;
 			Change_State();
@@ -615,6 +626,8 @@ void CStageManager::Spawn01_03()
 {
 	if (bSpawnTimeUp && iCurSpawnCount <= 4)
 	{
+		MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Enemy_Appear.wav", 1.f);
+
 		bSpawnTimeUp = false;
 		dwSpawnElapsedTime = GetTickCount();
 		switch (iCurSpawnCount)
@@ -653,6 +666,8 @@ void CStageManager::Spawn01_04()
 {
 	if (bSpawnTimeUp && iCurSpawnCount <= 4)
 	{
+		MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Enemy_Appear.wav", 1.f);
+
 		bSpawnTimeUp = false;
 		dwSpawnElapsedTime = GetTickCount();
 		switch (iCurSpawnCount)
@@ -687,6 +702,8 @@ void CStageManager::Spawn02_01()
 {
 	if (bSpawnTimeUp && iCurSpawnCount <= 1)
 	{
+		MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Enemy_Appear.wav", 1.f);
+
 		bSpawnTimeUp = false;
 		dwSpawnElapsedTime = GetTickCount();
 		switch (iCurSpawnCount)
@@ -710,6 +727,8 @@ void CStageManager::Spawn02_02()
 {
 	if (bSpawnTimeUp && iCurSpawnCount <= 2)
 	{
+		MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Enemy_Appear.wav", 1.f);
+
 		bSpawnTimeUp = false;
 		dwSpawnElapsedTime = GetTickCount();
 		switch (iCurSpawnCount)
@@ -739,6 +758,8 @@ void CStageManager::Spawn02_03()
 {
 	if (bSpawnTimeUp && iCurSpawnCount <= 4)
 	{
+		MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Enemy_Appear.wav", 1.f);
+
 		bSpawnTimeUp = false;
 		dwSpawnElapsedTime = GetTickCount();
 		switch (iCurSpawnCount)
@@ -778,6 +799,8 @@ void CStageManager::Spawn02_04()
 {
 	if (bSpawnTimeUp && iCurSpawnCount <= 2)
 	{
+		MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Enemy_Appear.wav", 1.f);
+
 		bSpawnTimeUp = false;
 		dwSpawnElapsedTime = GetTickCount();
 		switch (iCurSpawnCount)

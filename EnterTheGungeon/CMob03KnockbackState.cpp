@@ -76,8 +76,8 @@ void CMob03KnockbackState::Exit()
 
 void CMob03KnockbackState::Enter()
 {
-	//MANAGER(CSoundManager*, M_SOUND)->StopSound(SOUND_EFFECT);
-	MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"beholster_hurt_01.wav", SOUND_EFFECT, 1.f);
+	MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"beholster_hurt_01.wav", 1.f);
+	// MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"beholster_hurt_01.wav", SOUND_EFFECT, 1.f);
 	dwCurrentStateElapsedTime = GetTickCount();
 	Detect_Player();
 	pObj->Get_Transform()->Direction(vDirToPlayer * -1.f);

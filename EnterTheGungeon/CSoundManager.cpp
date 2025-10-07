@@ -132,7 +132,7 @@ void CSoundManager::LoadSoundFile()
 	{
 		strcpy_s(szFullPath, szCurPath);
 
-		// "../ Sound/Success.wav"
+
 		strcat_s(szFullPath, fd.name);
 
 		FMOD_SOUND* pSound = nullptr;

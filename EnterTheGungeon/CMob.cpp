@@ -84,8 +84,7 @@ void CMob::OnCollision(CObject* pObj, Vector2 vDiff)
 			{
 				iHP = 0;
 			}
-			printf("몬스터 현재 체력 : %d\n", iHP);
-
+			// TODO  !!!!!!!!!!!!!!!!!!!!!!!! 수정할 거 이ㅏㄹ멍너ㅏㅣㅇㄴ러ㅏㅣㄴㄹ아ㅣㅓㅏㅓㅣㅇㄴㄹ
 		}
 	}
 }

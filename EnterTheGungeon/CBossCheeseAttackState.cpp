@@ -108,8 +108,8 @@ void CBossCheeseAttackState::Update_AnimFrame()
 		{
 			if (animation.iCurrIndex == 9)
 			{
-				MANAGER(CSoundManager*, M_SOUND)->StopSound(SOUND_EFFECT);
-				MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"Boss_CheeseAttack01.wav", SOUND_EFFECT, 1.f);
+				MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Boss_CheeseAttack01.wav", 1.f);
+				// MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"Boss_CheeseAttack01.wav", SOUND_EFFECT, 1.f);
 			}
 			Attack_CheeseBullet();
 		}
@@ -176,8 +176,8 @@ void CBossCheeseAttackState::Attack_CheeseBullet()
 
 void CBossCheeseAttackState::Attack_CircleBullet()
 {
-	MANAGER(CSoundManager*, M_SOUND)->StopSound(SOUND_EFFECT);
-	MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"Boss_CheeseAttack02.wav", SOUND_EFFECT, 1.f);
+	MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Boss_CheeseAttack02.wav", 1.f);
+	// MANAGER(CSoundManager*, M_SOUND)->PlaySoundW(L"Boss_CheeseAttack02.wav", SOUND_EFFECT, 1.f);
 
 	float fRad = PI / 180.f * fCurAttackDegree;
 	float fDistToPlayer = 200.f;

@@ -11,7 +11,7 @@
 
 #include "CPlayerBullet.h"
 #include "CBossBullet.h"
-
+#include "CSoundManager.h";
 
 void CChest::Render(HDC hDC)
 {
@@ -34,6 +34,7 @@ void CChest::Render(HDC hDC)
 		bShowShotgun = true;
 		iAnimCol = 0;
 		iAnimRow = 2;
+		MANAGER(CSoundManager*, M_SOUND)->PlayFX(L"Chest_Open.wav", 1.f);
 	}
 
 	GdiTransparentBlt(hDC,
@@ -111,11 +112,6 @@ void CChest::Display_Shotgun(HDC hDC)
 	}
 
 	HDC hGunDC = MANAGER(CBmpManager*, M_BMP)->Find_Image(L"GunType02");
-
-	if (!hGunDC)
-	{
-		MessageBox(NULL, L"Error: Failed to load image 'GunType2'", L"Image Load Error", MB_ICONERROR);
-	}
 
 	GdiTransparentBlt(hDC,
 		pRenderer->Right(), pRenderer->Top() + (--iOffsetY),
